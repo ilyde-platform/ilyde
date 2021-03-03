@@ -1,0 +1,106 @@
+
+// -------------------------------------------------
+// BOOTSTRAP
+// Override default variables before the import
+$body-bg: #eee;
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+// -------------------------------------------------
+
+// -------------------------------------------------
+// Variables
+// -------------------------------------------------
+
+$c-sidebar-1: #3F37D9;
+$c-sidebar-2: #332DB3;
+$c-sidebar-3: #1D197D;
+$c-selection: #5ED995;
+
+$header-h: 70px;
+$space: 30px;
+
+// -------------------------------------------------------------------------------------
+// Imports (after variables)
+// -------------------------------------------------------------------------------------
+
+// @import '.~bootstrap/scss/_functions.scss';
+// @import '.~bootstrap/scss/_variables.scss';
+// @import '.~bootstrap/scss/mixins/_breakpoints.scss';
+// @import './style/_boogrid';
+@import './style/_typography';
+@import './style/_reset';
+// @import './style/_mixins';
+
+// -------------------------------------------------
+// Common
+// -------------------------------------------------
+
+body {
+	@include font-m;
+}
+
+// -------------------------------------------------
+// Style
+// -------------------------------------------------
+
+.sidebar {
+	// width: 100%;
+	// @inclu
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 260px;
+	bottom: 0;
+	background-color: $c-sidebar-1;
+	display: flex;
+	flex-flow: column nowrap;
+
+	@include media-breakpoint-down(xs) {
+		width: 100vw;
+	}
+
+	header {
+		height: $header-h;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: $space;
+	}
+
+	main {
+		flex-grow: 1;
+		padding: $space;
+		ul {
+			li {
+				color: white;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+
+				background-color: transparent;
+				&:hover {
+					background-color: $c-sidebar-3;
+				}
+
+		    height: 40px;
+		    margin: -10px;
+		    margin-bottom: 15px;
+		    padding: 10px;
+		    border-radius: 5px;
+
+				img {
+					margin-right: $space;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
