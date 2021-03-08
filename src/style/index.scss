@@ -1,0 +1,231 @@
+
+// -------------------------------------------------
+// BOOTSTRAP
+// Override default variables before the import
+$body-bg: #eee;
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap.scss';
+// -------------------------------------------------
+
+// -------------------------------------------------
+// Variables
+// -------------------------------------------------
+
+$c-sidebar-1: #3F37D9;
+$c-sidebar-2: #332DB3;
+$c-sidebar-3: #1D197D;
+$c-selection: #5ED995;
+$c-bg: #f5f6fa;
+$c-grey: #8095A8;
+$c-shadow: #18275F;
+
+$header-h: 70px;
+$space: 30px;
+$space-half: 15px;
+$r: 5px;
+
+// -------------------------------------------------------------------------------------
+// Imports (after variables)
+// -------------------------------------------------------------------------------------
+
+// @import '.~bootstrap/scss/_functions.scss';
+// @import '.~bootstrap/scss/_variables.scss';
+// @import '.~bootstrap/scss/mixins/_breakpoints.scss';
+// @import './style/_boogrid';
+@import './_typography';
+@import './_reset';
+// @import './style/_mixins';
+
+// -------------------------------------------------
+// Common
+// -------------------------------------------------
+
+body {
+	@include font-m;
+}
+
+// -------------------------------------------------
+// Style
+// -------------------------------------------------
+
+.app {
+	display: flex;
+	max-width: 100vw;
+	.sidebar {
+		width: 260px;
+		min-width: 260px;
+		bottom: 0;
+		background-color: $c-sidebar-1;
+		display: flex;
+		flex-flow: column nowrap;
+		@include media-breakpoint-down(xs) {
+			width: 100vw;
+		}
+		header {
+			height: $header-h;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: $space;
+		}
+		main {
+			flex-grow: 1;
+			padding: $space;
+			ul {
+				li {
+					color: white;
+					display: flex;
+					align-items: center;
+					justify-content: flex-start;
+					cursor: pointer;
+					background-color: transparent;
+					&:hover {
+						background-color: rgba($c-sidebar-3, 0.3);
+					}
+			    height: 40px;
+			    margin: -10px;
+			    margin-bottom: 15px;
+			    padding: 10px;
+			    border-radius: $r;
+					img {
+						margin-right: $space;
+					}
+				}
+			}
+		}
+	}
+	.ui-right {
+		flex-grow: 1;
+		display: flex;
+		flex-flow: column nowrap;
+		height: 100vh;
+		overflow-x: scroll;
+		.headerbar {
+			z-index: 2;
+			background-color: white;
+			height: $header-h;
+			min-height: $header-h;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			padding-right: $space;
+		  box-shadow: 0 2px 10px 0 rgba($c-grey, 0.15);
+			.back {
+				width: $header-h;
+				min-width: $header-h;
+				height: $header-h;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-right: 1px solid rgba($c-grey, 0.15);
+				cursor: pointer;
+				&:hover {
+					background-color: rgba($c-grey, 0.15);
+				}
+			}
+			.texts {
+				display: flex;
+				justify-content: space-between;
+				flex-grow: 1;
+				align-items: baseline;
+				align-content: center;
+				margin-left: $space;
+				.title {
+					display: flex;
+					align-items: baseline;
+					white-space: nowrap;
+					h2 {
+						@include font-l; 
+					}
+					.title-comment {
+						@include font-s;
+						margin-left: $space-half;
+						color: $c-grey;
+						white-space: nowrap;
+					}
+				}
+			}
+			.user-icon {
+				width: 35px;
+				height: 35px;
+				border-radius: 20px;
+				background-color: $c-grey;
+				margin-left: $space-half;
+			}
+		}
+		.content-area {
+			background-color: $c-bg;
+			flex-grow: 1;
+			overflow-y: scroll;
+			.content {
+				padding: $space;
+			}
+		}
+	}
+}
+
+.ilyde_component-table-cozy {
+	display: table;
+	width: 100%;
+	max-width: 100%;
+  border-spacing: 0 15px;
+	.cell {
+		display: table-cell;
+		vertical-align: middle;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		&:first-child {
+			padding-left: $space-half;
+		}
+
+		&:last-child {
+			padding-right: $space-half;
+		}
+	}
+	header {
+		display: table-row;
+		.cell {
+			@include font-s;
+			color: $c-grey;
+			&.sortable::after {
+				content: "^";
+				content: url('../assets/images/sortable.svg');;
+			}
+		}
+	}
+	.data-row {
+		display: table-row;
+		height: 60px;
+		background-color: white;
+	  box-shadow: 0 2px 10px 0 rgba($c-shadow, 0.05);
+	  @include transition(box-shadow 200ms);
+		&.clickable {
+			cursor: pointer;
+			&:hover {
+			  box-shadow: 0 2px 10px 0 rgba($c-shadow, 0.15);
+			  .cell.arrow img {
+			  	opacity: 1;
+			  }
+			}
+		}
+		.cell {
+			@include font-m;
+			&:first-child {
+				border-radius: $r 0 0 $r;
+			}
+			&:last-child {
+				border-radius: 0 $r $r 0;
+			}
+			&.arrow {
+				width: 30px;
+				img {
+					display: inherit;
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+}
+
+
