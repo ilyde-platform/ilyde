@@ -1,11 +1,15 @@
 import larr from '../assets/images/larr.svg';
 
+const displayBackBtn = true;
+
 function Headerbar () {
   return (
     <div className="headerbar">
-    	<div className="back">
-    		<img src={larr} />
-	  	</div>
+    	{ displayBackBtn &&
+	    	<div className="back">
+	    		<img src={larr} />
+		  	</div>
+    	}
 	  	<div className="texts">
 	    	<div className="title">
   	  		<h2>Title here</h2>

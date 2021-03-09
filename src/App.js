@@ -6,7 +6,6 @@
 
   --------------------------------- */
 
-
 import Sidebar from './components/Sidebar';
 import Headerbar from './components/Headerbar';
 import ContentArea from './components/ContentArea';

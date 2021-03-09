@@ -4,10 +4,10 @@ function ContentArea () {
   
   const tableOptions = {
     // "icon": null,
-    "defaultSortCol": "project_status",
-    "defaultSortDir": "asc",
+    "defaultSortCol": "project_visibility",
+    "defaultSortDir": "desc",
     "onRowClick": (d) => {
-      alert("clicked "+ d[Object.keys(d)[0]]);
+      alert("clicked "+ d.id +" "+ d[Object.keys(d)[0]]);
     },
   };
 
@@ -39,116 +39,67 @@ function ContentArea () {
     {
       "project_name": "Wine Quality",
       "project_description": "Progetto sulla qualità del vino",
-      "project_status": (<span className="status-green">Open</span>),
+      "project_status": "Open",
       "project_type": "Generic",
       "project_visibility": "Public",
+      "id": 1,
+      "project_status_value": "Open",
     }, {
-      "project_name": "Beer Quality",
-      "project_description": "Progetto sulla qualità della birra",
-      "project_status": (<span className="status-green">Suspended</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    }, {
-      "project_name": "Miso Quality",
-      "project_description": "Progetto sulla qualità del miso",
-      "project_status": (<span className="status-green">Closed</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    },
-    {
       "project_name": "Wine Quality",
       "project_description": "Progetto sulla qualità del vino",
-      "project_status": (<span className="status-green">Open</span>),
+      "project_status": "Open",
       "project_type": "Generic",
       "project_visibility": "Public",
+      "id": 4,
+      "project_status_value": "Open",
     }, {
       "project_name": "Beer Quality",
       "project_description": "Progetto sulla qualità della birra",
-      "project_status": (<span className="status-green">Suspended</span>),
+      "project_status": "Suspended",
       "project_type": "Generic",
       "project_visibility": "Public",
+      "id": 5,
+      "project_status_value": "Suspended",
     }, {
       "project_name": "Miso Quality",
       "project_description": "Progetto sulla qualità del miso",
-      "project_status": (<span className="status-green">Closed</span>),
+      "project_status": "Closed",
       "project_type": "Generic",
       "project_visibility": "Public",
-    },
-    {
+      "id": 6,
+      "project_status_value": "Closed",
+    }, {
       "project_name": "Wine Quality",
       "project_description": "Progetto sulla qualità del vino",
-      "project_status": (<span className="status-green">Open</span>),
+      "project_status": "Open",
       "project_type": "Generic",
       "project_visibility": "Public",
+      "id": 7,
+      "project_status_value": "Open",
     }, {
       "project_name": "Beer Quality",
       "project_description": "Progetto sulla qualità della birra",
-      "project_status": (<span className="status-green">Suspended</span>),
+      "project_status": "Suspended",
       "project_type": "Generic",
       "project_visibility": "Public",
+      "id": 8,
+      "project_status_value": "Suspended",
     }, {
       "project_name": "Miso Quality",
       "project_description": "Progetto sulla qualità del miso",
-      "project_status": (<span className="status-green">Closed</span>),
+      "project_status": "Closed",
       "project_type": "Generic",
-      "project_visibility": "Public",
-    },
-    {
+      "project_visibility": "Restrictedc",
+      "id": 9,
+      "project_status_value": "Closed",
+    }, {
       "project_name": "Wine Quality",
       "project_description": "Progetto sulla qualità del vino",
-      "project_status": (<span className="status-green">Open</span>),
+      "project_status": "Open",
       "project_type": "Generic",
       "project_visibility": "Public",
-    }, {
-      "project_name": "Beer Quality",
-      "project_description": "Progetto sulla qualità della birra",
-      "project_status": (<span className="status-green">Suspended</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    }, {
-      "project_name": "Miso Quality",
-      "project_description": "Progetto sulla qualità del miso",
-      "project_status": (<span className="status-green">Closed</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    },
-    {
-      "project_name": "Wine Quality",
-      "project_description": "Progetto sulla qualità del vino",
-      "project_status": (<span className="status-green">Open</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    }, {
-      "project_name": "Beer Quality",
-      "project_description": "Progetto sulla qualità della birra",
-      "project_status": (<span className="status-green">Suspended</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    }, {
-      "project_name": "Miso Quality",
-      "project_description": "Progetto sulla qualità del miso",
-      "project_status": (<span className="status-green">Closed</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    },
-    {
-      "project_name": "Wine Quality",
-      "project_description": "Progetto sulla qualità del vino",
-      "project_status": (<span className="status-green">Open</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    }, {
-      "project_name": "Beer Quality",
-      "project_description": "Progetto sulla qualità della birra",
-      "project_status": (<span className="status-green">Suspended</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
-    }, {
-      "project_name": "Miso Quality",
-      "project_description": "Progetto sulla qualità del miso",
-      "project_status": (<span className="status-green">Closed</span>),
-      "project_type": "Generic",
-      "project_visibility": "Public",
+      "id": 10,
+      "project_status_value": "Open",
     },
   ];
 

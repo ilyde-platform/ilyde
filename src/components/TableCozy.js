@@ -5,12 +5,10 @@
  * @param {[]} data - Array of objects having as properties the column ids defined in previous parameter
  * @param {Object} propOptions - Options object (icon, defaultSortCol, defaultSortDir, onRowClick)
  *
- * @example
- *
- *     foo('hello')
  */
 
-// import { IsEmpty, Map } from "react-lodash"
+import React, { useState } from 'react';
+import _ from "lodash";
 import rarr from '../assets/images/rarr.svg';
 
 function TableCozy ({columns, data, options}) {
@@ -21,29 +19,41 @@ function TableCozy ({columns, data, options}) {
     "onRowClick": null,
   };
   options = Object.assign(defaultOptions, options);
+  const [sortCol, setSortCol] = useState(options.defaultSortCol);
+  const [sortDir, setSortDir] = useState(options.defaultSortDir);
   const rowsClickable = (typeof options.onRowClick === "function") ? true : false;
-
-  // const sortedData = 
-
-  // if (rowsClickable) {
-  //   columns.push({
-
-  //   });
-  // }
-
+  const sortedData = _.orderBy(data, [sortCol], [sortDir]);
+  const handleSortClick = (id) => {
+    if (sortCol !== id) {
+      setSortCol(id);
+      setSortDir("asc");
+    } else {
+      setSortDir((sortDir === "asc") ? "desc" : "asc");
+    }
+  }
   return (
     <div className="ilyde_component-table-cozy">
       <header>
         { columns.map((col, i) => {
-          const className = "cell" + (col.sortable ? " sortable" : "");
+          let className = "cell";
+          if (col.sortable) { 
+            className += " sortable"
+          };
+          if (col.sortable && (col.id === sortCol)) {
+            className += (sortDir === "asc") ? " sorted-asc" : " sorted-desc";
+          };
+          const callback = (col.sortable) ? () => { handleSortClick(col.id); } : null;
           return (
-            <div className={className} key={col.id}>
-              {col.text}
+            <div key={col.id}
+              className={className} 
+              onClick={callback}
+            >
+              <span>{col.text}</span>
             </div>
           );
         })}
       </header>
-      { data.map((d, i) => {
+      { sortedData.map((d, i) => {
         const rowClassName = "data-row" + (rowsClickable ? " clickable" : "");
         const callback = (options.onRowClick) ? () => { options.onRowClick(d); } : null;
         return (
