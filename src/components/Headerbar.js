@@ -1,23 +1,32 @@
+import React, { useEffect, useContext, useState } from 'react';
+import { Context } from '../Store';
+import { contents } from '../testContents.js';
 import larr from '../assets/images/larr.svg';
 
-const displayBackBtn = true;
+function Headerbar ({ showBackButton }) {
+  
+  const [state, dispatch] = useContext(Context);
+  const contentId = state.contentId;
+  const contentData = contents[contentId];
+  const title = contentData ? contents[contentId].title : null;
+	const displayTitle = title ? title : "Page without title";
+	const titleComment = "9 items";
 
-function Headerbar () {
   return (
     <div className="headerbar">
-    	{ displayBackBtn &&
+    	{ showBackButton &&
 	    	<div className="back">
 	    		<img src={larr} />
 		  	</div>
     	}
 	  	<div className="texts">
 	    	<div className="title">
-  	  		<h2>Title here</h2>
+  	  		<h2>{displayTitle}</h2>
 		    	<div className="title-comment">
-	  	  		6 items
+	  	  		{titleComment}
 	  	  	</div>
   	  	</div>
-	    	<div className="">
+	    	<div className="font-m">
 	    		Username
 	    	</div>
   		</div>

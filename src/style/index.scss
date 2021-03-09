@@ -24,7 +24,7 @@ $space: 30px;
 $space-half: 15px;
 $r: 5px;
 
-$ms-sidebar-transition: 0;
+$ms-sidebar-transition: 100ms;
 
 // -------------------------------------------------------------------------------------
 // Imports (after variables)
@@ -81,22 +81,19 @@ body {
 			width: 200px;
 			padding-top: 70px;
 			@include transition(background-color $ms-sidebar-transition);
+			.menu-item .text {
+				@include transition(visibility 0s $ms-sidebar-transition);
+			}
 		}
 		.level-2 {
 			z-index: 1;
 			opacity: 0;
-			// width: 270px;
-			// padding-left: 70px;
-			// padding-top: 102px;
-
 			position: absolute;
 			width: 200px;
 			top: 102px;
 			right: 0;
 			bottom: 0;
-
-			@include transition(opacity 0ms $ms-sidebar-transition);
-
+			@include transition(opacity $ms-sidebar-transition);
 			.submenu-label {
 				@include font-s;
 				padding: 0 20px;
@@ -107,14 +104,17 @@ body {
 			}
 		}
 		.hamburger-col {
+			z-index: 2;
 			position: fixed;
 			top: 0; left: 0; bottom: 0;
 			width: 70px;
 	    text-align: center;
-	    padding-top: 18px;
+	    padding-top: 23px;
 	    img {
+				cursor: pointer;
 				@include transition(opacity $ms-sidebar-transition);
 				opacity: 0;
+				pointer-events: none;
 	    }
 			@include transition(background-color $ms-sidebar-transition);
 			background-color: $c-sidebar-vibrant;
@@ -124,8 +124,14 @@ body {
 			width: 270px;
 			.level-1 {
 				width: 70px;
-				.menu-item span {
-					display: none;
+				.menu-item {
+					.text {
+						@include transition(visibility 0s);
+						visibility: hidden;
+					}
+					&:not(.selected) .icon {
+						opacity: 0.4;
+					}
 				}
 			}
 			.level-2 {
@@ -135,6 +141,7 @@ body {
 			.hamburger-col {
 		    img {
 					opacity: 1;
+					pointer-events: all;
 		    }
 				background-color: $c-sidebar-dark;
 			}
@@ -143,19 +150,28 @@ body {
 				.level-1 {
 					background-color: $c-sidebar-vibrant;
 					width: 200px;
-					.menu-item span {
-						display: inline;
+					.menu-item {
+						.text {
+							@include transition(visibility 0s $ms-sidebar-transition);
+							visibility: visible;
+						}
+						.icon {
+							opacity: 1;
+						}
 					}
+				}
+				.level-2 {
+					opacity: 0.4;
 				}
 				.hamburger-col {
 					background-color: $c-sidebar-vibrant;
 				}
 			}
 		}
+
 		ul.menu-items {
 			padding-left: 20px;
 			padding-right: 20px;
-			// background-color: rgba(yellow, .2);
 			li.menu-item {
 				color: white;
 				display: flex;
@@ -164,27 +180,27 @@ body {
 				cursor: pointer;
 				background-color: transparent;
 				&:hover {
-					background-color: $c-sidebar-dark;
+					background-color: rgba($c-sidebar-dark, 0.3);
 				}
 		    height: 40px;
 		    margin: -10px;
 		    margin-bottom: 15px;
 		    padding: 10px;
 		    border-radius: $r;
-				img {
-					// margin-right: $space;
-				}
+				img {}
 				.text {
 					margin-left: 20px;
+				}
+				&.selected {
+					background-color: $c-sidebar-dark;
+					.text {
+						color: $c-selection;
+					}
 				}
 			}
 		}
 		// @include media-breakpoint-down(xs) {
 		// 	width: 100vw;
-		// }
-		// main {
-		// 	flex-grow: 1;
-		// 	padding: $space;
 		// }
 	}
 	.ui-right {

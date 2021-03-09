@@ -7,11 +7,22 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
+import {Context} from '../Store';
 import _ from "lodash";
 import rarr from '../assets/images/rarr.svg';
 
-function TableCozy ({columns, data, options}) {
+const TableCozy = ({columns, data, options}) => {
+
+  const [state, dispatch] = useContext(Context);
+  
+  // --- test ----------------------------------------------
+  const simulateNavigation = () => {
+    dispatch({type: 'SET_SIDEBAR_SELECTION', payload: {"id": "workspaces", "level": 2}});
+    dispatch({type: 'SET_CONTENT_ID', payload: "workspaces"});
+  }
+  // -------------------------------------------------------
+  
   const defaultOptions = {
     "icon": null,
     "defaultSortCol": columns[0].id,
@@ -31,6 +42,7 @@ function TableCozy ({columns, data, options}) {
       setSortDir((sortDir === "asc") ? "desc" : "asc");
     }
   }
+
   return (
     <div className="ilyde_component-table-cozy">
       <header>
@@ -55,7 +67,12 @@ function TableCozy ({columns, data, options}) {
       </header>
       { sortedData.map((d, i) => {
         const rowClassName = "data-row" + (rowsClickable ? " clickable" : "");
-        const callback = (options.onRowClick) ? () => { options.onRowClick(d); } : null;
+        const callback = (options.onRowClick) 
+          ? () => { 
+            simulateNavigation();
+            options.onRowClick(d); 
+          } 
+          : null;
         return (
           <div key={i}
             className={rowClassName} 

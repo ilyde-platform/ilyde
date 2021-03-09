@@ -1,112 +1,39 @@
+import React, { useEffect, useContext, useState } from 'react';
+import {Context} from '../Store';
 import TableCozy from './TableCozy';
+import { contents } from '../testContents.js';
 
 function ContentArea () {
-  
-  const tableOptions = {
-    // "icon": null,
-    "defaultSortCol": "project_visibility",
-    "defaultSortDir": "desc",
-    "onRowClick": (d) => {
-      alert("clicked "+ d.id +" "+ d[Object.keys(d)[0]]);
-    },
-  };
 
-  const tableColumns = [
-    {
-      "id": "project_name",
-      "text": "Name",
-      "sortable": true,
-    }, {
-      "id": "project_description",
-      "text": "",
-      "sortable": false,
-    }, {
-      "id": "project_status",
-      "text": "Status",
-      "sortable": true,
-    }, {
-      "id": "project_type",
-      "text": "Type",
-      "sortable": true,
-    }, {
-      "id": "project_visibility",
-      "text": "Visibility",
-      "sortable": true,
-    },
-  ];
-
-  const tableData = [
-    {
-      "project_name": "Wine Quality",
-      "project_description": "Progetto sulla qualità del vino",
-      "project_status": "Open",
-      "project_type": "Generic",
-      "project_visibility": "Public",
-      "id": 1,
-      "project_status_value": "Open",
-    }, {
-      "project_name": "Wine Quality",
-      "project_description": "Progetto sulla qualità del vino",
-      "project_status": "Open",
-      "project_type": "Generic",
-      "project_visibility": "Public",
-      "id": 4,
-      "project_status_value": "Open",
-    }, {
-      "project_name": "Beer Quality",
-      "project_description": "Progetto sulla qualità della birra",
-      "project_status": "Suspended",
-      "project_type": "Generic",
-      "project_visibility": "Public",
-      "id": 5,
-      "project_status_value": "Suspended",
-    }, {
-      "project_name": "Miso Quality",
-      "project_description": "Progetto sulla qualità del miso",
-      "project_status": "Closed",
-      "project_type": "Generic",
-      "project_visibility": "Public",
-      "id": 6,
-      "project_status_value": "Closed",
-    }, {
-      "project_name": "Wine Quality",
-      "project_description": "Progetto sulla qualità del vino",
-      "project_status": "Open",
-      "project_type": "Generic",
-      "project_visibility": "Public",
-      "id": 7,
-      "project_status_value": "Open",
-    }, {
-      "project_name": "Beer Quality",
-      "project_description": "Progetto sulla qualità della birra",
-      "project_status": "Suspended",
-      "project_type": "Generic",
-      "project_visibility": "Public",
-      "id": 8,
-      "project_status_value": "Suspended",
-    }, {
-      "project_name": "Miso Quality",
-      "project_description": "Progetto sulla qualità del miso",
-      "project_status": "Closed",
-      "project_type": "Generic",
-      "project_visibility": "Restrictedc",
-      "id": 9,
-      "project_status_value": "Closed",
-    }, {
-      "project_name": "Wine Quality",
-      "project_description": "Progetto sulla qualità del vino",
-      "project_status": "Open",
-      "project_type": "Generic",
-      "project_visibility": "Public",
-      "id": 10,
-      "project_status_value": "Open",
-    },
-  ];
+  let content;
+  const [state, dispatch] = useContext(Context);
+  const contentId = state.contentId;
+  const contentData = contents.hasOwnProperty(contentId) ? contents[contentId] : null;
+  if (!contentData) {
+    content = (
+      <span className="font-m">
+        {`No content available named '${contentId}'`}
+      </span>
+    );
+  } else {
+    const table = contentData.hasOwnProperty("table") ? contentData.table : null;
+    if (!table) { throw "Remember to fix this"; }
+    const tableOptions = table.options;
+    const tableColumns = table.columns;
+    const tableData = table.data;
+    content = (
+      <TableCozy 
+        columns={tableColumns}
+        data={tableData}
+        options={tableOptions}
+      />
+    );
+  }
 
   return (
     <div className="content-area">
       <div className="content">
-        <TableCozy columns={tableColumns} data={tableData} options={tableOptions} />
+        {content}
       </div>
     </div>
   );
