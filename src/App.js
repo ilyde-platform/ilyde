@@ -15,15 +15,15 @@ import ContentArea from './components/ContentArea';
 
 function App() {
   
-  const defaultState = {
-    "sidebarSelection": {
-      "level1": "projects",
-      "level2": null,
-    },
-    "contentId": "projects",
-  };
-  const [sidebarSelection, setSidebarSelection] = useState(defaultState.sidebarSelection);
-  const [contentId, setContentId] = useState(defaultState.contentId);
+  // const defaultState = {
+  //   "sidebarSelection": {
+  //     "level1": "projects",
+  //     "level2": null,
+  //   },
+  //   "contentId": "projects",
+  // };
+  // const [sidebarSelection, setSidebarSelection] = useState(defaultState.sidebarSelection);
+  // const [contentId, setContentId] = useState(defaultState.contentId);
   // const contentData = contents[contentId];
   // const title = contentData ? contents[contentId].title : null;
 
