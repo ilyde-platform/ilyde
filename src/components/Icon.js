@@ -10,9 +10,6 @@ import icon5 from '../assets/images/icons/icon-pages.svg';
 import icon5Selected from '../assets/images/icons/icon-pages-s.svg';
 
 function Icon ({ iconName, state }) {
-
-  console.log(`icon: ${iconName} – state: ${state}`);
-
   const icons = {
     "archive": {
       "normal": icon1,

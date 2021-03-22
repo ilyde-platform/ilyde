@@ -1,44 +1,50 @@
-/*----------------------------------
-  
-  TO DO 
-
-  - add lodash & sort table data
-
-  --------------------------------- */
-
 import React, { useState } from 'react';
-import Store from './Store'
-import Sidebar from './components/Sidebar';
-import Headerbar from './components/Headerbar';
-import ContentArea from './components/ContentArea';
-// import { contents } from './testContents.js';
+import Sidebar from './features/sidebar/Sidebar';
+import Headerbar from './features/headerbar/Headerbar';
+import routes from './routes';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
+
 
 function App() {
-  
-  // const defaultState = {
-  //   "sidebarSelection": {
-  //     "level1": "projects",
-  //     "level2": null,
-  //   },
-  //   "contentId": "projects",
-  // };
-  // const [sidebarSelection, setSidebarSelection] = useState(defaultState.sidebarSelection);
-  // const [contentId, setContentId] = useState(defaultState.contentId);
-  // const contentData = contents[contentId];
-  // const title = contentData ? contents[contentId].title : null;
-
   return (
-    <Store>
+    <Router>
       <div className="app">
         <Sidebar />
         <div className="ui-right">
           <Headerbar 
             showBackButton={true}
           />
-          <ContentArea />
+          <div className="content-area">
+            <div className="content">
+              <Switch>
+                {routes.map((route, i) => (
+                  <RouteWithSubRoutes key={i} {...route} />
+                ))}
+              </Switch>
+            </div>
+          </div>
         </div>
       </div>
-    </Store>
+    </Router>
+  );
+}
+
+// A special wrapper for <Route> that knows how to
+// handle "sub"-routes by passing them in a `routes`
+// prop to the component it renders.
+function RouteWithSubRoutes(route) {
+  return (
+    <Route
+      path={route.path}
+      render={props => (
+        // pass the sub-routes down to keep nesting
+        <route.component {...props} routes={route.routes} />
+      )}
+    />
   );
 }
 
