@@ -8,20 +8,12 @@
  */
 
 import React, { useEffect, useContext, useState } from 'react';
-import {Context} from '../Store';
 import _ from "lodash";
 import rarr from '../assets/images/rarr.svg';
 
 const TableCozy = ({columns, data, options}) => {
 
-  const [state, dispatch] = useContext(Context);
-  
-  // --- test ----------------------------------------------
-  const simulateNavigation = () => {
-    dispatch({type: 'SET_SIDEBAR_SELECTION', payload: {"id": "workspaces", "level": 2}});
-    dispatch({type: 'SET_CONTENT_ID', payload: "workspaces"});
-  }
-  // -------------------------------------------------------
+  const [contentId, setContentId] = useState("projects"); 
   
   const defaultOptions = {
     "icon": null,
@@ -69,7 +61,6 @@ const TableCozy = ({columns, data, options}) => {
         const rowClassName = "data-row" + (rowsClickable ? " clickable" : "");
         const callback = (options.onRowClick) 
           ? () => { 
-            simulateNavigation();
             options.onRowClick(d); 
           } 
           : null;
