@@ -4,6 +4,7 @@ import Headerbar from './features/headerbar/Headerbar';
 import routes from './routes';
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   Switch,
 } from "react-router-dom";
@@ -12,23 +13,14 @@ import {
 function App() {
   return (
     <Router>
-      <div className="app">
-        <Sidebar />
-        <div className="ui-right">
-          <Headerbar 
-            showBackButton={true}
-          />
-          <div className="content-area">
-            <div className="content">
-              <Switch>
-                {routes.map((route, i) => (
-                  <RouteWithSubRoutes key={i} {...route} />
-                ))}
-              </Switch>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Switch>
+        <Route exact path="/workspace/:id/viewer">
+          <WorkspaceApp />
+        </Route>
+        <Route exact path="*">
+          <MainApp />
+        </Route>
+      </Switch>
     </Router>
   );
 }
@@ -45,6 +37,37 @@ function RouteWithSubRoutes(route) {
         <route.component {...props} routes={route.routes} />
       )}
     />
+  );
+}
+
+function MainApp() {
+  return (
+    <div className="app">
+      <Sidebar />
+      <div className="ui-right">
+        <Headerbar 
+          showBackButton={true}
+        />
+        <div className="content-area">
+          <div className="content">
+            <Switch>
+              {routes.map((route, i) => (
+                <RouteWithSubRoutes key={i} {...route} />
+              ))}
+              <Redirect from="/" to="/projects" />
+            </Switch>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WorkspaceApp() {
+  return (
+    <div className="app">
+      ciao pippo!!
+    </div>
   );
 }
 
