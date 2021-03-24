@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/workspace/:id/viewer">
+        <Route exact path="/workspace/:id/lab">
           <WorkspaceApp />
         </Route>
         <Route exact path="*">
