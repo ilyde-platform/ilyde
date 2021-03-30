@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Sidebar from './features/sidebar/Sidebar';
 import Headerbar from './features/headerbar/Headerbar';
 import routes from './routes';
@@ -9,8 +9,14 @@ import {
   Switch,
 } from "react-router-dom";
 
+/*******************************************************************************************************/
+/* FOR TEST FEATURES ***********************************************************************************/
+/*******************************************************************************************************/
+import { useState } from 'react';
+/*******************************************************************************************************/
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
   return (
     <Router>
       <Switch>
@@ -18,7 +24,7 @@ function App() {
           <WorkspaceApp />
         </Route>
         <Route exact path="*">
-          <MainApp />
+          <MainApp darkMode={darkMode} setDarkMode={setDarkMode} />
         </Route>
       </Switch>
     </Router>
@@ -40,10 +46,10 @@ function RouteWithSubRoutes(route) {
   );
 }
 
-function MainApp() {
+function MainApp({darkMode, setDarkMode}) {
   return (
-    <div className="app">
-      <Sidebar />
+    <div id="app" data-dark={darkMode}>
+      <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
       <div className="ui-right">
         <Headerbar 
           showBackButton={true}

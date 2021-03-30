@@ -72,7 +72,7 @@ const TableCozy = ({columns, data, options}) => {
             { columns.map((col, j) => {
               const cell = d[col.id];
               return (
-                <div className="cell" key={j}>
+                <div className="cell" data-style={col.style} key={j}>
                   {cell}
                 </div>
               );
