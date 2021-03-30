@@ -101,6 +101,7 @@ body {
 	  transform: translate(-50%, -50%);
 	  border-radius: 10px;
 	  background-color: white;
+		@include transition(background-color $ms-sidebar-transition);
 		header {
 			position: relative;
 			border-bottom: 1px solid rgba($c-grey-5, 0.15);
@@ -583,14 +584,16 @@ $dark-8: #0D121F;
 $dark-6: #151A2A;
 $dark-5: #191F33;
 $dark-3: #1F2539;
-$dark-1: #2D3758;
+$dark-2: #2D3758;
+$dark-1: #3A4A7C;
 
 // V2
 $dark-8: #10121A;
 $dark-6: #141823;
 $dark-5: #181C29;
 $dark-3: #1F2539;
-$dark-1: #2D3758;
+$dark-2: #2D3758;
+$dark-1: #3A4A7C;
 
 
 #app[data-dark="true"] {
@@ -626,8 +629,21 @@ $dark-1: #2D3758;
 	}
 	.ilyde_component-table-cozy {
 		.data-row { 
-			&.clickable:hover { background-color: $dark-1; }
+			&.clickable:hover { background-color: $dark-2; }
 			background-color: $dark-3; 
+		}
+	}
+	.modal {
+	  background-color: $dark-3;
+	  section { color: $c-grey-5; }
+	}
+	.input-row {
+		label { color: $c-grey-5; }
+		input {
+			background-color: $dark-2;
+			color: white;
+			&:hover, &:active { background-color: $dark-1; }
+			&:focus { border: 1px solid $c-blue; }
 		}
 	}
 }
