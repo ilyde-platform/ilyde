@@ -6,13 +6,27 @@ import App from './App';
 import store from './app/store';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
+import keycloak from './keycloak';
+import { ReactKeycloakProvider } from '@react-keycloak/web'
 
+const eventLogger = (event, error) => {
+  console.log('onKeycloakEvent', event, error)
+}
+
+const tokenLogger = (tokens) => {
+  console.log('onKeycloakTokens', tokens)
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ReactKeycloakProvider
+      authClient={keycloak}
+      onEvent={eventLogger}
+      onTokens={tokenLogger}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ReactKeycloakProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

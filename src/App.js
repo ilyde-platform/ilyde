@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './features/sidebar/Sidebar';
 import Headerbar from './features/headerbar/Headerbar';
 import routes from './routes';
+import { useKeycloak } from '@react-keycloak/web'
 import {
   BrowserRouter as Router,
   Redirect,
@@ -9,20 +10,29 @@ import {
   Switch,
 } from "react-router-dom";
 
-
 function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/workspace/:id/lab">
-          <WorkspaceApp />
-        </Route>
-        <Route exact path="*">
-          <MainApp />
-        </Route>
-      </Switch>
-    </Router>
-  );
+  const {keycloak, initialized} = useKeycloak();
+
+  if (!keycloak.authenticated && initialized){
+    keycloak.login();
+  }
+
+  if (keycloak.authenticated && initialized)
+    return (
+      <Router>
+        <Switch>
+          <Route exact path="/workspace/:id/lab">
+            <WorkspaceApp />
+          </Route>
+          <Route exact path="*">
+            <MainApp />
+          </Route>
+        </Switch>
+      </Router>
+    );
+  else{
+    return (<div>App is initializing.....</div>);
+  }
 }
 
 // A special wrapper for <Route> that knows how to
