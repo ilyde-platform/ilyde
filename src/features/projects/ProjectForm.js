@@ -29,7 +29,7 @@ export function ProjectForm(props) {
      description: ''
    },
    validationSchema: Yup.object({
-     name: Yup.string().required('Required'),
+     name: Yup.string().required('Required field'),
      visibility: Yup.string().required('Required').oneOf(['PRIVATE', 'PUBLIC']),
      template: Yup.string().required('Required').oneOf(['GENERIC']),
      description: Yup.string().required('Required'),
@@ -44,7 +44,7 @@ export function ProjectForm(props) {
      })
      .catch(e => {
        setSubmitting(false);
-       setErrors({submit: "Ops! An error occur."});
+       setErrors({submit: "Ops! An error occurred."});
      });
    },
   });
@@ -67,7 +67,7 @@ export function ProjectForm(props) {
              />
           </label>
           {formik.touched.name && formik.errors.name ? (
-            <div>{formik.errors.name}</div>) : null}
+            <div className="error">{formik.errors.name}</div>) : null}
         </div>
         <div className="input-row">
           <label>
@@ -84,7 +84,7 @@ export function ProjectForm(props) {
             </select>
           </label>
           {formik.touched.visibility && formik.errors.visibility ? (
-            <div>{formik.errors.visibility}</div>) : null}
+            <div className="error">{formik.errors.visibility}</div>) : null}
         </div>
         <div className="input-row">
           <label>
@@ -100,7 +100,7 @@ export function ProjectForm(props) {
             </select>
           </label>
           {formik.touched.template && formik.errors.template ? (
-            <div>{formik.errors.template}</div>) : null}
+            <div className="error">{formik.errors.template}</div>) : null}
         </div>
         <div className="input-row">
           <label>
@@ -118,11 +118,11 @@ export function ProjectForm(props) {
             </textarea>
           </label>
           {formik.touched.description && formik.errors.description ? (
-            <div>{formik.errors.description}</div>) : null}
+            <div className="error">{formik.errors.description}</div>) : null}
         </div>
         <hr />
         <div className="buttons-wrapper">
-          <input type="submit" className="primary" value="Create" disabled={formik.isSubmitting} />
+          <input type="submit" className="primary" value="Create new project" disabled={formik.isSubmitting} />
         </div>
       </form>
     </section>

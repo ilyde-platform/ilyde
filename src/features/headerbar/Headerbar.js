@@ -40,9 +40,9 @@ function Headerbar ({ showBackButton }) {
   			</div>
 			</div>
 			<div className="user-icon"></div>
-      <div onClick={() => { dispatch(switchDarkMode()); }}>
-        <Icon iconName="test" state="normal"/>
-      </div>
+      <a className="button round secondary ml-2" onClick={() => { dispatch(switchDarkMode()); }}>
+        <Icon iconName="darkalt" state="normal"/>
+      </a>
 		</div>
 	);
 }

@@ -15,6 +15,7 @@ $c-blue: #3F37D9;
 $c-blue-dark: #201C86;
 $c-blue-light: #7B96FF;
 $c-green: #5ED995;
+$c-red: #D74444;
 $c-grey-1: #f5f6fa; // lightest
 $c-grey-3: #DAD9E4;
 $c-grey-5: #8095A8;
@@ -58,17 +59,30 @@ body {
 	@include transition(color $ms-sidebar-transition);
 
 	// --------------------------------------------------------------------------------------------------
+	// Utilities
+	// --------------------------------------------------------------------------------------------------
+
+	.lh-0 { line-height: 0; }
+
+	// --------------------------------------------------------------------------------------------------
 	// Common
 	// --------------------------------------------------------------------------------------------------
 
 	a.button, input[type="submit"], button {
 		display: inline-flex; align-items: center; justify-content: center;
-		height: $btn-h; padding: 10px;
+		height: $btn-h; padding: 10px 20px;
 		border-radius: $r;
 		border: 0;
 		cursor: pointer;
 		outline: none;
 		min-width: 140px;
+		@include transition(background-color 200ms);
+
+		&.round {
+			border-radius: $btn-h/2;
+			width: $btn-h;
+			min-width: $btn-h;
+		}
 
 		&.primary {
 			background-color: $c-blue;
@@ -155,7 +169,7 @@ body {
 			@include font-s;
 			display: block;
 			color: $c-grey-5;
-			color: black;
+			// color: black;
 		}
 
 		input, select, textarea {
@@ -165,7 +179,8 @@ body {
 			border-radius: 5px;
 			background-color: lighten($c-grey-3, 5%);
 			outline: none; border: 0;
-			margin-top: 5px;
+			margin: 5px 0;
+			border: 1px solid transparent;
 			@include font-m;
 			@include transition(background-color $ms-sidebar-transition);
 			&[type="text"] {
@@ -173,6 +188,24 @@ body {
 			}
 			&:hover, &:active { background-color: $c-grey-3; }
 			&:focus { border: 1px solid $c-blue; }
+			&::placeholder {
+				color: rgba(black, 0.3);
+			}
+		}
+
+		textarea {
+			width: 100%;
+			padding-top: 9px;
+			min-height: 90px;
+		}
+
+		select {
+			width: 100%;
+		}
+
+		.error {
+			@include font-s;
+			color: $red;
 		}
 	}
 
@@ -208,7 +241,10 @@ body {
 			position: fixed;
 			top: 70px; left: 0; bottom: 0;
 			width: 200px;
-			padding-top: 70px;
+			padding-top: 70px; padding-bottom: 0;
+			display: flex;
+			flex-flow: column nowrap;
+			justify-content: space-between;
 			@include transition(background-color $ms-sidebar-transition);
 			.menu-item .text {
 				@include transition(visibility 0s $ms-sidebar-transition);
@@ -400,8 +436,8 @@ body {
 				}
 			}
 			.user-icon {
-				width: 35px;
-				height: 35px;
+				width: $btn-h;
+				height: $btn-h;
 				border-radius: 20px;
 				background-color: $c-grey-5;
 				margin-left: $space-half;
@@ -598,6 +634,16 @@ $dark-1: #3A4A7C;
 
 #app[data-dark="true"] {
   color: white;
+
+	a.button {
+		&.secondary {
+			background-color: transparent;
+			color: $c-blue;
+			&:hover { background-color: $dark-2; }
+			&:active, .active { background-color: $dark-1; }
+		}
+	}
+
 	.ui-right {
 		.headerbar {
 			background-color: $dark-3;
@@ -639,11 +685,14 @@ $dark-1: #3A4A7C;
 	}
 	.input-row {
 		label { color: $c-grey-5; }
-		input {
+		input, select, textarea {
 			background-color: $dark-2;
 			color: white;
 			&:hover, &:active { background-color: $dark-1; }
 			&:focus { border: 1px solid $c-blue; }
+			&::placeholder {
+				color: rgba(white, 0.3);
+			}
 		}
 	}
 }

@@ -47,6 +47,11 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "text": "Archive",
       "path": "/archive",
     }, {
+      "id": "environment",
+      "icon": "test",
+      "text": "Environment",
+      "path": "/environment",
+    }, {
       "id": "model_apis",
       "icon": "diamond",
       "text": "Model Apis",
@@ -58,42 +63,55 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "path": "/datasets",
     }
   ];
+  const menuLevel1Bottom = [
+    {
+      "id": "settings",
+      "icon": "gear",
+      "text": "Settings",
+      "path":  "/test",
+    }
+  ];
   const menuLevel2 = [
     {
       "id": "workspaces",
-      "icon": "pages",
+      "icon": "ws",
       "text": "Workspaces",
       "path": `/projects/${sidebarSelection.project}/workspaces`,
     }, {
       "id": "files",
-      "icon": "pages",
+      "icon": "list",
       "text": "Files",
       "path": `/projects/${sidebarSelection.project}/files`,
     }, {
       "id": "jobs",
-      "icon": "pages",
+      "icon": "speed",
       "text": "Jobs",
       "path": `/projects/${sidebarSelection.project}/jobs`,
     }, {
       "id": "experiments",
-      "icon": "pages",
+      "icon": "tool",
       "text": "Experiments",
       "path":`/projects/${sidebarSelection.project}/experiments`,
     }, {
       "id": "models",
-      "icon": "pages",
+      "icon": "chart",
       "text": "Models",
       "path": `/projects/${sidebarSelection.project}/models`,
     }, {
       "id": "datasets",
-      "icon": "pages",
+      "icon": "db",
       "text": "Datasets",
       "path": `/projects/${sidebarSelection.project}/datasets`,
     }, {
       "id": "deployments",
-      "icon": "pages",
+      "icon": "rocket",
       "text": "Deployments",
       "path": `/projects/${sidebarSelection.project}/deployments`,
+    }, {
+      "id": "project_settings",
+      "icon": "gear",
+      "text": "Project details",
+      "path": `/projects/${sidebarSelection.project}/settings`,
     },
   ];
 
@@ -155,8 +173,22 @@ export function Sidebar ({darkMode, setDarkMode}) {
                   text={item.text}
                   state={state}
                   path={item.path}
-                />);
-              })}
+                />
+              );
+            })}
+          </ul>
+          <ul className="menu-items">
+            { menuLevel1Bottom.map((item, i) => {
+              const state = (sidebarSelection.level1 === item.id) ? "selected" : "normal";
+              return (
+                <MenuItem key={i}
+                  icon={item.icon}
+                  text={item.text}
+                  state={state}
+                  path={item.path}
+                />
+              );
+            })}
           </ul>
         </div>
         { sidebarSelection.level2 && (
