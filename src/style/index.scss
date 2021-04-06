@@ -158,7 +158,7 @@ body {
 			color: black;
 		}
 
-		input {
+		input, select, textarea {
 			padding-left: 15px;
 			display: flex; align-items: center; justify-content: flex-start;
 			height: $btn-h;
@@ -327,7 +327,7 @@ body {
 			    right: 0;
 			    display: flex;
 			    align-items: center;
-			    padding-left: 40px;	
+			    padding-left: 40px;
 					&:hover {
 						text-decoration: none;
 					}
@@ -389,7 +389,7 @@ body {
 					align-items: baseline;
 					white-space: nowrap;
 					h2 {
-						@include font-l-strong; 
+						@include font-l-strong;
 					}
 					.title-comment {
 						@include font-s;
@@ -608,7 +608,7 @@ $dark-1: #3A4A7C;
 	.sidebar {
 		background-color: $dark-6;
 		.hamburger-col { background-color: $dark-6; }
-		&.double { 
+		&.double {
 			&.open {
 				.hamburger-col { background-color: $dark-3; }
 				background-color: $dark-8;
@@ -621,16 +621,16 @@ $dark-1: #3A4A7C;
 			// img { opacity: 0.3; }
 			&:hover { background-color: rgba($dark-8, 0.5);}
 			a { color: $c-grey-5; }
-			&.selected { 
+			&.selected {
 				// img { opacity: 1; }
-				background-color: $dark-8; 
+				background-color: $dark-8;
 			}
 		}
 	}
 	.ilyde_component-table-cozy {
-		.data-row { 
+		.data-row {
 			&.clickable:hover { background-color: $dark-2; }
-			background-color: $dark-3; 
+			background-color: $dark-3;
 		}
 	}
 	.modal {
@@ -647,15 +647,3 @@ $dark-1: #3A4A7C;
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-

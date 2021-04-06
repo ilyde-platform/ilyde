@@ -1,16 +1,37 @@
-import { Projects, Archive, Workspaces } from './components/TestComponents.js';
+import { Workspaces } from './components/TestComponents.js';
+import { ProjectsList } from './features/projects/ProjectsList';
+import { DatasetsSharedList } from './features/datasets/DatasetsSharedList';
+import { ProjectForm } from './features/projects/ProjectForm';
 
 
 export const routes = [
   {
+    path: "/new-project",
+    component: ProjectForm,
+    exact: true,
+  },
+  {
     path: "/projects",
-    component: Projects,
-    exact: true
+    component: ProjectsList,
+    exact: true,
+    componentProps: {
+      state: "OPEN",
+      pageTitle: "Projects"
+    }
   },
   {
     path: "/archive",
-    component: Archive,
-    exact: true
+    component: ProjectsList,
+    exact: true,
+    componentProps: {
+      state: "CLOSED",
+      pageTitle: "Archives"
+    }
+  },
+  {
+    path: "/datasets",
+    component: DatasetsSharedList,
+    exact: true,
   },
   {
     path: "/projects/:id/workspaces",

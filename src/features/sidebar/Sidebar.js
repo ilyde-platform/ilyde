@@ -21,7 +21,7 @@ export function Sidebar ({darkMode, setDarkMode}) {
 
   const initialState = {
     "level1": "projects",
-    "project": null, 
+    "project": null,
     "level2": null,
   };
   let location = useLocation();
@@ -56,21 +56,7 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "icon": "dbs",
       "text": "Datasets",
       "path": "/datasets",
-    }, 
-
-    // test new features
-    {
-      "id": "test1",
-      "icon": "test",
-      "text": "Test modal",
-      "onClickFunction": "openTestModal",
-    },
-    {
-      "id": "test2",
-      "icon": "test",
-      "text": "Test dark mode",
-      "onClickFunction": "toggleDarkMode",
-    },
+    }
   ];
   const menuLevel2 = [
     {
@@ -111,62 +97,6 @@ export function Sidebar ({darkMode, setDarkMode}) {
     },
   ];
 
-  /*******************************************************************************************************/
-  /* FOR TEST FEATURES ***********************************************************************************/
-  /*******************************************************************************************************/
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const MenuItemTest = ({icon, text, onClick, darkMode}) => {
-    return (
-      <li className="menu-item">
-        <Icon iconName={icon} state="normal" darkMode={darkMode} />
-        <a onClick={onClick}>
-          <span className="text font-m">{text}</span>
-        </a>
-      </li>
-    );
-  }
-  
-  const testModal = (
-    <Modal closeModal={() => setModalOpen(false)} title="Test modal">
-      <section>
-        <p>
-          Description of lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-          Mauris sed turpis sed ipsum vehicula bibendum imperdiet in orci. 
-          In vel vestibulum nisi. Donec sagittis nunc id erat aliquam blandit.
-        </p>
-      </section>
-      <section>
-        <form>
-          <div className="input-row">
-            <label>
-              Label
-              <input type="text" name="name-a" id="name-a" />
-            </label>
-          </div>
-          <div className="input-row">
-            <label>
-              Label
-              <input type="text" name="name-b" id="name-b" />
-            </label>
-          </div>
-          <hr />
-          <div className="buttons-wrapper">
-            <button className="secondary" onClick={() => setModalOpen(false)}>Cancel</button>
-            <input type="submit" className="primary" value="Submit" />
-          </div>
-        </form>
-      </section>
-    </Modal>
-  );
-
-  const testFunctions = {
-    openTestModal: () => setModalOpen(true),
-    toggleDarkMode: () => {setDarkMode(!darkMode)},
-  };
-  /*******************************************************************************************************/
-
   const handleHamburgerClick = () => {
     const newState = !hamburgerIsOpen;
     setHamburgerIsOpen(newState);
@@ -203,17 +133,8 @@ export function Sidebar ({darkMode, setDarkMode}) {
     }
   }, [location]);
 
-  console.log(hamburgerIsOpen, className)
-
   return (
     <Fragment>
-
-      {/*******************************************************************************************************/}
-      {/* FOR TEST FEATURES ***********************************************************************************/}
-      {/*******************************************************************************************************/}
-      {modalOpen && testModal}
-      {/*******************************************************************************************************/}
-
       <div className={className}>
         <header>
           <div className="flex-grow-1 text-center">
@@ -227,30 +148,15 @@ export function Sidebar ({darkMode, setDarkMode}) {
         <div className="level-1">
           <ul className="menu-items">
             { menuLevel1.map((item, i) => {
-
-              if (item.hasOwnProperty("path")) {
-                const state = (sidebarSelection.level1 === item.id) ? "selected" : "normal";
-                return (
-                  <MenuItem key={i}
-                    darkMode={darkMode}
-                    icon={item.icon}
-                    text={item.text}
-                    state={state}
-                    path={item.path}
-                  />
-                );
-              } else if (item.hasOwnProperty("onClickFunction")) {
-                return (
-                  <MenuItemTest key={i}
-                    darkMode={darkMode}
-                    icon={item.icon}
-                    text={item.text}
-                    onClick={testFunctions[item.onClickFunction]}
-                  />
-                );
-              }}
-
-            )}
+              const state = (sidebarSelection.level1 === item.id) ? "selected" : "normal";
+              return (
+                <MenuItem key={i}
+                  icon={item.icon}
+                  text={item.text}
+                  state={state}
+                  path={item.path}
+                />);
+              })}
           </ul>
         </div>
         { sidebarSelection.level2 && (
@@ -261,7 +167,6 @@ export function Sidebar ({darkMode, setDarkMode}) {
               const state = (sidebarSelection.level2 === item.id) ? "selected" : "normal";
               return (
                 <MenuItem key={i}
-                  darkMode={darkMode}
                   icon={item.icon}
                   text={item.text}
                   state={state}

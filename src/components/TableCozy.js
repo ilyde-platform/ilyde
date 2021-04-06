@@ -7,14 +7,12 @@
  *
  */
 
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from "lodash";
 import rarr from '../assets/images/rarr.svg';
 
 const TableCozy = ({columns, data, options}) => {
 
-  const [contentId, setContentId] = useState("projects"); 
-  
   const defaultOptions = {
     "icon": null,
     "defaultSortCol": columns[0].id,
@@ -40,7 +38,7 @@ const TableCozy = ({columns, data, options}) => {
       <header>
         { columns.map((col, i) => {
           let className = "cell";
-          if (col.sortable) { 
+          if (col.sortable) {
             className += " sortable"
           };
           if (col.sortable && (col.id === sortCol)) {
@@ -49,7 +47,7 @@ const TableCozy = ({columns, data, options}) => {
           const callback = (col.sortable) ? () => { handleSortClick(col.id); } : null;
           return (
             <div key={col.id}
-              className={className} 
+              className={className}
               onClick={callback}
             >
               <span>{col.text}</span>
@@ -59,14 +57,14 @@ const TableCozy = ({columns, data, options}) => {
       </header>
       { sortedData.map((d, i) => {
         const rowClassName = "data-row" + (rowsClickable ? " clickable" : "");
-        const callback = (options.onRowClick) 
-          ? () => { 
-            options.onRowClick(d); 
-          } 
+        const callback = (options.onRowClick)
+          ? () => {
+            options.onRowClick(d);
+          }
           : null;
         return (
           <div key={i}
-            className={rowClassName} 
+            className={rowClassName}
             onClick={callback}
           >
             { columns.map((col, j) => {

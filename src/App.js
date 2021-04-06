@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from './features/sidebar/Sidebar';
 import Headerbar from './features/headerbar/Headerbar';
 import routes from './routes';
-import { useKeycloak } from '@react-keycloak/web'
+import { useSelector, useDispatch } from 'react-redux';
+import { useKeycloak } from '@react-keycloak/web';
+import { selectPreferences } from './features/preferences/preferencesSlice';
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   Switch,
 } from "react-router-dom";
+import { fetchUsers } from './features/users/usersSlice';
+import { fetchCenvs } from './features/cenvs/cenvsSlice';
+import { fetchHwtiers } from './features/hwtiers/hwtiersSlice';
+import { fetchIdes } from './features/ides/idesSlice';
+import { fetchModelapis } from './features/modelapis/modelapisSlice';
+import { fetchDatasets } from './features/datasets/datasetsSlice';
 
-/*******************************************************************************************************/
-/* FOR TEST FEATURES ***********************************************************************************/
-/*******************************************************************************************************/
-import { useState } from 'react';
-/*******************************************************************************************************/
 
 function App() {
   const {keycloak, initialized} = useKeycloak();
-  const [darkMode, setDarkMode] = useState(false);
 
   if (!keycloak.authenticated && initialized){
     keycloak.login();
@@ -32,7 +34,7 @@ function App() {
             <WorkspaceApp />
           </Route>
           <Route exact path="*">
-            <MainApp darkMode={darkMode} setDarkMode={setDarkMode} />
+            <MainApp />
           </Route>
         </Switch>
       </Router>
@@ -51,18 +53,39 @@ function RouteWithSubRoutes(route) {
       path={route.path}
       render={props => (
         // pass the sub-routes down to keep nesting
-        <route.component {...props} routes={route.routes} />
+        <route.component  routes={route.routes} {...route.componentProps} />
       )}
     />
   );
 }
 
-function MainApp({darkMode, setDarkMode}) {
+function MainApp() {
+  const preferences = useSelector(selectPreferences);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+    dispatch(fetchIdes());
+    dispatch(fetchCenvs());
+    dispatch(fetchHwtiers());
+    dispatch(fetchDatasets());
+    dispatch(fetchModelapis());
+
+    const intervalID = setInterval(() => {
+      dispatch(fetchUsers());
+      dispatch(fetchHwtiers());
+      dispatch(fetchDatasets());
+      dispatch(fetchModelapis());
+    }, 300000);
+
+    return () => {clearInterval(intervalID);}
+  }, []);
+
   return (
-    <div id="app" data-dark={darkMode}>
-      <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
+    <div id="app" data-dark={preferences.darkMode}>
+      <Sidebar/>
       <div className="ui-right">
-        <Headerbar 
+        <Headerbar
           showBackButton={true}
         />
         <div className="content-area">

@@ -2,16 +2,6 @@ import React, {Fragment} from "react";
 import x from '../assets/images/x.svg';
 
 function Modal ({closeModal, title, children}) {
-
-  // return(
-  //   <div className="modal-bg" onClick={closeModal}>
-  //   	<div className="modal" onClick={(e) => {e.stopPropagation();}}>
-  //   		<header>{title}</header>
-  //   		{children}
-  //   	</div>
-  //   </div>
-  // )
-
   return(
     <Fragment>
 	    <div className="modal-bg" onClick={closeModal} />
@@ -26,8 +16,6 @@ function Modal ({closeModal, title, children}) {
 	  	</div>
     </Fragment>
   )
-
-
 }
 
 export default Modal;

@@ -16,9 +16,12 @@ import icon5i from '../assets/images/icons/icon-pages-i.svg';
 import iconTn from '../assets/images/icons/icon-test-n.svg';
 import iconTs from '../assets/images/icons/icon-test-s.svg';
 import iconTi from '../assets/images/icons/icon-test-i.svg';
+import { useSelector } from 'react-redux';
+import { selectPreferences } from '../features/preferences/preferencesSlice';
 
-function Icon ({ iconName, state, darkMode }) {
-  const mode = darkMode ? "dark" : "light";
+function Icon ({ iconName, state }) {
+  const preferences = useSelector(selectPreferences);
+  const mode = preferences.darkMode ? "dark" : "light";
   const icons = {
     "archive": {
       "normal":   {light: icon1n, dark: icon1i},

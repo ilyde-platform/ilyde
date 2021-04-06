@@ -19,4 +19,6 @@ export const { setContentTitle } = headerbarSlice.actions;
 
 export const selectHeaderbar = state => state.headerbar;
 
-export default headerbarSlice.reducer;
+const headerbarReducer = headerbarSlice.reducer;
+
+export default headerbarReducer;

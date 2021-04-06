@@ -6,7 +6,7 @@ export const contents = {
 		table: {
 			options: {
 		    // icon: null,
-		    defaultSortCol: "project_visibility",
+		    defaultSortCol: "create_at",
 		    defaultSortDir: "desc",
 		    onRowClick: (d) => {},
 		  },
@@ -228,4 +228,3 @@ export const contents = {
 	  },
   },
 }
-
