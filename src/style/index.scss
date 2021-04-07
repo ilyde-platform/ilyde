@@ -50,6 +50,8 @@ $ms-sidebar-transition: 100ms;
 
 body {
 	@include font-m;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #app {

@@ -25,26 +25,30 @@ export function ProjectsList(props) {
   };
   const columns = [
     {
+      headerText: "Name",
       id: "name",
-      text: "Name",
       sortable: true,
       style: "normal",
+      type: "text",
     }, {
+      headerText: "",
       id: "description",
-      text: "",
       sortable: false,
       style: "small-grey",
+      type: "text",
     }, {
+      headerText: "Type",
       id: "template",
-      text: "Type",
       sortable: true,
       style: "normal",
+      type: "text",
     },
     {
+      headerText: "Lead",
       id: "owner",
-      text: "Lead",
       sortable: true,
       style: "normal",
+      type: "text",
     }
   ]
 

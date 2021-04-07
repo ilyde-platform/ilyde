@@ -1,6 +1,7 @@
 
 export const contents = {
 
+	/*
 	projects: {
 		title: "Projects",
 		table: {
@@ -174,7 +175,7 @@ export const contents = {
 		  ],
 	  },
   },
-
+	*/
 	workspaces: {
 		title: "Workspaces",
 		table: {
@@ -186,43 +187,56 @@ export const contents = {
 		  },
 			columns: [
 		    {
+		      headerText: "Name",
 		      id: "ws_name",
-		      text: "Name",
 		      sortable: true,
 		      style: "normal",
+		      type: "text",
 		    }, {
+		      headerText: "Owner",
 		      id: "ws_owner",
-		      text: "Owner",
 		      sortable: true,
 		      style: "normal",
-		    }, {
-		      id: "ws_actions",
-		      text: "Actions",
+		      type: "text",
+		    },{
+		      buttonText: "Start",
+		      headerText: "",
+		      id: "button_start",
+		      onButtonClick: (d) => {
+			      alert("clicked start "+ d.id);
+			    },
 		      sortable: false,
-		      style: "normal",
+		      style: "primary",
+		      type: "button",
+		    },{
+		      buttonText: "Stop",
+		      headerText: "",
+		      id: "button_stop",
+		      onButtonClick: (d) => {
+			      alert("clicked stop "+ d.id);
+			    },
+		      sortable: false,
+		      style: "primary",
+		      type: "button",
 		    },
 		  ],
 		  data: [
 		    {
-		      id: 1,
+		      id: 12972092,
 		      ws_name: "Tony Vscode",
 					ws_owner: "Tony",
-					ws_actions: "Start — Stop",
 		    }, {
-		      id: 1,
+		      id: 39972092,
 		      ws_name: "Vscode",
 					ws_owner: "Barbara",
-					ws_actions: "Start — Stop",
 		    }, {
-		      id: 1,
+		      id: 23412423,
 		      ws_name: "Test 1",
 					ws_owner: "Ausilia",
-					ws_actions: "Start — Stop",
 		    }, {
-		      id: 1,
+		      id: 23523523,
 		      ws_name: "Tony Jupyter notebook",
 					ws_owner: "Tony",
-					ws_actions: "Start — Stop",
 		    },
 		  ],
 	  },

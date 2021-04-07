@@ -64,6 +64,9 @@ import icon_dark_i from '../assets/images/icons/icon-dark-i.svg';
 import icon_darkalt_n from '../assets/images/icons/icon-darkalt-n.svg';
 import icon_darkalt_s from '../assets/images/icons/icon-darkalt-s.svg';
 import icon_darkalt_i from '../assets/images/icons/icon-darkalt-i.svg';
+import icon_cube_n from '../assets/images/icons/icon-cube-n.svg';
+import icon_cube_s from '../assets/images/icons/icon-cube-s.svg';
+import icon_cube_i from '../assets/images/icons/icon-cube-i.svg';
 
 import icon_test_n from '../assets/images/icons/icon-test-n.svg';
 import icon_test_s from '../assets/images/icons/icon-test-s.svg';
@@ -139,6 +142,10 @@ function Icon ({ iconName, state }) {
     "darkalt": {
       "normal":   {light: icon_darkalt_i, dark: icon_darkalt_i},
       "selected": {light: icon_darkalt_s, dark: icon_darkalt_s},
+    },
+    "cube": {
+      "normal":   {light: icon_cube_n, dark: icon_cube_i},
+      "selected": {light: icon_cube_s, dark: icon_cube_s},
     },
 
     "test": {

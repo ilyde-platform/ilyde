@@ -48,7 +48,7 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "path": "/archive",
     }, {
       "id": "environment",
-      "icon": "test",
+      "icon": "cube",
       "text": "Environment",
       "path": "/environment",
     }, {
