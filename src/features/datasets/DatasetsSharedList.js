@@ -55,7 +55,7 @@ export function DatasetsSharedList(props) {
       id: "button_start",
       onButtonClick: handleClickDelete,
       sortable: false,
-      style: "primary",
+      style: "secondary",
       type: "button",
     }
   ];

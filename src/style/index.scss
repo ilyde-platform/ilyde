@@ -17,6 +17,7 @@ $c-blue-light: #7B96FF;
 $c-green: #5ED995;
 $c-red: #D74444;
 $c-grey-1: #f5f6fa; // lightest
+$c-grey-2: #eeecf8;
 $c-grey-3: #DAD9E4;
 $c-grey-5: #8095A8;
 $c-shadow: #18275F;
@@ -78,12 +79,18 @@ body {
 		cursor: pointer;
 		outline: none;
 		min-width: 140px;
-		@include transition(background-color 200ms);
+		@include transition(background-color 100ms);
+		&:hover { text-decoration: none; }
 
-		&.round {
+		&[data-type="round"] {
 			border-radius: $btn-h/2;
 			width: $btn-h;
 			min-width: $btn-h;
+		}
+		&[data-type="table"] {
+			min-width: auto;
+			height: auto;
+			padding: 5px 10px;
 		}
 
 		&.primary {
@@ -93,10 +100,10 @@ body {
 			&:active, .active { background-color: $c-blue-dark; }
 		}
 		&.secondary {
-			background-color: transparent;
+			background-color: $c-bg;
 			color: $c-blue;
-			&:hover { background-color: $c-bg; }
-			&:active, .active { background-color: $c-grey-5; }
+			&:hover { background-color: $c-grey-2; }
+			&:active, .active { background-color: $c-grey-3; }
 		}
 	}
 
@@ -626,7 +633,7 @@ $dark-2: #2D3758;
 $dark-1: #3A4A7C;
 
 // V2
-$dark-8: #10121A;
+$dark-8: #10121A; // darkest
 $dark-6: #141823;
 $dark-5: #181C29;
 $dark-3: #1F2539;
@@ -639,10 +646,10 @@ $dark-1: #3A4A7C;
 
 	a.button {
 		&.secondary {
-			background-color: transparent;
+			background-color: $dark-5;
 			color: $c-blue;
-			&:hover { background-color: $dark-2; }
-			&:active, .active { background-color: $dark-1; }
+			&:hover { background-color: $dark-6; }
+			&:active, .active { background-color: $dark-8; }
 		}
 	}
 

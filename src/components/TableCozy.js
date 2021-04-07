@@ -40,7 +40,7 @@ import rarr from '../assets/images/rarr.svg';
 const RowButton = ({text, style, callback}) => {
   const className = `button${style ? ` ${style}` : ""}`;
   return (
-    <a className={className} onClick={callback}>
+    <a className={className} data-type="table" onClick={callback}>
       {text}
     </a>
   );
@@ -127,7 +127,9 @@ const TableCozy = ({columns, data, options}) => {
                   col.onButtonClick(d);
                 }
                 return (
-                  <RowButton key={j} text={col.buttonText} style={col.style} callback={buttonCallback} />
+                  <div className="cell" key={j}>
+                    <RowButton text={col.buttonText} style={col.style} callback={buttonCallback} />
+                  </div>
                 );
               }
             })}
