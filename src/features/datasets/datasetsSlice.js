@@ -28,6 +28,18 @@ export const fetchDatasets = createAsyncThunk('datasets/fetchDatasets', async ()
   return datasets;
 });
 
+export const addNewDataset = createAsyncThunk(
+  'datasets/addNewDataset',
+  async (body, { rejectWithValue }) => {
+    const apiConfig = getIlydeApiConfiguration();
+    const datasetsApi = new DatasetsApi(apiConfig);
+    const dataset = datasetsApi.createDataset(body).then((response) => {
+      return response.data;
+    });
+    return dataset;
+  }
+);
+
 const datasetsSlice = createSlice({
   name: 'datasets',
   initialState,
@@ -45,6 +57,7 @@ const datasetsSlice = createSlice({
       state.status = 'failed';
       state.error = action.error.message;
     },
+    [addNewDataset.fulfilled]: datasetsAdapter.addOne,
   },
 });
 

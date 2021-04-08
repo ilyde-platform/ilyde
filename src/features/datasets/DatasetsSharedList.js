@@ -7,7 +7,9 @@ import TableCozy from '../../components/TableCozy';
 import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
 import { selectAllDatasets } from './datasetsSlice';
-import Modal from '../../components/Modal';
+import Icon  from '../../components/Icon';
+import { DatasetModalForm } from './DatasetModalForm';
+
 
 export function DatasetsSharedList(props) {
   const dispatch = useDispatch();
@@ -15,14 +17,9 @@ export function DatasetsSharedList(props) {
   const datasets = useSelector(selectAllDatasets);
   const [modalOpen, setModalOpen] = useState(false);
 
-  console.log("-----", datasets);
-
   const title = "Shared Datasets";
   const goToDataset = (d) => {
     history.push(`/datasets/${d.id}`);
-  }
-  const handleClickDelete = (d) => {
-    alert("clicked delete "+ d.id);
   }
 
   const options = {
@@ -32,33 +29,25 @@ export function DatasetsSharedList(props) {
   };
   const columns = [
     {
-      headerText: "Name",
       id: "name",
+      headerText: "Name",
       sortable: true,
-      style: "normal",
       type: "text",
+      style: "normal",
     },{
-      headerText: "",
       id: "description",
+      headerText: "",
       sortable: false,
-      style: "small-grey",
       type: "text",
+      style: "small-grey",
     },{
-      headerText: "Version",
       id: "version",
+      headerText: "Version",
+      type: "text",
       sortable: true,
       style: "normal",
-      type: "text",
-    },{
-      buttonText: "Delete",
-      headerText: "",
-      id: "button_start",
-      onButtonClick: handleClickDelete,
-      sortable: false,
-      style: "secondary",
-      type: "button",
     }
-  ];
+  ]
 
   let tableOptions = options;
   const tableColumns = columns;
@@ -81,51 +70,20 @@ export function DatasetsSharedList(props) {
       mounted = false;
     }
   }, []);*/
+  
+  const datasetFormModal = (
+    <DatasetModalForm handleModalCancel={() => setModalOpen(false)} handleFormSubmitted={() => setModalOpen(false)}>
+    </DatasetModalForm>);
 
   return  (
     <Fragment>
-      {modalOpen && (
-        <Modal closeModal={() => setModalOpen(false)} title="New dataset">
-          {/*
-          <section>
-            <p>
-              Description of lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Mauris sed turpis sed ipsum vehicula bibendum imperdiet in orci. 
-              In vel vestibulum nisi. Donec sagittis nunc id erat aliquam blandit.
-            </p>
-          </section>
-          */}
-          <section>
-            <form>
-              <div className="input-row">
-                <label>
-                  Label
-                  <input type="text" name="name-a" id="name-a" />
-                </label>
-              </div>
-              <div className="input-row">
-                <label>
-                  Label
-                  <input type="text" name="name-b" id="name-b" />
-                </label>
-              </div>
-              <hr />
-              <div className="buttons-wrapper">
-                <button className="secondary" onClick={() => setModalOpen(false)}>Cancel</button>
-                <input type="submit" className="primary" value="Submit" />
-              </div>
-            </form>
-          </section>
-        </Modal>
-      )}
-      <section className="d-flex justify-content-end mt-4">
-        <button type="button" className="primary" onClick={() => setModalOpen(true)}>New Dataset</button>
-      </section>
-      {/*
+      {modalOpen && datasetFormModal}
       <section className="content">
         <div className="card">
-          <div className="card-header">
+          <div className="card-body">
             <div className="d-flex justify-content-between">
+              <Icon iconName="dbs" state="normal" />
+              <div>Datasets are revisioned collections of files.</div>
               <div className="ml-auto">
                 <button type="button" className="primary" onClick={() => setModalOpen(true)}>New Dataset</button>
               </div>
@@ -133,7 +91,6 @@ export function DatasetsSharedList(props) {
           </div>
         </div>
       </section>
-      */}
       <hr/>
       <TableCozy
         columns={tableColumns}

@@ -68,7 +68,7 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "id": "settings",
       "icon": "gear",
       "text": "Settings",
-      "path":  "/test",
+      "path":  "/settings",
     }
   ];
   const menuLevel2 = [
@@ -122,32 +122,28 @@ export function Sidebar ({darkMode, setDarkMode}) {
 
   useEffect(() => {
     const sublevelregex = '\/projects\/(?<id>[a-zA-Z0-9]+)\/(?<subpath>[a-zA-Z0-9]+)(.*)';
-    let level = null;
-    for (let item of menuLevel1){
-      if (item.path === location.pathname){
-        level = item.id;
-        break;
-      }
+    const found = location.pathname.match(sublevelregex);
+    if (found){
+      setSidebarSelection({
+        "level1": "projects",
+        "project": found.groups.id,
+        "level2": found.groups.subpath,
+      });
     }
-    if (level)
-    {
+    else {
+      let level = null;
+      for (let item of menuLevel1){
+        if (location.pathname.includes(item.path)){
+          level = item.id;
+          break;
+        }
+      }
       setSidebarSelection({
         "level1": level,
         "project": null,
         "level2": null,
       });
       setHamburgerIsOpen(false);
-    }
-    else
-    {
-      const found = location.pathname.match(sublevelregex);
-      if (found){
-        setSidebarSelection({
-          "level1": "projects",
-          "project": found.groups.id,
-          "level2": found.groups.subpath,
-        });
-      }
     }
   }, [location]);
 

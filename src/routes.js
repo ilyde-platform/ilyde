@@ -2,6 +2,8 @@ import { Workspaces } from './components/TestComponents.js';
 import { ProjectsList } from './features/projects/ProjectsList';
 import { DatasetsSharedList } from './features/datasets/DatasetsSharedList';
 import { ProjectForm } from './features/projects/ProjectForm';
+import { ProjectFiles } from './features/projects/ProjectFiles';
+import { DatasetDetail } from './features/datasets/DatasetDetail';
 
 
 export const routes = [
@@ -34,7 +36,17 @@ export const routes = [
     exact: true,
   },
   {
-    path: "/projects/:id/workspaces",
+    path: "/datasets/:datasetId",
+    component: DatasetDetail,
+    exact: true,
+  },
+  {
+    path: "/projects/:projectId/files",
+    component: ProjectFiles,
+    exact: true
+  },
+  {
+    path: "/projects/:projectId/workspaces",
     component: Workspaces,
     exact: true
   }

@@ -20,7 +20,7 @@ export function ProjectsList(props) {
     defaultSortCol: "create_at",
     defaultSortDir: "desc",
     onRowClick: (d) => {
-      history.push(`/projects/${d.id}/workspaces`);
+      history.push(`/projects/${d.id}/files`);
     },
   };
   const columns = [
@@ -94,7 +94,7 @@ export function ProjectsList(props) {
     }
   }, [props, isUsersLoad, users]); */
 
-  return  (
+  return (
     <Fragment>
       <ul className="nav nav-tabs">
         <li className="nav-item">
