@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="description" content="Demo project">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="style/bootstrap-custom.css" crossorigin="anonymous">
+		<link rel="stylesheet" href="style/index-login.css" crossorigin="anonymous">
+		<style type="text/css"></style>
+	</head>
+	<body>
+		<div id="login">
+			<div id="bg"></div>
+			<div class="login-area">
+	  		<header>
+					<div class="logo text-center mb-3"><img src="images/logo-blue.svg" /></div>
+					<h2>Log in to your Ilyde account and strat creating!</h2>
+  			</header>
+	      <div class="content">
+	      	<section>
+		        <form>
+		          <div class="input-row">
+		            <label>
+		              Username or email
+		              <input
+		                id="user"
+		                name="user"
+		                type="text"
+		                placeholder=""
+		                value=""
+		               />
+		            </label>
+		          </div>
+		          <div class="input-row">
+		            <label>
+		              Password
+		              <input
+		                id="password"
+		                name="password"
+		                type="password"
+		                placeholder=""
+		                value=""
+		              />
+		              </textarea>
+		            </label>
+		          </div>
+		          <div class="input-row" style="margin-top: 38px;">
+		            <input type="submit" class="primary w-100" value="Log in" />
+		          </div>
+		          <div class="text-center mt-2">
+		          	<a class="font-s no-u color-grey" href="">I forgot my pasword</a>
+		          </div>
+		          <!--  
+		          <hr />
+		          <div class="buttons-wrapper">
+		            <input type="submit" class="primary w-100" value="Log in" />
+		          </div>
+		          -->
+		        </form>
+		      </section>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var bg = document.getElementById("bg");
+			var images = [
+				"images/bg-login-1.jpg",
+				"images/bg-login-2.jpg",
+				"images/bg-login-3.jpg",
+				"images/bg-login-4.jpg",
+			];
+			var image = images[Math.floor(Math.random() * images.length)];
+			bg.style.backgroundImage = "url('"+ image +"')";
+		</script>
+	</body>
+</html>
