@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import logo from '../../assets/images/logo.svg';
 import hb from '../../assets/images/hb.svg';
 import MenuItem from './MenuItem';
@@ -7,14 +7,6 @@ import {
   BrowserRouter as Router,
   useLocation
 } from "react-router-dom";
-
-/*******************************************************************************************************/
-/* FOR TEST FEATURES ***********************************************************************************/
-/*******************************************************************************************************/
-import Icon from '../../components/Icon';
-import {Fragment} from 'react';
-import Modal from '../../components/Modal';
-/*******************************************************************************************************/
 
 
 export function Sidebar ({darkMode, setDarkMode}) {
@@ -50,7 +42,7 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "id": "environment",
       "icon": "cube",
       "text": "Environment",
-      "path": "/environment",
+      "path": "/environments",
     }, {
       "id": "model_apis",
       "icon": "diamond",

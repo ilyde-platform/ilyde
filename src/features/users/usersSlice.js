@@ -23,6 +23,18 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   return users;
 });
 
+export const addNewUser = createAsyncThunk(
+  'users/addNewUser',
+  async (body, { rejectWithValue }) => {
+    const apiConfig = getIlydeApiConfiguration();
+    const usersApi = new UsersApi(apiConfig);
+    const user = usersApi.createUser(body).then((response) => {
+      return response.data;
+    });
+    return user;
+  }
+);
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,
@@ -40,6 +52,7 @@ const usersSlice = createSlice({
       state.status = 'failed';
       state.error = action.errr.message;
     },
+    [addNewUser.fulfilled]: usersAdapter.addOne,
   },
 });
 

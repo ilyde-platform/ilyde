@@ -70,7 +70,7 @@ export function DatasetsSharedList(props) {
       mounted = false;
     }
   }, []);*/
-  
+
   const datasetFormModal = (
     <DatasetModalForm handleModalCancel={() => setModalOpen(false)} handleFormSubmitted={() => setModalOpen(false)}>
     </DatasetModalForm>);
@@ -79,15 +79,9 @@ export function DatasetsSharedList(props) {
     <Fragment>
       {modalOpen && datasetFormModal}
       <section className="content">
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex justify-content-between">
-              <Icon iconName="dbs" state="normal" />
-              <div>Datasets are revisioned collections of files.</div>
-              <div className="ml-auto">
-                <button type="button" className="primary" onClick={() => setModalOpen(true)}>New Dataset</button>
-              </div>
-            </div>
+        <div className="d-flex justify-content-between">
+          <div className="ml-auto">
+            <button type="button" className="primary" onClick={() => setModalOpen(true)}>+Dataset</button>
           </div>
         </div>
       </section>

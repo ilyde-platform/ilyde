@@ -7,9 +7,14 @@ import FileBrowser, {Icons} from 'react-keyed-file-browser'
 import TableCozy from '../../components/TableCozy';
 import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
-import { ProjectsApi } from '../../services/ilyde';
+import { ProjectsApi, FilesApi } from '../../services/ilyde';
 import { selectAllUsers } from '../users/usersSlice';
 import { selectProjectById } from './projectsSlice';
+
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
 
 
 export function ProjectFiles(props) {
@@ -22,9 +27,10 @@ export function ProjectFiles(props) {
   const [currPath, setCurrPath] = useState('');
   const [revisions, setRevisions] = useState([]);
   const [currRevision, setCurrRevision] = useState({});
+  const [isFolderView, setIsFolderView] = useState(true);
+  const [code, setCode] = useState("");
 
   const files = currRevision?.file_tree ? getTree(currRevision?.file_tree, currPath) : [];
-
   useEffect(() => {
     dispatch(setContentTitle({title: project?.name, subtitle: ""}));
   },[project]);
@@ -75,10 +81,25 @@ export function ProjectFiles(props) {
   const openFolder = (event) => {
     const pathPrefix = currPath ? currPath + "/" + event.target.getAttribute("data-folder") : event.target.getAttribute("data-folder");
     setCurrPath(pathPrefix);
+    setIsFolderView(true);
   }
 
   const openFile = (event) => {
-    console.log("click file: " + event.target.getAttribute("data-file"));
+    const filename = currPath ? currPath + "/" + event.target.getAttribute("data-file") : event.target.getAttribute("data-file");
+    let fileversion = "";
+    const apiConfig = getIlydeApiConfiguration();
+    const filesApi = new FilesApi(apiConfig);
+    for(let f of currRevision.file_tree){
+      if (f.name === filename){
+        fileversion = f.version;
+      }
+    }
+    console.log(event.target.getAttribute("data-file"), fileversion);
+    filesApi.getProjectFile(projectId, filename, fileversion).then((response) => {
+      setCode(response.data);
+      setIsFolderView(false);
+    });
+    setCurrPath(filename);
   }
 
   return (
@@ -106,7 +127,7 @@ export function ProjectFiles(props) {
         </div>
       </div>
       <div className="card-body">
-        <ul className="list-group list-group-flush mt-3">
+        {isFolderView ? <ul className="list-group list-group-flush mt-3">
           {files.map((value, index) => {
             if(value.is_dir){
               return (
@@ -124,7 +145,16 @@ export function ProjectFiles(props) {
               );
             }
           })}
-        </ul>
+        </ul> : <Editor
+          value={code}
+          onValueChange={c => setCode(c)}
+          highlight={code => highlight(code, languages.py)}
+          padding={10}
+          style={{
+            fontFamily: '"Fira code", "Fira Mono", monospace',
+            fontSize: 12,
+          }}/>
+        }
       </div>
     </section>
   );
@@ -156,7 +186,6 @@ function getTree(file_tree, pathPrefix){
 
       names.push(filename);
     }
-
   }
   return tree;
 }

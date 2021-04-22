@@ -23,6 +23,18 @@ export const fetchHwtiers = createAsyncThunk('hwtiers/fetchHwtiers', async () =>
   return hwtiers;
 });
 
+export const addNewHwtier = createAsyncThunk(
+  'hwtiers/addNewHwtier',
+  async (body, { rejectWithValue }) => {
+    const apiConfig = getIlydeApiConfiguration();
+    const environmentsApi = new EnvironmentsApi(apiConfig);
+    const hwtier = environmentsApi.createHardwaretier(body).then((response) => {
+      return response.data;
+    });
+    return hwtier;
+  }
+);
+
 const hwtiersSlice = createSlice({
   name: 'hwtiers',
   initialState,
@@ -40,6 +52,7 @@ const hwtiersSlice = createSlice({
       state.status = 'failed';
       state.error = action.error.message;
     },
+    [addNewHwtier.fulfilled]: hwtiersAdapter.addOne,
   },
 });
 

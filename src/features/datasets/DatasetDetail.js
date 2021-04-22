@@ -10,6 +10,7 @@ import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
 import { DatasetsApi } from '../../services/ilyde';
 import { selectAllUsers } from '../users/usersSlice';
 import { VersionModalForm } from './VersionModalForm';
+import _ from "lodash";
 
 
 export function DatasetDetail(props) {
@@ -58,10 +59,10 @@ export function DatasetDetail(props) {
       if (userId == u.id){
         let fullname;
         if (u.first_name && u.last_name){
-          fullname = `${capitalize(u.first_name)} ${capitalize(u.last_name)}`;
+          fullname = `${_.capitalize(u.first_name)} ${capitalize(u.last_name)}`;
         }
         else{
-          fullname = capitalize(u.username);
+          fullname = _.capitalize(u.username);
         }
         return fullname;
       }
@@ -79,40 +80,49 @@ export function DatasetDetail(props) {
   return (
     <section className="content">
       {modalOpen && versionFormModal}
-      Description
-      <div className="card mt-3">
-        <div className="card-body">
-          { dataset?.description }
-        </div>
-      </div>
-      <br/>
-      Versions
       <div class="d-flex justify-content-between">
         <div class="ml-auto">
-          <button type="button" className="primary" onClick={() => setModalOpen(true)}>New Version</button>
+          <button type="button" className="primary" onClick={() => setModalOpen(true)}>+Version</button>
         </div>
       </div>
-      <div className="card-body">
-        <form>
-          <div className="form-row">
-           <select id="inputState" className="form-control" value={currVersion?.name} onChange={handleChange}>
-            {versions.map((value, index) => {
-              return <option key={value.name} value={value.name}>Version {value.name} - Created {value.create_at} By {getUsername(value.author)}</option>
-            })}
-           </select>
-          </div>
-        </form>
-        <ul className="list-group list-group-flush mt-3">
-          {currVersion?.bucket_tree?.map((value, index) => {
-          return (<li className="list-group-item d-flex justify-content-between align-items-center" key={value.name} data-spy="scroll">
-           <span><i className="fa fa-file"></i>{value.name}</span>
-           <span>{formatBytes(value.size, 2)}</span>
-          </li>)})}
-        </ul>
-        <div>Author: {getUsername(currVersion.author)}</div>
-        <div>Total size: {formatBytes(currVersion.size, 2)}</div>
-        <div>Date: {currVersion.create_at}</div>
+      <div className="input-row">
+        <label>
+          Desciption
+          <textarea
+            readOnly="true"
+            value={dataset?.description}
+            rows="15"
+            cols="50"
+          >
+          </textarea>
+        </label>
       </div>
+      <div className="input-row">
+        <label>
+          Versions
+          <select id="inputState" className="form-control" value={currVersion?.name} onChange={handleChange}>
+           {versions.map((value, index) => {
+             return <option key={value.name} value={value.name}>Version {value.name} </option>
+           })}
+          </select>
+        </label>
+      </div>
+      {!_.isEmpty(currVersion) &&
+        <div className="mt-3">
+          <ul className="list-group list-group-flush mt-3">
+            {currVersion.bucket_tree.map((value, index) => {
+              return (
+                <li className="list-group-item d-flex justify-content-between align-items-center" key={value.name} data-spy="scroll">
+                  <span><i className="fa fa-file"></i>{value.name}</span>
+                  <span>{formatBytes(value.size, 2)}</span>
+                </li>)}
+              )
+            }
+          </ul>
+          <div>Author: {getUsername(currVersion.author)}</div>
+          <div>Total size: {formatBytes(currVersion.size, 2)}</div>
+          <div>Date: {currVersion.create_at}</div>
+        </div>}
      </section>
    );
 }
