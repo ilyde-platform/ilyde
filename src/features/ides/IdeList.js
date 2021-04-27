@@ -29,7 +29,7 @@ export function IdeList(props) {
   }
   return  (
     <Fragment>
-      <section className="content">
+      <section>
         <div className="row">
           {ides.map((ide) => {
             return ideToHtml(ide);

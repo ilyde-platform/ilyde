@@ -32,7 +32,7 @@ Example of props
   ]
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import _ from "lodash";
 import rarr from '../assets/images/rarr.svg';
 
@@ -59,6 +59,12 @@ const TableCozy = ({columns, data, options}) => {
   const [sortCol, setSortCol] = useState(options.defaultSortCol);
   const [sortDir, setSortDir] = useState(options.defaultSortDir);
   
+  if (data.length === 0) {
+    return (
+      <div className="font-m">No items</div>
+    );
+  }
+
   const hasRowCallback = (typeof options.onRowClick === "function") ? true : false;
   const btnCols = columns.filter(col => col.type === "button");
   let buttonsAreValid = btnCols.length > 0;

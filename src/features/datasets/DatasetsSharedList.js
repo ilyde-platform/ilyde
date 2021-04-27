@@ -78,14 +78,17 @@ export function DatasetsSharedList(props) {
   return  (
     <Fragment>
       {modalOpen && datasetFormModal}
-      <section className="content">
+      <section>
         <div className="d-flex justify-content-between">
-          <div className="ml-auto">
-            <button type="button" className="primary" onClick={() => setModalOpen(true)}>+Dataset</button>
+          <div className="text">
+            <p>Lorem ipsum dolor sit amet</p>
+          </div>
+          <div className="buttons">
+            <button type="button" className="primary" onClick={() => setModalOpen(true)}>New dataset</button>
           </div>
         </div>
       </section>
-      <hr/>
+      <hr className="my-4" />
       <TableCozy
         columns={tableColumns}
         data={datasets}
