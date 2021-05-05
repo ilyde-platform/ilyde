@@ -23,6 +23,15 @@ export const fetchProjects = createAsyncThunk('projects/fetchProjects', async (b
   return projects;
 });
 
+export const retrieveProject = createAsyncThunk('projects/retrieveProject', async (projectId) => {
+  const apiConfig = getIlydeApiConfiguration();
+  const projectsApi = new ProjectsApi(apiConfig);
+  const project = projectsApi.retrieveProject(projectId).then((response) => {
+    return response.data;
+  });
+  return project;
+});
+
 export const addNewProject = createAsyncThunk(
   'projects/addNewProject',
   async (body, { rejectWithValue }) => {
@@ -52,6 +61,7 @@ const projectsSlice = createSlice({
       state.error = action.error.message;
     },
     [addNewProject.fulfilled]: projectsAdapter.addOne,
+    [retrieveProject.fulfilled]: projectsAdapter.addOne,
   },
 });
 
