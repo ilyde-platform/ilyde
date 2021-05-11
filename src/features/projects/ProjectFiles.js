@@ -9,12 +9,12 @@ import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
 import { ProjectsApi, FilesApi } from '../../services/ilyde';
 import { selectAllUsers } from '../users/usersSlice';
-import { selectProjectById } from './projectsSlice';
+import { selectProjectById, retrieveProject } from './projectsSlice';
 
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-markup';
 
 
 export function ProjectFiles(props) {
@@ -23,26 +23,26 @@ export function ProjectFiles(props) {
   const users = useSelector(selectAllUsers);
   const { projectId } = useParams();
 
-  const [project, setProject] = useState({});
+  const project = useSelector(state => selectProjectById(state, projectId));
   const [currPath, setCurrPath] = useState('');
   const [revisions, setRevisions] = useState([]);
   const [currRevision, setCurrRevision] = useState({});
   const [isFolderView, setIsFolderView] = useState(true);
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState({value: "", lang: "markup"});
 
   const files = currRevision?.file_tree ? getTree(currRevision?.file_tree, currPath) : [];
+
   useEffect(() => {
     dispatch(setContentTitle({title: project?.name, subtitle: ""}));
   },[project]);
 
   useEffect(()=>{
+    dispatch(retrieveProject(projectId));
+  }, [projectId]);
+
+  useEffect(()=>{
     const apiConfig = getIlydeApiConfiguration();
     const projectsApi = new ProjectsApi(apiConfig);
-
-    projectsApi.retrieveProject(projectId).then((response) => {
-      setProject(response.data);
-    });
-
     projectsApi.listProjectRevisions(projectId, 25, 1).then((response) => {
       setRevisions(response.data.data);
       setCurrRevision(response.data.data[0]);
@@ -61,6 +61,7 @@ export function ProjectFiles(props) {
   const handleClickPath = (event) => {
     event.preventDefault();
     setCurrPath(currPath.split('/').slice(0, +event.target.getAttribute("data-index") + 1).join("/"));
+    setIsFolderView(true);
   }
 
   const getUsername = (userId) => {
@@ -94,18 +95,18 @@ export function ProjectFiles(props) {
         fileversion = f.version;
       }
     }
-    console.log(event.target.getAttribute("data-file"), fileversion);
     filesApi.getProjectFile(projectId, filename, fileversion).then((response) => {
-      setCode(response.data);
+      const lan = filename.endsWith(".py") ? "py" : "markup";
+      console.log(lan, filename);
+      setCode({value: response.data, lang: lan});
       setIsFolderView(false);
     });
-    setCurrPath(filename);
   }
 
   return (
     <section className="content">
       <div className="d-flex justify-content-between">
-        <a href="#" onClick={(e) => { e.preventDefault(); setCurrPath("");}}>{project?.name}</a>/{currPath.split('/').map((value, index) => {
+        <a href="#" onClick={(e) => { e.preventDefault(); setCurrPath(""); setIsFolderView(true);}}>{project?.name}</a>/{currPath.split('/').map((value, index) => {
           if (value){
             return <span key={index}><a href="#" data-index={index} onClick={handleClickPath}>{value}</a>/</span>
           }
@@ -146,9 +147,9 @@ export function ProjectFiles(props) {
             }
           })}
         </ul> : <Editor
-          value={code}
-          onValueChange={c => setCode(c)}
-          highlight={code => highlight(code, languages.py)}
+          value={code.value}
+          onValueChange={c => setCode({value: c, ...code})}
+          highlight={c => highlight(c, languages[code.lang])}
           padding={10}
           style={{
             fontFamily: '"Fira code", "Fira Mono", monospace',

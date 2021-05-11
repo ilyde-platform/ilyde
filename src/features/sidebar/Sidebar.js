@@ -7,20 +7,26 @@ import {
   BrowserRouter as Router,
   useLocation
 } from "react-router-dom";
+import { selectProjectById } from '../projects/projectsSlice';
+import { selectUserById } from '../users/usersSlice';
+import { useSelector } from 'react-redux';
+import { useKeycloak } from '@react-keycloak/web';
 
 
 export function Sidebar ({darkMode, setDarkMode}) {
-
   const initialState = {
     "level1": "projects",
     "project": null,
     "level2": null,
   };
   let location = useLocation();
+  const { keycloak } = useKeycloak();
   const [sidebarSelection, setSidebarSelection] = useState(initialState);
   const [hamburgerIsOpen, setHamburgerIsOpen] = useState(false);
   const sidebarIsDouble = (sidebarSelection.level2 !== null);
   const className = "sidebar" + (sidebarIsDouble ? " double" : "") + (hamburgerIsOpen ? " open" : "");
+  const project = useSelector(state => selectProjectById(state, sidebarSelection.project));
+  const user = useSelector(state => selectUserById(state, keycloak.idTokenParsed.sub));
 
   const menuLevel1 = [
     {
@@ -75,10 +81,10 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "text": "Files",
       "path": `/projects/${sidebarSelection.project}/files`,
     }, {
-      "id": "jobs",
+      "id": "runs",
       "icon": "speed",
-      "text": "Jobs",
-      "path": `/projects/${sidebarSelection.project}/jobs`,
+      "text": "Runs",
+      "path": `/projects/${sidebarSelection.project}/runs`,
     }, {
       "id": "experiments",
       "icon": "tool",
@@ -95,10 +101,10 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "text": "Datasets",
       "path": `/projects/${sidebarSelection.project}/datasets`,
     }, {
-      "id": "deployments",
+      "id": "publish",
       "icon": "rocket",
-      "text": "Deployments",
-      "path": `/projects/${sidebarSelection.project}/deployments`,
+      "text": "Publish",
+      "path": `/projects/${sidebarSelection.project}/publish`,
     }, {
       "id": "project_settings",
       "icon": "gear",
@@ -128,6 +134,14 @@ export function Sidebar ({darkMode, setDarkMode}) {
         if (location.pathname.includes(item.path)){
           level = item.id;
           break;
+        }
+      }
+      if (!level){
+        for (let item of menuLevel1Bottom){
+          if (location.pathname.includes(item.path)){
+            level = item.id;
+            break;
+          }
         }
       }
       setSidebarSelection({
@@ -165,6 +179,7 @@ export function Sidebar ({darkMode, setDarkMode}) {
               );
             })}
           </ul>
+          { user?.groups?.includes("manager") &&
           <ul className="menu-items">
             { menuLevel1Bottom.map((item, i) => {
               const state = (sidebarSelection.level1 === item.id) ? "selected" : "normal";
@@ -177,11 +192,12 @@ export function Sidebar ({darkMode, setDarkMode}) {
                 />
               );
             })}
-          </ul>
+          </ul>}
         </div>
         { sidebarSelection.level2 && (
         <div className="level-2">
-          <div className="submenu-label">Project name</div>
+          <div className="submenu-label">{project?.name}</div>
+          <br/>
           <ul className="menu-items">
             { menuLevel2.map((item, i) => {
               const state = (sidebarSelection.level2 === item.id) ? "selected" : "normal";

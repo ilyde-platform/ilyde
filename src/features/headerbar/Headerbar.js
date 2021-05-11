@@ -43,6 +43,9 @@ function Headerbar ({ showBackButton }) {
       <a className="button secondary ml-2" data-type="round" onClick={() => { dispatch(switchDarkMode()); }}>
         <Icon iconName="darkalt" state="normal"/>
       </a>
+      <a className="button secondary ml-2" data-type="round" onClick={() => { keycloak.logout(); }}>
+        <Icon iconName="test" state="normal"/>
+      </a>
 		</div>
 	);
 }
