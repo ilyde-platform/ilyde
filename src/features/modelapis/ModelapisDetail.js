@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  useHistory, useParams
+  useParams
 } from "react-router-dom";
 import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
@@ -12,7 +12,6 @@ import _ from "lodash";
 
 export function ModelapisDetail(props) {
   const dispatch = useDispatch();
-  const history = useHistory();
   const users = useSelector(selectAllUsers);
   const {modelapisId} = useParams();
   const [modelapis, setModelapis] = useState({});
@@ -21,6 +20,7 @@ export function ModelapisDetail(props) {
   const [invokeOutput, setInvokeOutput] = useState("[]");
 
   const endpoint = `${window.location.origin}/modelapis/${modelapisId}/invocations`;
+  const user = _.find(users, ["id", modelapis?.metadata?.owner]);
 
   useEffect(()=>{
     const apiConfig = getIlydeApiConfiguration();
@@ -47,21 +47,6 @@ export function ModelapisDetail(props) {
   useEffect(() => {
     dispatch(setContentTitle({title: modelapis?.metadata?.name, subtitle: ""}));
   },[modelapis])
-
-  const getUsername = (userId) => {
-    for (let u of users){
-      if (userId == u.id){
-        let fullname;
-        if (u.first_name && u.last_name){
-          fullname = `${_.capitalize(u.first_name)} ${capitalize(u.last_name)}`;
-        }
-        else{
-          fullname = _.capitalize(u.username);
-        }
-        return fullname;
-      }
-    }
-  }
 
   const handleInvokeInputChange = (e) => {
     setInvokeInput(e.target.value);
@@ -91,10 +76,15 @@ export function ModelapisDetail(props) {
       <div className="row">
         <div className="col col-md-4">
           <div>State: {modelapis?.state}</div>
+          <div className="mb-2"></div>
           <div>Model: {modelapis?.spec?.model}</div>
+          <div className="mb-2"></div>
           <div>Model stage: {modelapis?.spec?.stage}</div>
+          <div className="mb-2"></div>
           <div>Model Version: {modelapis?.spec?.version}</div>
-          <div>Created By: {getUsername(modelapis?.metadata?.owner)}</div>
+          <div className="mb-2"></div>
+          <div>Created By: {_.capitalize(user.username)}</div>
+          <div className="mb-2"></div>
           <div>Created At: {modelapis?.create_at}</div>
         </div>
         <div className="col col-md-8">
@@ -109,7 +99,7 @@ export function ModelapisDetail(props) {
                     value={invokeInput}
                     onChange={handleInvokeInputChange}
                     cols="50"
-                    rows="150"
+                    rows="250"
                   >
                   </textarea>
                 </label>

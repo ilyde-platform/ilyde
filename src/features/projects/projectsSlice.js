@@ -32,6 +32,43 @@ export const retrieveProject = createAsyncThunk('projects/retrieveProject', asyn
   return project;
 });
 
+export const updateProject = createAsyncThunk('projects/updateProject', async (body) => {
+  const apiConfig = getIlydeApiConfiguration();
+  const projectsApi = new ProjectsApi(apiConfig);
+  const project = projectsApi.updateProject(body.payload, body.projectId).then((response) => {
+    return response.data;
+  });
+  return project;
+});
+
+export const addMember = createAsyncThunk('projects/addMember', async (body) => {
+  const apiConfig = getIlydeApiConfiguration();
+  const projectsApi = new ProjectsApi(apiConfig);
+  console.log(body);
+  const project = projectsApi.addProjectMember(body.payload, body.projectId).then((response) => {
+    return response.data;
+  });
+  return project;
+});
+
+export const removeMember = createAsyncThunk('projects/removeMember', async (body) => {
+  const apiConfig = getIlydeApiConfiguration();
+  const projectsApi = new ProjectsApi(apiConfig);
+  const project = projectsApi.removeProjectMember(body.payload, body.projectId).then((response) => {
+    return response.data;
+  });
+  return project;
+});
+
+export const closeProject = createAsyncThunk('projects/closeProject', async (projectId) => {
+  const apiConfig = getIlydeApiConfiguration();
+  const projectsApi = new ProjectsApi(apiConfig);
+  const status = projectsApi.closeProject(projectId).then((response) => {
+    return {id: projectId, state: 'CLOSED'};
+  });
+  return status;
+});
+
 export const addNewProject = createAsyncThunk(
   'projects/addNewProject',
   async (body, { rejectWithValue }) => {
@@ -61,7 +98,11 @@ const projectsSlice = createSlice({
       state.error = action.error.message;
     },
     [addNewProject.fulfilled]: projectsAdapter.addOne,
-    [retrieveProject.fulfilled]: projectsAdapter.addOne,
+    [retrieveProject.fulfilled]: projectsAdapter.upsertOne,
+    [updateProject.fulfilled]: projectsAdapter.upsertOne,
+    [addMember.fulfilled]: projectsAdapter.upsertOne,
+    [removeMember.fulfilled]: projectsAdapter.upsertOne,
+    [closeProject.fulfilled]: projectsAdapter.upsertOne
   },
 });
 

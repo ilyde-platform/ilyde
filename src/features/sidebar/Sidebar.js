@@ -101,10 +101,10 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "text": "Datasets",
       "path": `/projects/${sidebarSelection.project}/datasets`,
     }, {
-      "id": "publish",
+      "id": "modelapis",
       "icon": "rocket",
-      "text": "Publish",
-      "path": `/projects/${sidebarSelection.project}/publish`,
+      "text": "Model Apis",
+      "path": `/projects/${sidebarSelection.project}/modelapis`,
     }, {
       "id": "project_settings",
       "icon": "gear",

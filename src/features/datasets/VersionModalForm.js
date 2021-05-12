@@ -2,6 +2,7 @@ import React, { Fragment, useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Modal  from '../../components/Modal';
 import { DatasetsApi } from '../../services/ilyde';
+import { formatBytes } from './DatasetDetail';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
 
 
@@ -9,7 +10,6 @@ export function VersionModalForm({datasetId, handleModalCancel, handleFormSubmit
   const [files, setFiles] = useState([]);
 
   const onDrop = useCallback(acceptedFiles => {
-    // Do something with the files
     setFiles(files.concat(acceptedFiles));
   }, [files]);
 
@@ -17,7 +17,9 @@ export function VersionModalForm({datasetId, handleModalCancel, handleFormSubmit
 
   const filesPreview = files.map(file => (
     <li key={file.name}>
-      {file.name} - {file.size} bytes
+      <span className="mr-2">{file.name}</span>
+       -
+      <span className="ml-2">{formatBytes(file.size)}</span>
     </li>
   ));
 
@@ -34,23 +36,23 @@ export function VersionModalForm({datasetId, handleModalCancel, handleFormSubmit
 
   return (
     <Modal closeModal={handleModalCancel} title="Upload Files">
-      <section>
-        <div {...getRootProps()}>
-           <input {...getInputProps()} />
-             {
-               isDragActive ?
-                 <p>Drop the files here ...</p> :
-                 <p>Drag & drop some files here, or click to select files</p>
-             }
-        </div>
-        <hr/>
-        <aside>
-          <h4>Files</h4>
-          <ul>{filesPreview}</ul>
-        </aside>
+      <div {...getRootProps()}>
+         <input {...getInputProps()} />
+           {
+             isDragActive ?
+               <p>Drop the files here ...</p> :
+               <p>Drag and drop some files here, or click to select files</p>
+           }
+      </div>
+      <hr/>
+      <div>
+        <ul>{filesPreview}</ul>
+      </div>
+      <div className="mb-5"></div>
+      <div className="buttons-wrapper">
         <button className="secondary" onClick={handleModalCancel}>Cancel</button>
-        <button type="button" className="primary" onClick={handleCreateVersion}>Create Version</button>
-      </section>
+        <button type="button" className="primary" onClick={handleCreateVersion}>Upload</button>
+      </div>
     </Modal>
   );
 }

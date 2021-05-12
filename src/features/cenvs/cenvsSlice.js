@@ -1,6 +1,7 @@
 import {
   createSlice,
   createAsyncThunk,
+  createSelector,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import { EnvironmentsApi } from '../../services/ilyde';
@@ -50,3 +51,8 @@ export const {
   selectAll: selectAllCenvs,
   selectById: selectCenvById,
 } = cenvsAdapter.getSelectors((state) => state.cenvs);
+
+export const selectCenvsByDeployment = createSelector(
+  [selectAllCenvs, (state, isDeployment) => isDeployment],
+  (cenvs, isDeployment) => cenvs.filter((cenv) => cenv.deployment === isDeployment)
+);

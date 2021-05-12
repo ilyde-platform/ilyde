@@ -46,6 +46,12 @@ export function DatasetsSharedList(props) {
       type: "text",
       sortable: true,
       style: "normal",
+    },{
+      headerText: "Created At",
+      id: "create_at",
+      sortable: true,
+      style: "normal",
+      type: "text",
     }
   ]
 
@@ -56,21 +62,6 @@ export function DatasetsSharedList(props) {
     dispatch(setContentTitle({title: title, subtitle: datasets.length + ' items'}));
   }, [datasets, title]);
 
-  /*useEffect(() => {
-    let mounted = true;
-    const apiConfig = getIlydeApiConfiguration();
-    const datasetsApi = new DatasetsApi(apiConfig);
-    const body = {"query":{"scope": "Global", "project": ""}};
-    datasetsApi.listDatasets(body).then((result) => {
-      console.log(result.data);
-      setDatasets(result.data);
-    });
-
-    return () => {
-      mounted = false;
-    }
-  }, []);*/
-
   const datasetFormModal = (
     <DatasetModalForm handleModalCancel={() => setModalOpen(false)} handleFormSubmitted={() => setModalOpen(false)}>
     </DatasetModalForm>);
@@ -78,22 +69,26 @@ export function DatasetsSharedList(props) {
   return  (
     <Fragment>
       {modalOpen && datasetFormModal}
-      <section>
-        <div className="d-flex justify-content-between">
-          <div className="text">
-            <p>Lorem ipsum dolor sit amet</p>
-          </div>
-          <div className="buttons">
-            <button type="button" className="primary" onClick={() => setModalOpen(true)}>New dataset</button>
-          </div>
+      <div className="d-flex justify-content-between">
+        <div className="text">
         </div>
-      </section>
-      <hr className="my-4" />
+        <div className="buttons">
+          <button type="button" className="primary" onClick={() => setModalOpen(true)}>New dataset</button>
+        </div>
+      </div>
+      <div className="mb-5"></div>
       <TableCozy
         columns={tableColumns}
-        data={datasets}
+        data={datasets.map((dataset) => {
+          return {...dataset, create_at: dateToString(dataset.create_at)}
+        })}
         options={tableOptions}
       />
     </Fragment>
   );
+}
+
+function dateToString(date: string){
+  const d = new Date(date);
+  return d.toLocaleString();
 }
