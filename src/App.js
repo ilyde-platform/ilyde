@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import Sidebar from './features/sidebar/Sidebar';
+import SidebarWorkspace from './features/sidebar/SidebarWorkspace';
 import Headerbar from './features/headerbar/Headerbar';
+import { WorkspaceDetail } from './WorkspaceDetail';
 import routes from './routes';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKeycloak } from '@react-keycloak/web';
@@ -30,7 +32,7 @@ function App() {
     return (
       <Router>
         <Switch>
-          <Route exact path="/workspace/:id/lab">
+          <Route exact path="/workspace/:workspaceId/lab">
             <WorkspaceApp />
           </Route>
           <Route exact path="*">
@@ -47,7 +49,7 @@ function App() {
 // A special wrapper for <Route> that knows how to
 // handle "sub"-routes by passing them in a `routes`
 // prop to the component it renders.
-function RouteWithSubRoutes(route) {
+export function RouteWithSubRoutes(route) {
   return (
     <Route
       path={route.path}
@@ -104,9 +106,10 @@ function MainApp() {
 }
 
 function WorkspaceApp() {
+  const preferences = useSelector(selectPreferences);
   return (
-    <div className="app">
-      ciao pippo!!
+    <div id="app" data-dark={preferences.darkMode}>
+      <WorkspaceDetail />
     </div>
   );
 }

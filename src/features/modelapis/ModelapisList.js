@@ -6,6 +6,7 @@ import {
 import TableCozy from '../../components/TableCozy';
 import { setContentTitle } from '../headerbar/headerbarSlice';
 import { selectAllModelapis } from './modelapisSlice';
+import _ from "lodash";
 
 
 export function ModelapisList(props) {
@@ -51,6 +52,12 @@ export function ModelapisList(props) {
       type: "text",
       sortable: true,
       style: "normal",
+    },{
+      headerText: "Created At",
+      id: "create_at",
+      sortable: true,
+      style: "normal",
+      type: "text",
     }
   ]
 
@@ -62,7 +69,18 @@ export function ModelapisList(props) {
   }, [modelapis, title]);
 
   const parseDate = modelapis.map((mdl) => {
-    return {id: mdl.id, name: mdl.metadata.name, model: mdl.spec.model, stage: mdl.spec.stage, version: mdl.spec.version, state: mdl.state};
+    const d = new Date(mdl.last_start);
+    const c = new Date(mdl.create_at);
+    return {
+        id: mdl.id,
+        name: mdl.metadata.name,
+        model: mdl.spec.model,
+        stage: mdl.spec.stage,
+        version: mdl.spec.version,
+        state: _.capitalize(mdl.state),
+        create_at: c.toLocaleString(),
+        last_start: d.toLocaleString()
+      };
   })
 
   return  (

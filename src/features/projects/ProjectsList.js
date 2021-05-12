@@ -5,16 +5,22 @@ import {
 } from "react-router-dom";
 import TableCozy from '../../components/TableCozy';
 import { setContentTitle } from '../headerbar/headerbarSlice';
-import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
-import { fetchProjects, selectProjectsByState } from './projectsSlice';
+import { getIlydeApiConfiguration } from '../../services/utils';
+import { ProjectsApi } from '../../services/ilyde';
 import { selectAllUsers } from '../users/usersSlice';
+import { Paging } from '../../components/Pagination';
+import { Tabs, Tab } from 'react-bootstrap';
+import _ from 'lodash';
 
 
 export function ProjectsList(props) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const projects = useSelector((state) => selectProjectsByState(state, props.state));
-  const users = useSelector(selectAllUsers)
+  const users = useSelector(selectAllUsers);
+
+  const [pageLimit, setPageLimit] = useState(25);
+  const [publicProjects, setPublicProjects] = useState({data: [], total: 0, limit: pageLimit, page: 1});
+  const [projects, setProjects] = useState({data: [], total: 0, limit: pageLimit, page: 1});
 
   const options = {
     defaultSortCol: "create_at",
@@ -56,77 +62,84 @@ export function ProjectsList(props) {
   const tableColumns = columns;
 
   useEffect(() => {
-    dispatch(setContentTitle({title: props.pageTitle, subtitle: projects.length + ' items'}));
-  },[props, projects]);
+    dispatch(setContentTitle({title: props.pageTitle, subtitle: projects.total + publicProjects.total + ' items'}));
+  },[props, projects, publicProjects]);
 
   useEffect(() => {
-    let body = { "query": {"state": props.state, "visibility": "PRIVATE"}};
-    dispatch(fetchProjects(body));
-    body.query.visibility = "PUBLIC";
-    dispatch(fetchProjects(body));
-  }, []);
-
-  /* useEffect(() => {
     let mounted = true;
-    if (isUsersLoad){
-      const apiConfig = getIlydeApiConfiguration();
-      const projectsApi = new ProjectsApi(apiConfig);
-      let body = { "query": {"state": props.state, "visibility": "PRIVATE"}};
+    getProjects(props.state, "PRIVATE", 1, pageLimit).then((response) => {
+      setProjects(response);
+    });
 
-      projectsApi.listProjects(body).then((result) => {
-        if (mounted){
-          parseProjectsData(result.data.data, users);
-          setPrivateProjects(result.data);
-        }
-      });
-
-      body.query.visibility = "PUBLIC";
-      projectsApi.listProjects(body).then((result) => {
-        if (mounted){
-          parseProjectsData(result.data.data, users);
-          setPublicProjects(result.data);
-        }
-      });
-    }
+    getProjects(props.state, "PUBLIC",  1, pageLimit).then((response) => {
+      setPublicProjects(response);
+    });
 
     return () => {
       mounted = false;
     }
-  }, [props, isUsersLoad, users]); */
+  }, [props]);
+
+  const handleProjectsPaginationItemClick = (page) => {
+    getProjects(props.state, "PRIVATE", page, pageLimit).then((results) => {
+      setProjects(results);
+    })
+  }
+
+  const handlePublicProjectsPaginationItemClick = (page) => {
+    getProjects(props.state, "PUBLIC", page, pageLimit).then((results) => {
+      setPublicProjects(results);
+    })
+  }
 
   return (
     <Fragment>
-      <ul className="nav nav-tabs">
-        <li className="nav-item">
-          <a className="nav-link active" href="#">Your Projects</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Public Projects</a>
-        </li>
-      </ul>
-      <TableCozy
-        columns={tableColumns}
-        data={projects.filter((project) => project.visibility === "PRIVATE").map((project) => parseProjectData(project, users))}
-        options={tableOptions}
-      />
+      <Tabs defaultActiveKey="private" >
+        <Tab eventKey="private" title="Your Projects">
+          <TableCozy
+            columns={tableColumns}
+            data={projects.data.map((project) => parseProjectData(project, users))}
+            options={tableOptions}
+          />
+          <Paging
+            total={projects.total}
+            page={projects.page}
+            limit={pageLimit}
+            handlePaginationItemClick={handleProjectsPaginationItemClick}
+          />
+        </Tab>
+        <Tab eventKey="public" title="Public Projects">
+          <TableCozy
+            columns={tableColumns}
+            data={publicProjects.data.map((project) => parseProjectData(project, users))}
+            options={tableOptions}
+          />
+          <Paging
+            total={publicProjects.total}
+            page={publicProjects.page}
+            limit={pageLimit}
+            handlePaginationItemClick={handlePublicProjectsPaginationItemClick}
+          />
+        </Tab>
+      </Tabs>
     </Fragment>
   );
 }
 
 function parseProjectData(p, users){
   let obj = Object.assign({}, p);
-  obj.template = capitalize(p.template);
-  for (let u of users){
-    if (p.owner == u.id){
-      let fullname;
-      if (u.first_name && u.last_name){
-        fullname = `${capitalize(u.first_name)} ${capitalize(u.last_name)}`;
-      }
-      else{
-        fullname = capitalize(u.username);
-      }
-      obj.owner = fullname;
-    }
-  }
+  obj.template = _.capitalize(p.template);
+  const username = _.find(users, ["id", p.owner])?.username;
+  obj.owner = _.capitalize(username);
   return obj;
+}
+
+function getProjects(state, visibility, page, limit){
+  const apiConfig = getIlydeApiConfiguration();
+  const projectsApi = new ProjectsApi(apiConfig);
+  let body = { "query": {"state": state, "visibility": visibility}, "page": page, "limit": limit};
+
+  return projectsApi.listProjects(body).then((response) => {
+    return response.data;
+  });
 }

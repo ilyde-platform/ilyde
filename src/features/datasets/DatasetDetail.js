@@ -1,10 +1,10 @@
 import React, { useEffect, useState, Fragment, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  useHistory, useParams
+  useParams
 } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
-import TableCozy from '../../components/TableCozy';
+import { FileExplorer } from '../../components/FileExplorer';
 import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
 import { DatasetsApi } from '../../services/ilyde';
@@ -15,7 +15,6 @@ import _ from "lodash";
 
 export function DatasetDetail(props) {
   const dispatch = useDispatch();
-  const history = useHistory();
   const users = useSelector(selectAllUsers);
   const { datasetId } = useParams();
   const [dataset, setDataset] = useState({});
@@ -55,18 +54,8 @@ export function DatasetDetail(props) {
   }
 
   const getUsername = (userId) => {
-    for (let u of users){
-      if (userId == u.id){
-        let fullname;
-        if (u.first_name && u.last_name){
-          fullname = `${_.capitalize(u.first_name)} ${capitalize(u.last_name)}`;
-        }
-        else{
-          fullname = _.capitalize(u.username);
-        }
-        return fullname;
-      }
-    }
+    const user = _.find(users, ["id", userId]);
+    return _.capitalize(user?.username);
   }
 
   const versionFormModal = (
@@ -78,18 +67,18 @@ export function DatasetDetail(props) {
     </VersionModalForm>);
 
   return (
-    <section className="content">
+    <Fragment>
       {modalOpen && versionFormModal}
-      <div class="d-flex justify-content-between">
-        <div class="ml-auto">
-          <button type="button" className="primary" onClick={() => setModalOpen(true)}>+Version</button>
+      <div className="d-flex justify-content-between">
+        <div className="ml-auto">
+          <button type="button" className="primary" onClick={() => setModalOpen(true)}>New Version</button>
         </div>
       </div>
       <div className="input-row">
         <label>
           Desciption
           <textarea
-            readOnly="true"
+            readOnly
             value={dataset?.description}
             rows="15"
             cols="50"
@@ -109,29 +98,35 @@ export function DatasetDetail(props) {
       </div>
       {!_.isEmpty(currVersion) &&
         <div className="mt-3">
-          <ul className="list-group list-group-flush mt-3">
-            {currVersion.bucket_tree.map((value, index) => {
-              return (
-                <li className="list-group-item d-flex justify-content-between align-items-center" key={value.name} data-spy="scroll">
-                  <span><i className="fa fa-file"></i>{value.name}</span>
-                  <span>{formatBytes(value.size, 2)}</span>
-                </li>)}
-              )
-            }
-          </ul>
+          <FileExplorer
+            name={dataset?.name}
+            columns={["name", "size"]}
+            tree={currVersion.bucket_tree.map((t) => {
+              return {...t, size: formatBytes(t.size, 2)};
+            })}
+            handleOpenFile={null}
+          />
+          <div className="mb-3"></div>
           <div>Author: {getUsername(currVersion.author)}</div>
+          <div className="mb-2"></div>
           <div>Total size: {formatBytes(currVersion.size, 2)}</div>
-          <div>Date: {currVersion.create_at}</div>
+          <div className="mb-2"></div>
+          <div>Date: {dateToString(currVersion.create_at)}</div>
         </div>}
-     </section>
+     </Fragment>
    );
 }
 
-function formatBytes(bytes, decimals) {
+export function formatBytes(bytes, decimals) {
   if(bytes == 0) return '0 Bytes';
   var k = 1024,
       dm = decimals || 2,
       sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
       i = Math.floor(Math.log(bytes) / Math.log(k))
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+function dateToString(date: string){
+  const d = new Date(date);
+  return d.toLocaleString();
 }

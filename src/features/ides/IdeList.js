@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   useHistory
 } from "react-router-dom";
+import { Card } from 'react-bootstrap';
 import { selectAllIdes } from './idesSlice';
 import Jupyter from '../../assets/images/Jupyter.svg';
 import JupyterLab from '../../assets/images/JupyterLab.svg';
@@ -23,7 +24,7 @@ export function IdeList(props) {
   const ideToHtml = (ide) => {
     return (
       <div className="col col-md-3" key={ide.id}>
-        <img src={mappings[ide.name]["icon"]} className="img-thumbnail" alt={ide.title} width="150px" height="150px"/>
+        <Card.Img   variant="top" src={mappings[ide.name]["icon"]} />
       </div>
     )
   }

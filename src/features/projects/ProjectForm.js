@@ -50,8 +50,9 @@ export function ProjectForm(props) {
   });
 
   return (
-    <section>
+    <Fragment>
       { formik.errors.submit && <div>{formik.errors.submit}</div>}
+      <div className="mb-3"></div>
       <form onSubmit={formik.handleSubmit} autoComplete="off">
         <div className="input-row">
           <label>
@@ -125,6 +126,6 @@ export function ProjectForm(props) {
           <input type="submit" className="primary" value="Create new project" disabled={formik.isSubmitting} />
         </div>
       </form>
-    </section>
+    </Fragment>
   );
 }

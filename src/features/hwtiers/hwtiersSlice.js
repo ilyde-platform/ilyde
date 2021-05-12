@@ -1,5 +1,6 @@
 import {
   createSlice,
+  createSelector,
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
@@ -63,3 +64,8 @@ export const {
   selectAll: selectAllHwtiers,
   selectById: selectHwtierById,
 } = hwtiersAdapter.getSelectors((state) => state.hwtiers);
+
+export const selectHwtierByDeployment = createSelector(
+  [selectAllHwtiers, (state, isDeployment) => isDeployment],
+  (hwtiers, isDeployment) => hwtiers.filter((hwtier) => hwtier.deployment === isDeployment)
+);
