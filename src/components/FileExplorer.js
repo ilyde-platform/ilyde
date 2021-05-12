@@ -1,5 +1,5 @@
 import React, {Fragment, useState, useEffect} from 'react';
-import TableCozy from './TableCozy';
+import TableFile from './TableFile';
 import { Card, Breadcrumb } from 'react-bootstrap';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
@@ -30,13 +30,15 @@ export function FileExplorer({name, columns, tree, handleOpenFile}){
   }
 
   const handleFileRowClick = (d) => {
-    const pathPrefix = currPath ? currPath + "/" + d.name : d.name;
-    setCurrPath(pathPrefix);
     if (d.is_dir){
+      const pathPrefix = currPath ? currPath + "/" + d.name : d.name;
+      setCurrPath(pathPrefix);
       setIsFolderView(true);
     }
     else{
       if(handleOpenFile){
+        const pathPrefix = currPath ? currPath + "/" + d.name : d.name;
+        setCurrPath(pathPrefix);
         const lan = d.name.endsWith(".py") ? "py" : "markup";
         handleOpenFile(d.absolutePath).then((content) => {
           setCode({value: content, lang: lan});
@@ -62,19 +64,9 @@ export function FileExplorer({name, columns, tree, handleOpenFile}){
 
   const tableColumns = columns.map((col) => {
     return   {
-        id: col,
-        headerText: "",
-        sortable: false,
-        type: "text",
-        style: "normal",
+        id: col
       }
   });
-
-  const tableOptions = {
-    onRowClick: handleFileRowClick,
-    defaultSortCol: "is_dir",
-    defaultSortDir: "desc",
-  };
 
   return (
     <Fragment>
@@ -83,7 +75,7 @@ export function FileExplorer({name, columns, tree, handleOpenFile}){
         {getBreadcrumbItems()}
       </Breadcrumb>
       {isFolderView ?
-        <TableCozy columns={tableColumns} data={listFiles(tree, currPath)} options={tableOptions}/> :
+        <TableFile columns={tableColumns} data={listFiles(tree, currPath)} onRowClick={handleFileRowClick}/> :
         <Card>
           <Card.Body>
             <Editor
@@ -114,7 +106,7 @@ function listFiles(tree, prefix){
     }
     return {...item, name: item.name, is_dir: 0};
   });
-  return _.sortBy(_.uniqBy(files, 'name'), ['is_dir', 'name'], ['desc', 'asc']);
+  return _.orderBy(_.uniqBy(files, 'name'), ['is_dir', 'name'], ['desc', 'asc']);
 }
 
 function flushObjProperties(obj, excludes){

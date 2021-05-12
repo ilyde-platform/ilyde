@@ -17,13 +17,13 @@ Example of props
   const goToDataset = (d) => {
     history.push(`/datasets/${d.id}`);
   }
-  
+
   const options = {
     defaultSortCol: "create_at",
     defaultSortDir: "desc",
     onRowClick: goToDataset,
   };
-  
+
   const columns = [
     {
       id: "name",
@@ -58,7 +58,7 @@ const TableCozy = ({columns, data, options}) => {
   options = Object.assign(defaultOptions, options);
   const [sortCol, setSortCol] = useState(options.defaultSortCol);
   const [sortDir, setSortDir] = useState(options.defaultSortDir);
-  
+
   if (data.length === 0) {
     return (
       <div className="font-m">No items</div>
@@ -69,9 +69,9 @@ const TableCozy = ({columns, data, options}) => {
   const btnCols = columns.filter(col => col.type === "button");
   let buttonsAreValid = btnCols.length > 0;
   btnCols.forEach(btnCol => {
-    if (btnCol.onButtonClick && typeof btnCol.onButtonClick !== "function") { 
+    if (btnCol.onButtonClick && typeof btnCol.onButtonClick !== "function") {
       throw `Button in column '${btnCol.id}' is missing a valid onButtonClick function`;
-      buttonsAreValid = false; 
+      buttonsAreValid = false;
     }
   });
   const rowsClickable = hasRowCallback && !buttonsAreValid;
