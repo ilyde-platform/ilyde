@@ -67,6 +67,18 @@ import icon_darkalt_i from '../assets/images/icons/icon-darkalt-i.svg';
 import icon_cube_n from '../assets/images/icons/icon-cube-n.svg';
 import icon_cube_s from '../assets/images/icons/icon-cube-s.svg';
 import icon_cube_i from '../assets/images/icons/icon-cube-i.svg';
+import icon_logout_n from '../assets/images/icons/icon-logout-n.svg';
+import icon_logout_s from '../assets/images/icons/icon-logout-s.svg';
+import icon_logout_i from '../assets/images/icons/icon-logout-i.svg';
+import icon_synch_n from '../assets/images/icons/icon-synch-n.svg';
+import icon_synch_s from '../assets/images/icons/icon-synch-s.svg';
+import icon_synch_i from '../assets/images/icons/icon-synch-i.svg';
+import icon_pull_n from '../assets/images/icons/icon-pull-n.svg';
+import icon_pull_s from '../assets/images/icons/icon-pull-s.svg';
+import icon_pull_i from '../assets/images/icons/icon-pull-i.svg';
+import icon_stop_n from '../assets/images/icons/icon-stop-n.svg';
+import icon_stop_s from '../assets/images/icons/icon-stop-s.svg';
+import icon_stop_i from '../assets/images/icons/icon-stop-i.svg';
 
 import icon_test_n from '../assets/images/icons/icon-test-n.svg';
 import icon_test_s from '../assets/images/icons/icon-test-s.svg';
@@ -146,6 +158,22 @@ function Icon ({ iconName, state }) {
     "cube": {
       "normal":   {light: icon_cube_n, dark: icon_cube_i},
       "selected": {light: icon_cube_s, dark: icon_cube_s},
+    },
+    "logout": {
+      "normal":   {light: icon_logout_i, dark: icon_logout_i},
+      "selected": {light: icon_logout_s, dark: icon_logout_s},
+    },
+    "synch": {
+      "normal":   {light: icon_synch_i, dark: icon_synch_i},
+      "selected": {light: icon_synch_s, dark: icon_synch_s},
+    },
+    "pull": {
+      "normal":   {light: icon_pull_i, dark: icon_pull_i},
+      "selected": {light: icon_pull_s, dark: icon_pull_s},
+    },
+    "stop": {
+      "normal":   {light: icon_stop_i, dark: icon_stop_i},
+      "selected": {light: icon_stop_s, dark: icon_stop_s},
     },
 
     "test": {

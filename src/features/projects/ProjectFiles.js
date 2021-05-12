@@ -80,13 +80,13 @@ export function ProjectFiles(props) {
   }
 
   const openFolder = (event) => {
-    const pathPrefix = currPath ? currPath + "/" + event.target.getAttribute("data-folder") : event.target.getAttribute("data-folder");
+    const pathPrefix = currPath ? currPath + " / " + event.target.getAttribute("data-folder") : event.target.getAttribute("data-folder");
     setCurrPath(pathPrefix);
     setIsFolderView(true);
   }
 
   const openFile = (event) => {
-    const filename = currPath ? currPath + "/" + event.target.getAttribute("data-file") : event.target.getAttribute("data-file");
+    const filename = currPath ? currPath + " / " + event.target.getAttribute("data-file") : event.target.getAttribute("data-file");
     let fileversion = "";
     const apiConfig = getIlydeApiConfiguration();
     const filesApi = new FilesApi(apiConfig);
@@ -104,7 +104,7 @@ export function ProjectFiles(props) {
   }
 
   return (
-    <section className="content">
+    <section>
       <div className="d-flex justify-content-between">
         <a href="#" onClick={(e) => { e.preventDefault(); setCurrPath(""); setIsFolderView(true);}}>{project?.name}</a>/{currPath.split('/').map((value, index) => {
           if (value){
@@ -128,34 +128,38 @@ export function ProjectFiles(props) {
         </div>
       </div>
       <div className="card-body">
-        {isFolderView ? <ul className="list-group list-group-flush mt-3">
-          {files.map((value, index) => {
-            if(value.is_dir){
-              return (
-                <li className="list-group-item d-flex justify-content-between align-items-center"
-                 data-spy="scroll" key={index} data-folder={value.name} onClick={openFolder}>
-                   <span><i className="fa fa-folder"></i>{value.name}</span>
-                </li>
-              );
-            }else{
-              return (
-                <li className="list-group-item d-flex justify-content-between align-items-center"
-                 data-spy="scroll" key={index} data-file={value.name} onClick={openFile}>
-                  <span><i className="fa fa-file"></i>{value.name}</span>
-                </li>
-              );
-            }
-          })}
-        </ul> : <Editor
-          value={code.value}
-          onValueChange={c => setCode({value: c, ...code})}
-          highlight={c => highlight(c, languages[code.lang])}
-          padding={10}
-          style={{
-            fontFamily: '"Fira code", "Fira Mono", monospace',
-            fontSize: 12,
-          }}/>
-        }
+        {isFolderView ? (
+          <ul className="list-group list-group-flush mt-3">
+            {files.map((value, index) => {
+              if (value.is_dir) {
+                return (
+                  <li className="list-group-item folder d-flex justify-content-start align-items-center"
+                   data-spy="scroll" key={index} data-folder={value.name} onClick={openFolder}>
+                     <span>{value.name}</span>
+                  </li>
+                );
+              } else {
+                return (
+                  <li className="list-group-item file d-flex justify-content-start align-items-center"
+                   data-spy="scroll" key={index} data-file={value.name} onClick={openFile}>
+                    <span>{value.name}</span>
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        ) : (
+          <Editor
+            value={code.value}
+            onValueChange={c => setCode({value: c, ...code})}
+            highlight={c => highlight(c, languages[code.lang])}
+            padding={10}
+            style={{
+              fontFamily: '"Fira code", "Fira Mono", monospace',
+              fontSize: 12,
+            }}
+          />
+        )}
       </div>
     </section>
   );

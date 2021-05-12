@@ -44,7 +44,7 @@ function Headerbar ({ showBackButton }) {
         <Icon iconName="darkalt" state="normal"/>
       </a>
       <a className="button secondary ml-2" data-type="round" onClick={() => { keycloak.logout(); }}>
-        <Icon iconName="test" state="normal"/>
+        <Icon iconName="logout" state="normal"/>
       </a>
 		</div>
 	);
