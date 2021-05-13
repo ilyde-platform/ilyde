@@ -106,6 +106,18 @@ export function ProjectModelDetail(props) {
       style: "normal",
       type: "text",
     },{
+      buttonText: "Source",
+      headerText: "",
+      id: "button_source",
+      onButtonClick: (d) => {
+        if(d.source){
+          history.push(`/projects/${projectId}/experiments/${d.source}`);
+        }
+      },
+      sortable: false,
+      style: "primary",
+      type: "button",
+    },{
       buttonText: "Transition stage",
       headerText: "",
       id: "button_stage",
@@ -165,7 +177,8 @@ export function ProjectModelDetail(props) {
                 creation_timestamp: d.toLocaleString(),
                 description: m.description,
                 stage: m.current_stage,
-                version: m?.version
+                version: m.version,
+                source: m.tags['ilyde.job']
             }})}
             options={tableOptions}
           />

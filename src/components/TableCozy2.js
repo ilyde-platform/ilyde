@@ -59,6 +59,12 @@ const TableCozy2 = ({columns, data, options}) => {
   const [sortCol, setSortCol] = useState(options.defaultSortCol);
   const [sortDir, setSortDir] = useState(options.defaultSortDir);
 
+  if (data.length === 0) {
+    return (
+      <div className="font-m">No items</div>
+    );
+  }
+
   const hasRowCallback = (typeof options.onRowClick === "function") ? true : false;
   const btnCols = columns.filter(col => col.type === "button");
   let buttonsAreValid = btnCols.length > 0;
@@ -135,7 +141,7 @@ const TableCozy2 = ({columns, data, options}) => {
                   const buttonCallback = () => {
                     col.onButtonClick(d);
                   }
-                  return (<RowButton text={col.buttonText} style={col.style} callback={buttonCallback} />);
+                  return (<RowButton key={j} text={col.buttonText} style={col.style} callback={buttonCallback} />);
                 })
                 }
               </div>

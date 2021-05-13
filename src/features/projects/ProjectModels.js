@@ -99,7 +99,7 @@ export function ProjectModels(props) {
             creation_timestamp: d.toLocaleString(),
             description: m.description,
             name: m.name,
-            version: _.first(m.latest_versions)?.version
+            version: _.last(m.latest_versions)?.version
         }})}
         options={tableOptions}
       />

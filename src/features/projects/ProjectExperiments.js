@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   useHistory, useParams
 } from "react-router-dom";
-import TableCozy from '../../components/TableCozy';
+import TableCozy2 from '../../components/TableCozy2';
 import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration } from '../../services/utils';
 import { ProjectsApi, ExperimentsApi } from '../../services/ilyde';
@@ -128,7 +128,7 @@ export function ProjectExperiments(props) {
     <Fragment>
       <ProjectExperimentForm projectId={projectId} handleSubmitted={handleFormSubmitted}></ProjectExperimentForm>
       <div className="mb-5"></div>
-      <TableCozy
+      <TableCozy2
         columns={tableColumns}
         data={experiments.data.map((e) => {
           const d = new Date(e.create_at);

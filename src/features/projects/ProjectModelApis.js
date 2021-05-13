@@ -100,7 +100,7 @@ export function ProjectModelApis(props) {
       }).catch((errors) => {
         setModal({component: ModalInfo, componentProps: {
           title: "Stop Model Api",
-          content: errors.response.details,
+          content: errors.response.data.details,
           handleCancel: () => setModalOpen(false),
         }});
         setModalOpen(true);
@@ -134,7 +134,7 @@ export function ProjectModelApis(props) {
       }).catch((errors) => {
         setModal({component: ModalInfo, componentProps: {
           title: "Delete Model Api",
-          content: errors.response.details,
+          content: errors.response.data.details,
           handleCancel: () => setModalOpen(false),
         }});
         setModalOpen(true);
@@ -160,7 +160,7 @@ export function ProjectModelApis(props) {
       }).catch((errors) => {
         setModal({component: ModalInfo, componentProps: {
           title: "Start Model Api",
-          content: errors.response.details,
+          content: errors.response.data.details,
           handleCancel: () => setModalOpen(false),
         }});
         setModalOpen(true);

@@ -227,6 +227,7 @@ export function ProjectRunForm({projectId, handleSubmitted}) {
         <div className="buttons-wrapper">
           <button type="button" className="secondary" onClick={() => {setModalOpen(true)}}>+Attach Datasets</button>
         </div>
+        <div className="mb-3"></div>
         <TableCozy2
           columns={tableColumns}
           data={formik.values.datasets.map((d) => {

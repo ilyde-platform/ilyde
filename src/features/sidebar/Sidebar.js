@@ -106,7 +106,7 @@ export function Sidebar ({darkMode, setDarkMode}) {
       "text": "Model Apis",
       "path": `/projects/${sidebarSelection.project}/modelapis`,
     }, {
-      "id": "project_settings",
+      "id": "settings",
       "icon": "gear",
       "text": "Project details",
       "path": `/projects/${sidebarSelection.project}/settings`,

@@ -5,12 +5,15 @@ import {
 } from "react-router-dom";
 import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
-import { ExperimentsApi } from '../../services/ilyde';
+import { ExperimentsApi, FilesApi } from '../../services/ilyde';
 import { selectUserById } from '../users/usersSlice';
 import { selectCenvById } from '../cenvs/cenvsSlice';
 import { selectHwtierById } from '../hwtiers/hwtiersSlice';
 import _ from "lodash";
 import { Accordion, Card, Tabs, Tab, Table} from 'react-bootstrap';
+import { formatBytes } from '../datasets/DatasetDetail';
+import { FileExplorer } from '../../components/FileExplorer';
+import { RegisterModelModalForm } from './RegisterModelModalForm';
 
 
 export function ProjectExperimentDetail(props) {
@@ -23,6 +26,11 @@ export function ProjectExperimentDetail(props) {
   const hwtier = useSelector(state => selectHwtierById(state, experiment?.spec?.hardware));
   const [logs, setLogs] = useState([]);
   const [results, setResults] = useState({data: {}, info: {}});
+  const [artifacts, setArtifacts] = useState([]);
+  const [hasModel, setHasModel] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modal, setModal] = useState({});
+
 
   const isCompleted = !["RUNNING", "STARTING"].includes(experiment?.state);
 
@@ -49,7 +57,9 @@ export function ProjectExperimentDetail(props) {
       const experimentsApi = new ExperimentsApi(apiConfig);
       experimentsApi.getExperimentResults(experimentId).then((response) => {
         setResults(response.data);
-        console.log(response.data);
+      });
+      experimentsApi.getExperimentArtifacts(experimentId).then((response) => {
+        setArtifacts(response.data.data);
       });
     }
   },[experiment]);
@@ -73,6 +83,16 @@ export function ProjectExperimentDetail(props) {
     }
   }, [experiment]);
 
+  useEffect(() => {
+    const index = _.findIndex(artifacts, (artifact) => {
+      return artifact.name.endsWith('MLmodel');
+    });
+    if (index > -1){
+      setHasModel(true);
+    }
+  },[artifacts]);
+
+
   const handleStopClick = () => {
     const apiConfig = getIlydeApiConfiguration();
     const experimentsApi = new ExperimentsApi(apiConfig);
@@ -95,8 +115,32 @@ export function ProjectExperimentDetail(props) {
     });
   }
 
+  const handleOpenFile = (filename) => {
+    const apiConfig = getIlydeApiConfiguration();
+    const filesApi = new FilesApi(apiConfig);
+    return filesApi.getExperimentArtifact(experimentId, filename).then((response) => {
+      return response.data
+    });
+  }
+
+  const handleRegisterModelClick = () => {
+    const index = _.findIndex(artifacts, (artifact) => {
+      return artifact.name.endsWith('MLmodel');
+    });
+    const source = results.info.artifact_uri + '/' + artifacts[index].name.replace('/MLmodel', '');
+    setModal({component: RegisterModelModalForm, componentProps: {
+      experimentId: experimentId,
+      projectId: projectId,
+      source: source,
+      run_id: results.info.run_id,
+      handleModalCancel: () => setModalOpen(false),
+    }});
+    setModalOpen(true);
+  }
+
   return (
     <Fragment>
+      {modalOpen && <modal.component  {...modal.componentProps} />}
       <div className="d-flex justify-content-between">
         <div className="ml-auto">
           <button type="button" className="primary ml-2" disabled={!isCompleted} onClick={handleRerunClick}>Rerun</button>
@@ -178,12 +222,20 @@ export function ProjectExperimentDetail(props) {
                   }
                 </Card.Body>
               </Accordion.Collapse>
-              <Accordion.Toggle as={Card.Header} eventKey="3">
+              <Accordion.Toggle as={Card.Header} className="d-flex justify-content-start align-items-center" eventKey="3">
                 Artifacts
+                <button type="button" className="primary ml-auto" disabled={!hasModel} onClick={handleRegisterModelClick}>Register Model</button>
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="3">
                 <Card.Body>
-
+                  <FileExplorer
+                    name=".."
+                    columns={["name", "size"]}
+                    tree={artifacts.map((t) => {
+                      return {...t, size: formatBytes(t.size, 2)};
+                    })}
+                    handleOpenFile={handleOpenFile}
+                  />
                 </Card.Body>
               </Accordion.Collapse>
             </Accordion>

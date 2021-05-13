@@ -44,7 +44,6 @@ export const updateProject = createAsyncThunk('projects/updateProject', async (b
 export const addMember = createAsyncThunk('projects/addMember', async (body) => {
   const apiConfig = getIlydeApiConfiguration();
   const projectsApi = new ProjectsApi(apiConfig);
-  console.log(body);
   const project = projectsApi.addProjectMember(body.payload, body.projectId).then((response) => {
     return response.data;
   });
@@ -63,10 +62,10 @@ export const removeMember = createAsyncThunk('projects/removeMember', async (bod
 export const closeProject = createAsyncThunk('projects/closeProject', async (projectId) => {
   const apiConfig = getIlydeApiConfiguration();
   const projectsApi = new ProjectsApi(apiConfig);
-  const status = projectsApi.closeProject(projectId).then((response) => {
-    return {id: projectId, state: 'CLOSED'};
+  const project = projectsApi.closeProject(projectId).then((response) => {
+    return response.data;
   });
-  return status;
+  return project;
 });
 
 export const addNewProject = createAsyncThunk(

@@ -80,7 +80,7 @@ export function ProjectWorkspaces(props) {
       }).catch((errors) => {
         setModal({component: ModalConfirm, componentProps: {
           title: "Stop Workspace",
-          content: errors.response.details,
+          content: errors.response.data.details,
           handleCancel: () => setModalOpen(false),
         }});
         setModalOpen(true);
@@ -118,7 +118,7 @@ export function ProjectWorkspaces(props) {
       }).catch((errors) => {
         setModal({component: ModalConfirm, componentProps: {
           title: "Delete Workspace",
-          content: errors.response.details,
+          content: errors.response.data.details,
           handleCancel: () => setModalOpen(false),
         }});
         setModalOpen(true);
@@ -228,7 +228,7 @@ export function ProjectWorkspaces(props) {
     <Fragment>
       {modalOpen && <modal.component  {...modal.componentProps} />}
       <ProjectWorkspaceForm projectId={projectId}></ProjectWorkspaceForm>
-      <hr/>
+      <div className="mb-5"></div>
       <TableCozy2
         columns={tableColumns}
         data={workspaces.map((w) => {

@@ -101,7 +101,7 @@ export function ProjectSettings(props) {
     <Fragment>
       {isOwner && <div className="d-flex justify-content-between">
         <div className="ml-auto">
-          <button type="button" className="primary ml-2" disabled={!isClosed} onClick={handleArchiveClick}>Archive Project</button>
+          <button type="button" className="primary ml-2" disabled={isClosed} onClick={handleArchiveClick}>Archive Project</button>
         </div>
       </div>}
       <div className="mb-5"></div>
