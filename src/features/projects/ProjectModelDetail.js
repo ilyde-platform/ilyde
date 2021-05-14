@@ -50,7 +50,7 @@ export function ProjectModelDetail(props) {
       currentStage: currentStage,
       handleModalCancel: () => setModalOpen(false),
       handleFormSubmitted: (modelVersion) => {
-        setModelVersions(_.unionBy(modelVersions, [modelVersion], "version"));
+        setModelVersions(_.unionBy([modelVersion], modelVersions, "version"));
         setModalOpen(false);
       },
     }});

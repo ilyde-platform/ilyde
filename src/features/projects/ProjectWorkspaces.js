@@ -78,7 +78,7 @@ export function ProjectWorkspaces(props) {
         workspaces[index].state = "STOPPED";
         setWorkspaces(workspaces);
       }).catch((errors) => {
-        setModal({component: ModalConfirm, componentProps: {
+        setModal({component: ModalInfo, componentProps: {
           title: "Stop Workspace",
           content: errors.response.data.details,
           handleCancel: () => setModalOpen(false),
@@ -87,7 +87,7 @@ export function ProjectWorkspaces(props) {
       });
     }
     else {
-      setModal({component: ModalConfirm, componentProps: {
+      setModal({component: ModalInfo, componentProps: {
         title: "Stop Workspace",
         content: "Cannot stop not running Workspace.",
         handleCancel: () => setModalOpen(false),
@@ -102,7 +102,7 @@ export function ProjectWorkspaces(props) {
       return w.id === workspaceId;
     });
     if (["STARTING", "RUNNING"].includes(workspaces[index].state)){
-      setModal({component: ModalConfirm, componentProps: {
+      setModal({component: ModalInfo, componentProps: {
         title: "Delete Workspace",
         content: "Cannot delete Running Workspace.",
         handleCancel: () => setModalOpen(false),
@@ -116,7 +116,7 @@ export function ProjectWorkspaces(props) {
         workspaces.splice(index, 1);
         setWorkspaces(workspaces);
       }).catch((errors) => {
-        setModal({component: ModalConfirm, componentProps: {
+        setModal({component: ModalInfo, componentProps: {
           title: "Delete Workspace",
           content: errors.response.data.details,
           handleCancel: () => setModalOpen(false),
@@ -166,7 +166,7 @@ export function ProjectWorkspaces(props) {
       headerText: "",
       id: "button_start",
       onButtonClick: (d) => {
-        history.push(`/workspace/${d.id}/lab`);
+        window.open(`/workspace/${d.id}/lab`);
       },
       sortable: false,
       style: "primary",

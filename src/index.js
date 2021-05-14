@@ -9,11 +9,9 @@ import keycloak from './keycloak';
 import { ReactKeycloakProvider } from '@react-keycloak/web'
 
 const eventLogger = (event, error) => {
-  console.log('onKeycloakEvent', event, error)
 }
 
 const tokenLogger = (tokens) => {
-  console.log('onKeycloakTokens', tokens)
 }
 
 ReactDOM.render(

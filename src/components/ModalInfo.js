@@ -8,6 +8,7 @@ export function ModalInfo({handleCancel, title, content}) {
       <div>{content}</div>
       <hr />
       <div className="buttons-wrapper">
+        <button className="secondary" onClick={handleCancel}>Cancel</button>
         <button className="primary" onClick={handleCancel}>Close</button>
       </div>
     </Modal>

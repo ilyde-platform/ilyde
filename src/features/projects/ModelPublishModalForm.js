@@ -45,8 +45,8 @@ export function ModelPublishModalForm({projectId, modelName, version, stage, han
      const modelapisApi = new ModelapisApi(apiConfig);
 
      modelapisApi.createModelapi(payload)
-     .then(modelapi => {
-       modelapisApi.startModelapi(modelapi.id).then((response) => {
+     .then(response => {
+       modelapisApi.startModelapi(response.data.id).then((response) => {
          resetForm({});
          setSubmitting(false);
          handleFormSubmitted();

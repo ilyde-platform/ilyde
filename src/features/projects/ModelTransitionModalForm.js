@@ -19,10 +19,10 @@ export function ModelTransitionModalForm({modelName, version, currentStage, hand
      const apiConfig = getIlydeApiConfiguration();
      const modelsApi = new ModelsApi(apiConfig);
      modelsApi.transitionModelVersionStage(values, modelName, version)
-     .then(modelVersion => {
+     .then(response => {
        resetForm({});
        setSubmitting(false);
-       handleFormSubmitted(modelVersion);
+       handleFormSubmitted(response.data);
      })
      .catch(e => {
        setSubmitting(false);

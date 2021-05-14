@@ -37,6 +37,7 @@ export function DatasetModalForm({handleModalCancel, handleFormSubmitted}) {
   return (
     <Modal closeModal={handleModalCancel} title="Create a Dataset">
       { formik.errors.submit && <div>{formik.errors.submit}</div>}
+      <div className="mb-3"></div>
       <form onSubmit={formik.handleSubmit} autoComplete="off">
         <div className="input-row">
           <label>

@@ -7,13 +7,23 @@ import {
   BrowserRouter as Router,
   useLocation
 } from "react-router-dom";
-import { selectProjectById } from '../projects/projectsSlice';
-import { useSelector } from 'react-redux';
+import { ProjectsApi } from '../../services/ilyde';
+import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
 
 
 export function SidebarWorkspace ({projectId, menu}) {
   const className = "sidebar";
-  const project = useSelector(state => selectProjectById(state, projectId));
+  const [project, setProject] = useState({});
+
+  useEffect(()=>{
+    if(projectId){
+      const apiConfig = getIlydeApiConfiguration();
+      const projectsApi = new ProjectsApi(apiConfig);
+      const project = projectsApi.retrieveProject(projectId).then((response) => {
+        setProject(response.data);
+      });
+    }
+  },[projectId])
 
   return (
     <Fragment>
