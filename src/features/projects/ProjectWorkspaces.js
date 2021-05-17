@@ -166,7 +166,7 @@ export function ProjectWorkspaces(props) {
       headerText: "",
       id: "button_start",
       onButtonClick: (d) => {
-        window.open(`/workspace/${d.id}/lab`);
+        window.open(`/workspace/${d.id}/lab`, '_blank');
       },
       sortable: false,
       style: "primary",

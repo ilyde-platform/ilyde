@@ -1,5 +1,4 @@
 import React from 'react';
-import Modal  from './Modal';
 import { Pagination } from 'react-bootstrap';
 
 
@@ -29,10 +28,8 @@ export function Paging({total, limit, page, handlePaginationItemClick}) {
 }
 
 function paginate(total, limit, currentPage){
-    let pages = (total % limit) == 0 ? Math.floor(total / limit) : Math.floor(total / limit) + 1 ;
+    let pages = (total % limit) === 0 ? Math.floor(total / limit) : Math.floor(total / limit) + 1 ;
     // retieve pagination
-    let b_m = currentPage - 1;
-    let f_m = pages - currentPage;
     let f_size = [-2, -1, 0 , 1, 2];
     let pg = [0, 0, 0, 0, 0];
 
@@ -43,13 +40,13 @@ function paginate(total, limit, currentPage){
     }
 
     for(let i=0; i < 5; ++i){
-      if(pg[i] == 0 && f_size[i] > 0){
+      if(pg[i] === 0 && f_size[i] > 0){
         let ind = f_size[0] - f_size[i];
         if(currentPage + ind >= 1 && currentPage + ind <= pages){
           pg[i] = currentPage + ind;
         }
       }
-      if(pg[i] == 0 && f_size[i] < 0){
+      if(pg[i] === 0 && f_size[i] < 0){
         let ind = f_size[4] - f_size[i];
         if(currentPage + ind >= 1 && currentPage + ind <= pages){
           pg[i] = currentPage + ind;
@@ -57,7 +54,7 @@ function paginate(total, limit, currentPage){
       }
     }
     // filter to deletes zero elements
-    pg = pg.filter( a => a != 0);
+    pg = pg.filter( a => a !== 0);
     // sort array
     pg = pg.sort((a, b) => a -b);
 

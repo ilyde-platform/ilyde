@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  useParams
+  useParams, useHistory
 } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { FileExplorer } from '../../components/FileExplorer';
@@ -9,14 +9,16 @@ import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
 import { DatasetsApi } from '../../services/ilyde';
 import { selectAllUsers } from '../users/usersSlice';
+import { fetchDatasets } from './datasetsSlice';
 import { VersionModalForm } from './VersionModalForm';
 import _ from "lodash";
 
 
 export function DatasetDetail(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const users = useSelector(selectAllUsers);
-  const { datasetId } = useParams();
+  const { projectId, datasetId } = useParams();
   const [dataset, setDataset] = useState({});
   const [versions, setVersions] = useState([]);
   const [currVersion, setCurrVersion] = useState({});
@@ -53,6 +55,20 @@ export function DatasetDetail(props) {
     }
   }
 
+  const handleDelete = () => {
+    const apiConfig = getIlydeApiConfiguration();
+    const datasetsApi = new DatasetsApi(apiConfig);
+    datasetsApi.deleteDataset(datasetId).then((response) => {
+      if (projectId){
+        history.push(`/projects/${projectId}/datasets`);
+      }
+      else{
+        dispatch(fetchDatasets());
+        history.push(`/datasets`);
+      }
+    });
+  }
+
   const getUsername = (userId) => {
     const user = _.find(users, ["id", userId]);
     return _.capitalize(user?.username);
@@ -72,6 +88,7 @@ export function DatasetDetail(props) {
       <div className="d-flex justify-content-between">
         <div className="ml-auto">
           <button type="button" className="primary" onClick={() => setModalOpen(true)}>New Version</button>
+          <button type="button" className="btn-danger ml-2" onClick={handleDelete}>Mark Delete</button>
         </div>
       </div>
       <div className="input-row">

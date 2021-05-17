@@ -14,7 +14,6 @@ import { useDispatch } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import _ from 'lodash';
 
 
 const SOCKET_READY_STATE_OPEN = 1;
@@ -28,7 +27,8 @@ export function WorkspaceDetail() {
   const [socketUrl, setSocketUrl] = useState(null);
   const [workspaceUrl, setWorkspaceUrl] = useState(null);
   const [isLoad, setIsLoad] = useState(false);
-  const [workdirHistory, setWorkdirHistory] = useState({changes: {}, diff: []});
+  const [workdirChangesHistory, setWorkdirChangesHistory] = useState({});
+  const [workdirDiffHistory, setWorkdirDiffHistory] = useState([]);
   const {
     sendMessage,
     lastMessage,
@@ -36,14 +36,14 @@ export function WorkspaceDetail() {
     getWebSocket,
   } = useWebSocket(socketUrl, {
     share: true,
-    shouldReconnect: () => true,
+    shouldReconnect: () => false,
   });
   const [modalOpen, setModalOpen] = useState(false);
   const [modal, setModal] = useState({});
 
   useEffect(() => {
     dispatch(setContentTitle({title:  workspace?.metadata?.name, subtitle: "" }));
-  },[workspace]);
+  },[workspace, dispatch]);
 
   useEffect(()=>{
     const apiConfig = getIlydeApiConfiguration();
@@ -67,7 +67,7 @@ export function WorkspaceDetail() {
       });
     }, 10000);
     return () => {clearInterval(intervalID);}
-  }, [workspace]);
+  }, [workspace, workspaceId]);
 
   useEffect(() => {
     if (isLoad){
@@ -78,8 +78,8 @@ export function WorkspaceDetail() {
       /*setWorkspaceUrl(`${protocol[0]}://${hostname}${port}/workspacesession/${workspaceId}/`);
       setSocketUrl(`${protocol[1]}://${hostname}${port}/wssession/${workspaceId}`);*/
       // for testing
-      setWorkspaceUrl(`${protocol[0]}://kubernetes.docker.internal:30080/workspacesession/${workspaceId}/`);
-      setSocketUrl(`${protocol[1]}://kubernetes.docker.internal:30080/wssession/${workspaceId}`);
+      setWorkspaceUrl(`https://demos.ilyde.it/workspacesession/${workspaceId}/lab/tree/ilyde`);
+      setSocketUrl(`wss://demos.ilyde.it/wssession/${workspaceId}`);
     }
   },[isLoad, workspaceId]);
 
@@ -88,11 +88,11 @@ export function WorkspaceDetail() {
       const data = JSON.parse(lastMessage.data);
       switch(data.action){
         case "changes":
-          setWorkdirHistory({...workdirHistory, changes: data.message});
+          setWorkdirChangesHistory(data.message);
           break;
 
         case "diff":
-          setWorkdirHistory({...workdirHistory, diff: data.message});
+          setWorkdirDiffHistory(data.message);
           break;
 
         case "commit":
@@ -122,9 +122,11 @@ export function WorkspaceDetail() {
             history.push(`/projects/${workspace.metadata.project}/workspaces`);
           });
           break;
+        default:
+          break;
       }
     }
-  }, [lastMessage]);
+  }, [lastMessage, workspace, workspaceId, history]);
 
   useEffect(()=>{
     if(readyState === SOCKET_READY_STATE_OPEN){
@@ -135,7 +137,7 @@ export function WorkspaceDetail() {
 
       return () => {clearInterval(intervalID);}
     }
-  }, [readyState]);
+  }, [readyState, sendMessage]);
 
   const menu = [
     {
@@ -144,9 +146,9 @@ export function WorkspaceDetail() {
       "text": "Pull latest",
       "handleClick": () => {
         setModal({component: ModalPull, componentProps: {
-          diff: workdirHistory.diff,
+          diff: workdirDiffHistory,
           handleCancel: () => setModalOpen(false),
-          handleSubmit: (values) => {
+          handleSubmit: () => {
             sendMessage(JSON.stringify({action: 'sync'}));
             setModalOpen(false);
           }
@@ -159,7 +161,7 @@ export function WorkspaceDetail() {
       "text": "Commit",
       "handleClick": () => {
         setModal({component: ModalCommit, componentProps: {
-          changes: workdirHistory.changes,
+          changes: workdirChangesHistory,
           handleCancel: () => setModalOpen(false),
           handleSubmit: (values) => {
             sendMessage(JSON.stringify({action: 'commit', message: values.message}));
@@ -199,7 +201,7 @@ export function WorkspaceDetail() {
           <div className="content">
             {isLoad ?
               <div className="embed-responsive embed-responsive-16by9 mt-3">
-                <iframe id="iframe-workspace" className="embed-responsive-item" src={workspaceUrl} allowFullScreen></iframe>
+                <iframe id="iframe-workspace" className="embed-responsive-item" src={workspaceUrl} allowFullScreen title="Workspace Session"></iframe>
               </div> :
               <div>Workspace is Loading.....</div>
             }
@@ -273,7 +275,7 @@ function ModalPull({handleCancel, diff, handleSubmit}) {
         <div className="mb-3">
           <h4 className="mb-3">{diff.length} changes in central repository.</h4>
           {diff.map((val, index) => {
-            return <div key={index}>{val}</div>
+            return <div key={index}>{val.name}</div>
           })}
         </div> :
         <h4 className="mb-3">No changes in central repository.</h4>
@@ -282,7 +284,7 @@ function ModalPull({handleCancel, diff, handleSubmit}) {
       <hr />
       <div className="buttons-wrapper">
         <button className="secondary" onClick={handleCancel}>Cancel</button>
-        <input type="submit" className="primary" value="Pull" disabled={!hasDiff}/>
+        <button className="primary" onClick={handleSubmit} disabled={!hasDiff}>Pull</button>
       </div>
     </Modal>
   );

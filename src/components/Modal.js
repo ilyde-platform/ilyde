@@ -8,7 +8,7 @@ function Modal ({closeModal, title, children}) {
 	  	<div className="modal">
 	  		<header>
 	  			<h2>{title}</h2>
-	  			<a className="close" onClick={closeModal}><img src={x} /></a>
+	  			<a className="close" onClick={closeModal}><img src={x} alt=""/></a>
   			</header>
 	  		<div className="content">
 	  			{children}

@@ -4,11 +4,12 @@ import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
+import { DatasetsApi } from '../../services/ilyde';
 import { addNewDataset } from './datasetsSlice';
 import Modal  from '../../components/Modal';
 
 
-export function DatasetModalForm({handleModalCancel, handleFormSubmitted}) {
+export function DatasetModalForm({scope, projectId, handleModalCancel, handleFormSubmitted}) {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -20,17 +21,32 @@ export function DatasetModalForm({handleModalCancel, handleFormSubmitted}) {
      description: Yup.string().required('Required'),
    }),
    onSubmit: (values, {setSubmitting, setErrors, setStatus, resetForm}) => {
-     dispatch(addNewDataset({scope: "Global", project: "", ...values}))
-     .then(unwrapResult)
-     .then(dataset => {
-       resetForm({});
-       setSubmitting(false);
-       handleFormSubmitted();
-     })
-     .catch(e => {
-       setSubmitting(false);
-       setErrors({submit: "Ops! An error occur."});
-     });
+     const payload = {scope: scope, project: projectId, ...values};
+     if (scope === 'Global'){
+       dispatch(addNewDataset(payload))
+       .then(unwrapResult)
+       .then(dataset => {
+         resetForm({});
+         setSubmitting(false);
+         handleFormSubmitted();
+       })
+       .catch(e => {
+         setSubmitting(false);
+         setErrors({submit: "Ops! An error occur."});
+       });
+     }
+     else{
+       const apiConfig = getIlydeApiConfiguration();
+       const datasetsApi = new DatasetsApi(apiConfig);
+       datasetsApi.createDataset(payload).then((response) => {
+         resetForm({});
+         setSubmitting(false);
+         handleFormSubmitted();
+       }).catch(e => {
+         setSubmitting(false);
+         setErrors({submit: "Ops! An error occurred."});
+       });
+     }
    },
   });
 

@@ -1,4 +1,3 @@
-import { Workspaces } from './components/TestComponents.js';
 import { Environments } from './components/Environments.js';
 import { Settings } from './components/Settings.js';
 import { ProjectsList } from './features/projects/ProjectsList';

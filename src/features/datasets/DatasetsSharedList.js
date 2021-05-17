@@ -63,7 +63,7 @@ export function DatasetsSharedList(props) {
   }, [datasets, title]);
 
   const datasetFormModal = (
-    <DatasetModalForm handleModalCancel={() => setModalOpen(false)} handleFormSubmitted={() => setModalOpen(false)}>
+    <DatasetModalForm scope="Global" projectId="" handleModalCancel={() => setModalOpen(false)} handleFormSubmitted={() => setModalOpen(false)}>
     </DatasetModalForm>);
 
   return  (

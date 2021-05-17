@@ -61,7 +61,7 @@ export function ModelapisDetail(props) {
   }
 
   return (
-    <section className="content">
+    <Fragment>
       <div className="input-row">
         <label>
           Endpoint
@@ -83,7 +83,7 @@ export function ModelapisDetail(props) {
           <div className="mb-2"></div>
           <div>Model Version: {modelapis?.spec?.version}</div>
           <div className="mb-2"></div>
-          <div>Created By: {_.capitalize(user.username)}</div>
+          <div>Created By: {_.capitalize(user?.username)}</div>
           <div className="mb-2"></div>
           <div>Created At: {modelapis?.create_at}</div>
         </div>
@@ -128,7 +128,7 @@ export function ModelapisDetail(props) {
           </div>
         </div>
       </div>
-     </section>
+     </Fragment>
    );
 }
 

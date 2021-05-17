@@ -86,8 +86,15 @@ export function ProjectDatasets(props) {
     })
   }
 
+  const handleFormSubmitted = () => {
+    setModalOpen(false);
+    getDatasets(projectId, pageLimit, 1).then((results) => {
+      setDatasets(results);
+    });
+  }
+
   const datasetFormModal = (
-    <DatasetModalForm handleModalCancel={() => setModalOpen(false)} handleFormSubmitted={() => setModalOpen(false)}>
+    <DatasetModalForm scope="Local" projectId={projectId} handleModalCancel={() => setModalOpen(false)} handleFormSubmitted={handleFormSubmitted}>
     </DatasetModalForm>);
 
   return  (

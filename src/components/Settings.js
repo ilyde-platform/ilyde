@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   useHistory
 } from "react-router-dom";
@@ -25,7 +25,7 @@ export function Settings(props) {
 
   useEffect(() => {
     dispatch(setContentTitle({title: "Settings", subtitle: ""}));
-  },[])
+  },[dispatch])
 
   const handleAddHwtierClick = () => {
     setHwtierModalOpen(true);

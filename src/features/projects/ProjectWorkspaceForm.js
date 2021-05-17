@@ -84,7 +84,7 @@ export function ProjectWorkspaceForm({projectId}) {
         environment: 0,
         datasets: []
       });
-      history.push(`/workspace/${response.data.id}/lab`);
+      window.open(`/workspace/${response.data.id}/lab`, '_blank');
      }).catch(e => {
        setSubmitting(false);
        setErrors({submit: e.response.data.detail});

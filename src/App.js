@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Sidebar from './features/sidebar/Sidebar';
-import SidebarWorkspace from './features/sidebar/SidebarWorkspace';
 import Headerbar from './features/headerbar/Headerbar';
 import { WorkspaceDetail } from './WorkspaceDetail';
 import routes from './routes';
@@ -81,7 +80,7 @@ function MainApp() {
     }, 300000);
 
     return () => {clearInterval(intervalID);}
-  }, []);
+  }, [dispatch]);
 
   return (
     <div id="app" data-dark={preferences.darkMode}>
