@@ -83,7 +83,7 @@ function MainApp() {
   }, [dispatch]);
 
   return (
-    <div id="app" data-dark={preferences.darkMode}>
+    <div id="app" className="main-app" data-dark={preferences.darkMode}>
       <Sidebar/>
       <div className="ui-right">
         <Headerbar
@@ -107,7 +107,7 @@ function MainApp() {
 function WorkspaceApp() {
   const preferences = useSelector(selectPreferences);
   return (
-    <div id="app" data-dark={preferences.darkMode}>
+    <div id="app" className="ws-app" data-dark={preferences.darkMode}>
       <WorkspaceDetail />
     </div>
   );

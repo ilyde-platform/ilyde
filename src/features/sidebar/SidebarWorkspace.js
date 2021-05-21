@@ -33,21 +33,23 @@ export function SidebarWorkspace ({projectId, menu}) {
             <img src={logo} className="logo" alt="logo" />
           </div>
         </header>
-        <div className="submenu-label">{project?.name}</div>
         <br/>
         <div className="level-1">
-          <ul className="menu-items">
-            { menu.map((item, i) => {
-              return (
-                <MenuItem2 key={i}
-                  icon={item.icon}
-                  text={item.text}
-                  state="normal"
-                  handleClick={item.handleClick}
-                />
-              );
-            })}
-          </ul>
+          <div>
+            <div className="submenu-label">{project?.name}</div>
+            <ul className="menu-items">
+              { menu.map((item, i) => {
+                return (
+                  <MenuItem2 key={i}
+                    icon={item.icon}
+                    text={item.text}
+                    state="normal"
+                    handleClick={item.handleClick}
+                  />
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     </Fragment>

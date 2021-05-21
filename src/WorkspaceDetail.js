@@ -198,15 +198,13 @@ export function WorkspaceDetail() {
           showBackButton={true}
         />
         <div className="content-area">
-          <div className="content">
-            {isLoad ?
-              <div className="embed-responsive embed-responsive-16by9 mt-3">
-                <iframe id="iframe-workspace" className="embed-responsive-item" src={workspaceUrl} allowFullScreen title="Workspace Session"></iframe>
-              </div> :
-              <div>Workspace is Loading.....</div>
-            }
-            {modalOpen && <modal.component  {...modal.componentProps} />}
-          </div>
+          {isLoad ?
+            <div className="embed-responsive embed-responsive-16by9">
+              <iframe id="iframe-workspace" className="embed-responsive-item" src={workspaceUrl} allowFullScreen title="Workspace Session"></iframe>
+            </div> :
+            <div>Workspace is Loading.....</div>
+          }
+          {modalOpen && <modal.component  {...modal.componentProps} />}
         </div>
       </div>
     </Fragment>
