@@ -12,7 +12,7 @@ import { selectHwtierById } from '../hwtiers/hwtiersSlice';
 import _ from "lodash";
 import { Accordion, Card, Tabs, Tab, Table} from 'react-bootstrap';
 import { formatBytes } from '../datasets/DatasetDetail';
-import { FileExplorer } from '../../components/FileExplorer';
+import { FileExplorer, LogViewer } from '../../components/FileExplorer';
 import { RegisterModelModalForm } from './RegisterModelModalForm';
 
 
@@ -243,9 +243,7 @@ export function ProjectExperimentDetail(props) {
         </Tab>
         <Tab eventKey="logs" title="Logs">
           <Card.Body>
-              {logs.map((value, index) => {
-                return <div key={index}>{value.message}</div>
-              })}
+            <LogViewer logs={logs.map((value) => value.message).join(" ")}/>
           </Card.Body>
         </Tab>
       </Tabs>

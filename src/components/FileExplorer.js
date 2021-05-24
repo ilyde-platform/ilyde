@@ -311,3 +311,21 @@ const modes = [
   { name: "xu", mime: "text/x-xu", mode: "mscgen", ext: ["xu"] },
   { name: "msgenny", mime: "text/x-msgenny", mode: "mscgen", ext: ["msgenny"] }
 ]
+
+export function LogViewer({logs}){
+  const preferences = useSelector(selectPreferences);
+  const theme = preferences.darkMode ? 'darcula' : 'eclipse';
+
+  return (
+    <CodeMirror
+      value={logs}
+      options={{
+        theme: theme,
+        tabSize: 2,
+        keyMap: 'sublime',
+        mode: "null",
+        readOnly: true
+      }}
+    />
+  );
+}

@@ -10,6 +10,7 @@ import { selectUserById } from '../users/usersSlice';
 import { selectCenvById } from '../cenvs/cenvsSlice';
 import { selectHwtierById } from '../hwtiers/hwtiersSlice';
 import _ from "lodash";
+import { LogViewer } from '../../components/FileExplorer';
 import { Accordion, Card, Tabs, Tab, ListGroup } from 'react-bootstrap';
 
 
@@ -141,9 +142,7 @@ export function ProjectRunDetail(props) {
         </Tab>
         <Tab eventKey="logs" title="Logs">
           <Card.Body>
-            {logs.map((value, index) => {
-              return <div key={index}>{value.message}</div>
-            })}
+            <LogViewer logs={logs.map((value) => value.message).join(" ")}/>
           </Card.Body>
         </Tab>
       </Tabs>
