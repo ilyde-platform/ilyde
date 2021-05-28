@@ -98,32 +98,36 @@ export function ProjectRunDetail(props) {
         </div>
       </div>
       <div className="mb-5"></div>
-      <div className="row">
-        <div className="col col-md-4">
-          <div>Start Time: {new Date(run?.create_at).toLocaleString()}</div>
+
+      <div className="container-fluid border-block">
+        <div className="row">
+          <div className="col col-md-4">
+            <div><span className="label">Start Time:</span> {new Date(run?.create_at).toLocaleString()}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">Revision:</span> {run?.spec?.revision}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">Execution Time (s):</span> {run?.uptime}</div>
+          </div>
         </div>
-        <div className="col col-md-4">
-          <div>Revision: {run?.spec?.revision}</div>
-        </div>
-        <div className="col col-md-4">
-          <div>Execution Time(s): {run?.uptime}</div>
+        <div className="mb-3"></div>
+        <div className="row">
+          <div className="col col-md-4">
+            <div><span className="label">State: </span>{_.capitalize(run?.state)}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">User: </span>{_.capitalize(user?.username)}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">Hardware Tier:</span> {hwtier?.name}</div>
+          </div>
+          <div className="col col-md-6 mt-3">
+            <div><span className="label">Compute Environment:</span> {cenv?.name}</div>
+          </div>
         </div>
       </div>
-      <div className="mb-3"></div>
-      <div className="row">
-        <div className="col col-md-4">
-          <div>State: {_.capitalize(run?.state)}</div>
-        </div>
-        <div className="col col-md-4">
-          <div>User: {_.capitalize(user?.username)}</div>
-        </div>
-        <div className="col col-md-4">
-          <div>Hardware Tier: {hwtier?.name}</div>
-        </div>
-        <div className="col col-md-6 mt-3">
-          <div>Compute Environment: {cenv?.name}</div>
-        </div>
-      </div>
+
       <div className="mb-5"></div>
       <div className="input-row">
         <label>

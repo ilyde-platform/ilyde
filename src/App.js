@@ -116,7 +116,7 @@ function WorkspaceApp() {
 
 function Loading() {
   return (
-    <div className="d-flex align-items-center justify-content-center">
+    <div className="loading-cont">
       <div>
         <img className="blink" src={logo} alt="loading" />
         <p className="color-white mt-2">Workspace is loading</p>

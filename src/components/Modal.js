@@ -2,7 +2,23 @@ import React, {Fragment} from "react";
 import x from '../assets/images/x.svg';
 
 /**
- * children structure
+ * Possible children structure. 
+ * Choose the version with the markup that semantically makes more sense.
+ * 
+ * Version A — single section
+
+<section>
+	{...}
+	{...}
+	<hr />
+  <div className="buttons-wrapper">
+     <button className="secondary" onClick={handleCancel}>Cancel</button>
+     <button className="primary" onClick={handleConfirm}>{action}</button>
+  </div>
+</section>
+
+ * 
+ * Version B — Multiple sections
 
 <Fragment>
 	<section>{...}</section>

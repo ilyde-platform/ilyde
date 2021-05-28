@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import logo from './assets/images/logo-full.svg';
 
 
 const SOCKET_READY_STATE_OPEN = 1;
@@ -202,7 +203,12 @@ export function WorkspaceDetail() {
             <div className="embed-responsive embed-responsive-16by9">
               <iframe id="iframe-workspace" className="embed-responsive-item" src={workspaceUrl} allowFullScreen title="Workspace Session"></iframe>
             </div> :
-            <div>Workspace is Loading.....</div>
+            <div className="h-100 d-flex align-items-center justify-content-center">
+              <div>
+                <img className="blink" src={logo} alt="loading" />
+                <p className="blink">Workspace is Loading</p>
+              </div>
+            </div>
           }
           {modalOpen && <modal.component  {...modal.componentProps} />}
         </div>

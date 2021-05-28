@@ -52,49 +52,51 @@ export function DatasetModalForm({scope, projectId, handleModalCancel, handleFor
 
   return (
     <Modal closeModal={handleModalCancel} title="Create a Dataset">
-      { formik.errors.submit && <div>{formik.errors.submit}</div>}
-      <div className="mb-3"></div>
-      <form onSubmit={formik.handleSubmit} autoComplete="off">
-        <div className="input-row">
-          <label>
-            Name
-            <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Mnist-data"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-             />
-          </label>
-          {formik.touched.name && formik.errors.name ? (
-            <div>{formik.errors.name}</div>) : null}
-        </div>
-        <div className="input-row">
-          <label>
-            Description
-            <textarea
-              id="description"
-              name="description"
-              placeholder="Small 28x28 grayscale images"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.description}
-              rows="15"
-              cols="50"
-            >
-            </textarea>
-          </label>
-          {formik.touched.description && formik.errors.description ? (
-            <div>{formik.errors.description}</div>) : null}
-        </div>
-        <hr />
-        <div className="buttons-wrapper">
-          <button className="secondary" onClick={handleModalCancel}>Cancel</button>
-          <input type="submit" className="primary" value="Create" disabled={formik.isSubmitting} />
-        </div>
-      </form>
+      <section>
+        { formik.errors.submit && <div>{formik.errors.submit}</div>}
+        <div className="mb-3"></div>
+        <form onSubmit={formik.handleSubmit} autoComplete="off">
+          <div className="input-row">
+            <label>
+              Name
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Mnist-data"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.name}
+               />
+            </label>
+            {formik.touched.name && formik.errors.name ? (
+              <div>{formik.errors.name}</div>) : null}
+          </div>
+          <div className="input-row">
+            <label>
+              Description
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Small 28x28 grayscale images"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.description}
+                rows="15"
+                cols="50"
+              >
+              </textarea>
+            </label>
+            {formik.touched.description && formik.errors.description ? (
+              <div>{formik.errors.description}</div>) : null}
+          </div>
+          <hr />
+          <div className="buttons-wrapper">
+            <button className="secondary" onClick={handleModalCancel}>Cancel</button>
+            <input type="submit" className="primary" value="Create" disabled={formik.isSubmitting} />
+          </div>
+        </form>
+      </section>
     </Modal>
   );
 }
