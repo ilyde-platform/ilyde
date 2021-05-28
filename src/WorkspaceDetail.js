@@ -231,35 +231,40 @@ function ModalCommit({handleCancel, changes, handleSubmit}) {
   return (
     <Modal closeModal={handleCancel}  title="Commit your changes">
       <form onSubmit={formik.handleSubmit} autoComplete="off">
-        <div className="mb-5">
-          <h4 className="mb-3">{changes.total} changes to commit</h4>
-          {changes.changes.map((val, index) => {
-            return <div key={index}>{val}</div>
-          })}
-        </div>
-        <div className="input-row">
-          <label>
-            Message
-            <textarea
-              id="message"
-              name="message"
-              placeholder="My updates"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.message}
-              rows="15"
-              cols="50"
-            >
-            </textarea>
-          </label>
-          {formik.touched.message && formik.errors.message ? (
-            <div>{formik.errors.message}</div>) : null}
-        </div>
-        <hr />
-        <div className="buttons-wrapper">
-          <button className="secondary" onClick={handleCancel}>Cancel</button>
-          <input type="submit" className="primary" value="Commit" disabled={!canCommit} />
-        </div>
+        <section>
+          <div className="mb-5">
+            <h4 className="mb-3">{changes.total} changes to commit</h4>
+            {changes.changes.map((val, index) => {
+              return <div key={index}>{val}</div>
+            })}
+          </div>
+          <div className="input-row">
+            <label>
+              Message
+              <textarea
+                id="message"
+                name="message"
+                placeholder="My updates"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.message}
+                rows="15"
+                cols="50"
+              >
+              </textarea>
+            </label>
+            {formik.touched.message && formik.errors.message ? (
+              <div>{formik.errors.message}</div>) : null}
+          </div>
+        <section>
+
+        </section>
+          <hr />
+          <div className="buttons-wrapper">
+            <button className="secondary" onClick={handleCancel}>Cancel</button>
+            <input type="submit" className="primary" value="Commit" disabled={!canCommit} />
+          </div>
+        </section>
       </form>
     </Modal>
   );

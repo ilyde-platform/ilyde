@@ -1,6 +1,22 @@
 import React, {Fragment} from "react";
 import x from '../assets/images/x.svg';
 
+/**
+ * children structure
+
+<Fragment>
+	<section>{...}</section>
+	<section>{...}</section>
+	<section>{...}</section>
+  <div className="buttons-wrapper">
+     <button className="secondary" onClick={handleCancel}>Cancel</button>
+     <button className="primary" onClick={handleConfirm}>{action}</button>
+  </div>
+</Fragment>
+
+ *
+ * */
+
 function Modal ({closeModal, title, children}) {
   return(
     <Fragment>
@@ -10,7 +26,7 @@ function Modal ({closeModal, title, children}) {
 	  			<h2>{title}</h2>
 	  			<a className="close" onClick={closeModal}><img src={x} alt=""/></a>
   			</header>
-	  		<div className="content">
+	  		<div className="mod-content">
 	  			{children}
 	  		</div>
 	  	</div>

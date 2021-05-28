@@ -5,12 +5,16 @@ import Modal  from './Modal';
 export function ModalInfo({handleCancel, title, content}) {
   return (
     <Modal closeModal={handleCancel} title={title}>
-      <div>{content}</div>
+      <section>
+        <div>{content}</div>
+      </section>
       <hr />
-      <div className="buttons-wrapper">
-        <button className="secondary" onClick={handleCancel}>Cancel</button>
-        <button className="primary" onClick={handleCancel}>Close</button>
-      </div>
+      <section>
+        <div className="buttons-wrapper">
+          <button className="secondary" onClick={handleCancel}>Cancel</button>
+          <button className="primary" onClick={handleCancel}>Close</button>
+        </div>
+      </section>
     </Modal>
   );
 }

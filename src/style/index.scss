@@ -115,7 +115,6 @@ body {
     }
     &.secondary {
       background-color: $c-bg;
-      color: $c-blue;
       &:hover { background-color: $c-grey-2; }
       &:active, .active { background-color: $c-grey-3; }
     }
@@ -161,10 +160,11 @@ body {
         }
       }
     }
-    .content {
+    .mod-content {
       section {
-        padding: $space $space 0 $space;
-        &:last-of-type { padding-bottom: $space; }
+        padding: 0 $space;
+        margin-bottom: $space;
+        &:first-of-type { margin-top: $space; }
       }
       hr {
         height: 0;
@@ -323,6 +323,7 @@ body {
 
     &.double {
       width: 270px;
+      min-width: 270px;
       .level-1 {
         width: 70px;
         .menu-item {
@@ -729,6 +730,21 @@ $hb-color-on-hover: #eee;
   margin-top: $space;
 }
 
+.pagination {
+  .page-item {
+    .page-link {
+      background-color: white;
+      color: black;
+      border-color: $c-grey-2;
+    }
+    &.active .page-link {
+      background-color: $c-blue;
+      color: white;
+    }
+  }
+}
+
+
 // --------------------------------------------------------------------------------------------------
 // Dark mode
 // --------------------------------------------------------------------------------------------------
@@ -853,5 +869,31 @@ $dark-1: #3A4A7C;
       .breadcrumb-item.active {color: rgba(white, 0.5); }
     }
   }
-  
+
+  .pagination {
+    .page-item {
+      .page-link {
+        background-color: $dark-5;
+        color: $c-grey-3;
+        border-color: $dark-2;
+      }
+      &.active .page-link {
+        background-color: $c-blue;
+        color: white;
+        border-color: $c-blue;
+      }
+    }
+  }
+
+}
+
+
+// ---------------------------------------------------------------------------
+// Other external
+// ---------------------------------------------------------------------------
+
+// --- CodeMirror
+
+.CodeMirror .CodeMirror-scroll {
+  overflow: visible !important;
 }
