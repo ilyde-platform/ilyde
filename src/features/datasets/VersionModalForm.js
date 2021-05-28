@@ -36,23 +36,25 @@ export function VersionModalForm({datasetId, handleModalCancel, handleFormSubmit
 
   return (
     <Modal closeModal={handleModalCancel} title="Upload Files">
-      <div {...getRootProps()}>
-         <input {...getInputProps()} />
-           {
-             isDragActive ?
-               <p>Drop the files here ...</p> :
-               <p>Drag and drop some files here, or click to select files</p>
-           }
-      </div>
-      <hr/>
-      <div>
-        <ul>{filesPreview}</ul>
-      </div>
-      <div className="mb-5"></div>
-      <div className="buttons-wrapper">
-        <button className="secondary" onClick={handleModalCancel}>Cancel</button>
-        <button type="button" className="primary" onClick={handleCreateVersion}>Upload</button>
-      </div>
+      <section>
+        <div {...getRootProps()}>
+           <input {...getInputProps()} />
+             {
+               isDragActive ?
+                 <p>Drop the files here ...</p> :
+                 <p>Drag and drop some files here, or click to select files</p>
+             }
+        </div>
+        <hr/>
+        <div>
+          <ul>{filesPreview}</ul>
+        </div>
+        <div className="mb-5"></div>
+        <div className="buttons-wrapper">
+          <button className="secondary" onClick={handleModalCancel}>Cancel</button>
+          <button type="button" className="primary" onClick={handleCreateVersion}>Upload</button>
+        </div>
+      </section>
     </Modal>
   );
 }

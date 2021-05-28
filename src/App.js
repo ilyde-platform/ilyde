@@ -18,6 +18,7 @@ import { fetchHwtiers } from './features/hwtiers/hwtiersSlice';
 import { fetchIdes } from './features/ides/idesSlice';
 import { fetchModelapis } from './features/modelapis/modelapisSlice';
 import { fetchDatasets } from './features/datasets/datasetsSlice';
+import logo from './assets/images/logo-full.svg';
 
 
 function App() {
@@ -41,7 +42,7 @@ function App() {
       </Router>
     );
   else{
-    return (<div>App is initializing.....</div>);
+    return (<Loading />);
   }
 }
 
@@ -113,4 +114,16 @@ function WorkspaceApp() {
   );
 }
 
+function Loading() {
+  return (
+    <div className="d-flex align-items-center justify-content-center">
+      <div>
+        <img className="blink" src={logo} alt="loading" />
+        <p className="color-white mt-2">Workspace is loading</p>
+      </div>
+    </div>
+  );
+}
+
 export default App;
+
