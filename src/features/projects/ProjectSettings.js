@@ -105,18 +105,20 @@ export function ProjectSettings(props) {
         </div>
       </div>}
       <div className="mb-5"></div>
-      <div className="row">
-        <div className="col col-md-3">
-          <div>Lead: {getUsername(project?.owner)}</div>
-        </div>
-        <div className="col col-md-3">
-          <div>State: {_.capitalize(project?.state)}</div>
-        </div>
-        <div className="col col-md-3">
-          <div>Template: {_.capitalize(project?.template)}</div>
-        </div>
-        <div className="col col-md-3">
-          <div>Created At: {new Date(project?.create_at).toLocaleString()}</div>
+      <div className="container-fluid border-block">
+        <div className="row">
+          <div className="col col-md-3">
+            <div><span className="label">Lead:</span> {getUsername(project?.owner)}</div>
+          </div>
+          <div className="col col-md-3">
+            <div><span className="label">State:</span> {_.capitalize(project?.state)}</div>
+          </div>
+          <div className="col col-md-3">
+            <div><span className="label">Template:</span> {_.capitalize(project?.template)}</div>
+          </div>
+          <div className="col col-md-3">
+            <div><span className="label">Created At:</span> {new Date(project?.create_at).toLocaleString()}</div>
+          </div>
         </div>
       </div>
       <div className="mb-5"></div>

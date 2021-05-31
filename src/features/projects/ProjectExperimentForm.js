@@ -156,7 +156,9 @@ export function ProjectExperimentForm({projectId, handleSubmitted}) {
 
   const datasetSelector = (
       <Modal closeModal={() => setModalOpen(false)} title="Choose a Dataset">
-        <DatasetSelector datasets={datasets} handleSubmit={handleDatasetAttach}></DatasetSelector>
+        <section>
+          <DatasetSelector datasets={datasets} handleSubmit={handleDatasetAttach}></DatasetSelector>
+        </section>
       </Modal>
   )
 

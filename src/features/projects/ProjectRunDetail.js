@@ -117,7 +117,7 @@ export function ProjectRunDetail(props) {
             <div><span className="label">State: </span>{_.capitalize(run?.state)}</div>
           </div>
           <div className="col col-md-4">
-            <div><span className="label">User: </span>{_.capitalize(user?.username)}</div>
+            <div><span className="label">Author: </span>{_.capitalize(user?.username)}</div>
           </div>
           <div className="col col-md-4">
             <div><span className="label">Hardware Tier:</span> {hwtier?.name}</div>
@@ -146,7 +146,7 @@ export function ProjectRunDetail(props) {
         </Tab>
         <Tab eventKey="logs" title="Logs">
           <Card.Body>
-            <LogViewer logs={logs.map((value) => value.message).join(" ")}/>
+            {logs && <LogViewer logs={logs.map((value) => value.message).join("")}/>}
           </Card.Body>
         </Tab>
       </Tabs>

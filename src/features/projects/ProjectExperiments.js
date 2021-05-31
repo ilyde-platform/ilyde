@@ -81,7 +81,7 @@ export function ProjectExperiments(props) {
       style: "normal",
       type: "text",
     },{
-      headerText: "User",
+      headerText: "Author",
       id: "owner",
       sortable: true,
       style: "normal",

@@ -138,7 +138,7 @@ export function ProjectWorkspaces(props) {
       style: "normal",
       type: "text",
     },{
-      headerText: "User",
+      headerText: "Owner",
       id: "owner",
       sortable: true,
       style: "normal",

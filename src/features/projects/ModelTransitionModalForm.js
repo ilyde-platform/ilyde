@@ -34,34 +34,36 @@ export function ModelTransitionModalForm({modelName, version, currentStage, hand
 
   return (
     <Modal closeModal={handleModalCancel} title="Transition Stage">
-      { formik.errors.submit && <div>{formik.errors.submit}</div>}
-      <div className="mb-3"></div>
-      <form onSubmit={formik.handleSubmit} autoComplete="off">
-        <div className="input-row">
-          <label>
-            Stage
-            <select
-              id="stage"
-              name="stage"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.stage}
-            >
-               <option key='-1' value=''>Select new Stage</option>
-              {defaultStages.filter((s) => s !== currentStage).map((val, index) => {
-                return <option key={index} value={val}>{val}</option>
-              })}
-            </select>
-          </label>
-          {formik.touched.stage && formik.errors.stage ? (
-            <div>{formik.errors.stage}</div>) : null}
-        </div>
-        <hr />
-        <div className="buttons-wrapper">
-          <button className="secondary" onClick={handleModalCancel}>Cancel</button>
-          <input type="submit" className="primary" value="Transition" disabled={formik.isSubmitting} />
-        </div>
-      </form>
+      <section>
+        { formik.errors.submit && <div>{formik.errors.submit}</div>}
+        <div className="mb-3"></div>
+        <form onSubmit={formik.handleSubmit} autoComplete="off">
+          <div className="input-row">
+            <label>
+              Stage
+              <select
+                id="stage"
+                name="stage"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.stage}
+              >
+                 <option key='-1' value=''>Select new Stage</option>
+                {defaultStages.filter((s) => s !== currentStage).map((val, index) => {
+                  return <option key={index} value={val}>{val}</option>
+                })}
+              </select>
+            </label>
+            {formik.touched.stage && formik.errors.stage ? (
+              <div>{formik.errors.stage}</div>) : null}
+          </div>
+          <hr />
+          <div className="buttons-wrapper">
+            <button className="secondary" onClick={handleModalCancel}>Cancel</button>
+            <input type="submit" className="primary" value="Transition" disabled={formik.isSubmitting} />
+          </div>
+        </form>
+      </section>
     </Modal>
   );
 }

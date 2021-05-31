@@ -65,65 +65,67 @@ export function ModelPublishModalForm({projectId, modelName, version, stage, han
 
   return (
     <Modal closeModal={handleModalCancel} title="Configure Model Api">
-      { formik.errors.submit && <div>{formik.errors.submit}</div>}
-      <div className="mb-3"></div>
-      <form onSubmit={formik.handleSubmit} autoComplete="off">
-        <div className="input-row">
-          <label>
-            Name
-            <input
-              id="name"
-              name="name"
-              type="text"
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-             />
-          </label>
-          {formik.touched.name && formik.errors.name ? (
-            <div className="error">{formik.errors.name}</div>) : null}
-        </div>
-        <div className="input-row">
-          <label>
-            Compute Environment
-            <select
-              id="environment"
-              name="environment"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.environment}
-            >
-              {cenvs.map((val, index) => {
-                return <option key={index} value={index}>{val.name}</option>
-              })}
-            </select>
-          </label>
-          {formik.touched.environment && formik.errors.environment ? (
-            <div className="error">{formik.errors.environment}</div>) : null}
-        </div>
-        <div className="input-row">
-          <label>
-            Hardware Tier
-            <select
-              id="hardware"
-              name="hardware"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.hardware}
-            >
-              {hwtiers.map((val, index) => {
-                return <option key={index} value={index}>{val.name}</option>
-              })}
-            </select>
-          </label>
-          {formik.touched.hardware && formik.errors.hardware ? (
-            <div className="error">{formik.errors.hardware}</div>) : null}
-        </div>
-        <hr />
-        <div className="buttons-wrapper">
-          <button className="secondary" onClick={handleModalCancel}>Cancel</button>
-          <input type="submit" className="primary" value="Publish" disabled={formik.isSubmitting} />
-        </div>
-      </form>
+      <section>
+        { formik.errors.submit && <div>{formik.errors.submit}</div>}
+        <div className="mb-3"></div>
+        <form onSubmit={formik.handleSubmit} autoComplete="off">
+          <div className="input-row">
+            <label>
+              Name
+              <input
+                id="name"
+                name="name"
+                type="text"
+                onBlur={formik.handleBlur}
+                value={formik.values.name}
+               />
+            </label>
+            {formik.touched.name && formik.errors.name ? (
+              <div className="error">{formik.errors.name}</div>) : null}
+          </div>
+          <div className="input-row">
+            <label>
+              Compute Environment
+              <select
+                id="environment"
+                name="environment"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.environment}
+              >
+                {cenvs.map((val, index) => {
+                  return <option key={index} value={index}>{val.name}</option>
+                })}
+              </select>
+            </label>
+            {formik.touched.environment && formik.errors.environment ? (
+              <div className="error">{formik.errors.environment}</div>) : null}
+          </div>
+          <div className="input-row">
+            <label>
+              Hardware Tier
+              <select
+                id="hardware"
+                name="hardware"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.hardware}
+              >
+                {hwtiers.map((val, index) => {
+                  return <option key={index} value={index}>{val.name}</option>
+                })}
+              </select>
+            </label>
+            {formik.touched.hardware && formik.errors.hardware ? (
+              <div className="error">{formik.errors.hardware}</div>) : null}
+          </div>
+          <hr />
+          <div className="buttons-wrapper">
+            <button className="secondary" onClick={handleModalCancel}>Cancel</button>
+            <input type="submit" className="primary" value="Publish" disabled={formik.isSubmitting} />
+          </div>
+        </form>
+      </section>
     </Modal>
   );
 }

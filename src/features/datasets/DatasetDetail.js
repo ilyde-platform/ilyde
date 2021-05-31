@@ -5,11 +5,12 @@ import {
 } from "react-router-dom";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { FileExplorer } from '../../components/FileExplorer';
+import { ModalConfirm } from '../../components/ModalConfirm';
 import { setContentTitle } from '../headerbar/headerbarSlice';
 import { getIlydeApiConfiguration, capitalize } from '../../services/utils';
 import { DatasetsApi } from '../../services/ilyde';
 import { selectAllUsers } from '../users/usersSlice';
-import { fetchDatasets } from './datasetsSlice';
+import { fetchDatasets, removeDataset } from './datasetsSlice';
 import { VersionModalForm } from './VersionModalForm';
 import _ from "lodash";
 
@@ -23,6 +24,7 @@ export function DatasetDetail(props) {
   const [versions, setVersions] = useState([]);
   const [currVersion, setCurrVersion] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
+  const [modal, setModal] = useState({});
 
   useEffect(()=>{
     const apiConfig = getIlydeApiConfiguration();
@@ -63,7 +65,7 @@ export function DatasetDetail(props) {
         history.push(`/projects/${projectId}/datasets`);
       }
       else{
-        dispatch(fetchDatasets());
+        dispatch(removeDataset(datasetId))
         history.push(`/datasets`);
       }
     });
@@ -74,21 +76,37 @@ export function DatasetDetail(props) {
     return _.capitalize(user?.username);
   }
 
-  const versionFormModal = (
-    <VersionModalForm datasetId={datasetId} handleModalCancel={() => setModalOpen(false)} handleFormSubmitted={(version) => {
-      setVersions(versions.concat([version]));
-      setModalOpen(false);
-      setCurrVersion(version);
-    }}>
-    </VersionModalForm>);
+  const handleClickNewVersion = () => {
+    setModal({component:VersionModalForm, componentProps: {
+      datasetId: datasetId,
+      handleModalCancel: () => setModalOpen(false),
+      handleFormSubmitted: (version) => {
+          setVersions(versions.concat([version]));
+          setModalOpen(false);
+          setCurrVersion(version);
+        }
+    }});
+    setModalOpen(true);
+  }
+
+  const handleClickMarkdelete = () => {
+    setModal({component:ModalConfirm, componentProps: {
+      title: "Mark Dataset as Deleted",
+      action: "Delete",
+      content: "Are you sure you want to delete this dataset?",
+      handleCancel: () => setModalOpen(false),
+      handleConfirm: () => handleDelete()
+    }});
+    setModalOpen(true);
+  }
 
   return (
     <Fragment>
-      {modalOpen && versionFormModal}
+      {modalOpen && <modal.component  {...modal.componentProps} />}
       <div className="d-flex justify-content-between">
         <div className="ml-auto">
-          <button type="button" className="primary" onClick={() => setModalOpen(true)}>New Version</button>
-          <button type="button" className="btn-danger ml-2" onClick={handleDelete}>Mark Delete</button>
+          <button type="button" className="primary" onClick={handleClickNewVersion}>New Version</button>
+          <button type="button" className="btn-danger ml-2" onClick={handleClickMarkdelete}>Mark Delete</button>
         </div>
       </div>
       <div className="input-row">
@@ -123,12 +141,14 @@ export function DatasetDetail(props) {
             })}
             handleOpenFile={null}
           />
-          <div className="mb-3"></div>
-          <div>Author: {getUsername(currVersion.author)}</div>
-          <div className="mb-2"></div>
-          <div>Total size: {formatBytes(currVersion.size, 2)}</div>
-          <div className="mb-2"></div>
-          <div>Date: {dateToString(currVersion.create_at)}</div>
+          <div className="container-fluid border-block">
+            <div className="mb-3"></div>
+            <div><span className="label">Author:</span> {getUsername(currVersion.author)}</div>
+            <div className="mb-2"></div>
+            <div><span className="label">Total size:</span> {formatBytes(currVersion.size, 2)}</div>
+            <div className="mb-2"></div>
+            <div><span className="label">Date:</span> {dateToString(currVersion.create_at)}</div>
+          </div>
         </div>}
      </Fragment>
    );

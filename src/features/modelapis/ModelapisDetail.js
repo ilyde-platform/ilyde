@@ -75,17 +75,19 @@ export function ModelapisDetail(props) {
       <hr/>
       <div className="row">
         <div className="col col-md-4">
-          <div>State: {modelapis?.state}</div>
-          <div className="mb-2"></div>
-          <div>Model: {modelapis?.spec?.model}</div>
-          <div className="mb-2"></div>
-          <div>Model stage: {modelapis?.spec?.stage}</div>
-          <div className="mb-2"></div>
-          <div>Model Version: {modelapis?.spec?.version}</div>
-          <div className="mb-2"></div>
-          <div>Created By: {_.capitalize(user?.username)}</div>
-          <div className="mb-2"></div>
-          <div>Created At: {modelapis?.create_at}</div>
+          <div className="container-fluid border-block">
+            <div><span className="label">State:</span> {_.capitalize(modelapis?.state)}</div>
+            <div className="mb-2"></div>
+            <div><span className="label">Model:</span> {modelapis?.spec?.model}</div>
+            <div className="mb-2"></div>
+            <div><span className="label">Model stage:</span> {modelapis?.spec?.stage}</div>
+            <div className="mb-2"></div>
+            <div><span className="label">Model Version:</span> {modelapis?.spec?.version}</div>
+            <div className="mb-2"></div>
+            <div><span className="label">Created By:</span> {_.capitalize(user?.username)}</div>
+            <div className="mb-2"></div>
+            <div><span className="label">Created At:</span> {new Date(modelapis?.create_at).toLocaleString()}</div>
+          </div>
         </div>
         <div className="col col-md-8">
           Let's try!

@@ -148,36 +148,38 @@ export function ProjectExperimentDetail(props) {
         </div>
       </div>
       <div className="mb-5"></div>
-      <div className="row">
-        <div className="col col-md-4">
-          <div>Start Time: {new Date(experiment?.create_at).toLocaleString()}</div>
+      <div className="container-fluid border-block">
+        <div className="row">
+          <div className="col col-md-4">
+            <div><span className="label">Start Time:</span> {new Date(experiment?.create_at).toLocaleString()}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">Revision:</span> {experiment?.spec?.revision}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">Execution Time(s):</span> {experiment?.uptime}</div>
+          </div>
         </div>
-        <div className="col col-md-4">
-          <div>Revision: {experiment?.spec?.revision}</div>
+        <div className="mb-3"></div>
+        <div className="row">
+          <div className="col col-md-4">
+            <div><span className="label">State:</span> {_.capitalize(experiment?.state)}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">Author:</span> {_.capitalize(user?.username)}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">Entrypoint:</span> {experiment?.spec?.entrypoint}</div>
+          </div>
         </div>
-        <div className="col col-md-4">
-          <div>Execution Time(s): {experiment?.uptime}</div>
-        </div>
-      </div>
-      <div className="mb-3"></div>
-      <div className="row">
-        <div className="col col-md-4">
-          <div>State: {_.capitalize(experiment?.state)}</div>
-        </div>
-        <div className="col col-md-4">
-          <div>User: {_.capitalize(user?.username)}</div>
-        </div>
-        <div className="col col-md-4">
-          <div>Entrypoint: {experiment?.spec?.entrypoint}</div>
-        </div>
-      </div>
-      <div className="mb-3"></div>
-      <div className="row">
-        <div className="col col-md-4">
-          <div>Hardware Tier: {hwtier?.name}</div>
-        </div>
-        <div className="col col-md-6">
-          <div>Compute Environment: {cenv?.name}</div>
+        <div className="mb-3"></div>
+        <div className="row">
+          <div className="col col-md-4">
+            <div><span className="label">Hardware Tier:</span> {hwtier?.name}</div>
+          </div>
+          <div className="col col-md-6">
+            <div><span className="label">Compute Environment:</span> {cenv?.name}</div>
+          </div>
         </div>
       </div>
       <div className="mb-5"></div>
@@ -191,9 +193,10 @@ export function ProjectExperimentDetail(props) {
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
                   {_.keysIn(results.data).includes("metrics") && _.keysIn(results.data.metrics).map((value, index) => {
-                      return <div key={index}>{value}: {results.data.metrics[value]}</div>
+                      return <div className="ml-3" key={index}>{value}: {results.data.metrics[value]}</div>
                     })
                   }
+                  <div className="mb-3"></div>
                 </Card.Body>
               </Accordion.Collapse>
               <Accordion.Toggle as={Card.Header} eventKey="1">
@@ -202,9 +205,10 @@ export function ProjectExperimentDetail(props) {
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
                   {_.keysIn(results.data).includes("params") && _.keysIn(results.data.params).map((value, index) => {
-                      return <div key={index}>{value}: {results.data.params[value]}</div>
+                      return <div className="ml-3" key={index}>{value}: {results.data.params[value]}</div>
                     })
                   }
+                  <div className="mb-3"></div>
                 </Card.Body>
               </Accordion.Collapse>
               <Accordion.Toggle as={Card.Header} eventKey="2">
@@ -216,10 +220,11 @@ export function ProjectExperimentDetail(props) {
                       if(value.includes("mlflow") || value.includes("ilyde")){
                         return ""
                       }else{
-                        return <div key={index}>{value}: {results.data.tags[value]}</div>
+                        return <div className="ml-3" key={index}>{value}: {results.data.tags[value]}</div>
                       }
                     })
                   }
+                  <div className="mb-3"></div>
                 </Card.Body>
               </Accordion.Collapse>
               <Accordion.Toggle as={Card.Header} className="d-flex justify-content-start align-items-center" eventKey="3">
@@ -243,7 +248,7 @@ export function ProjectExperimentDetail(props) {
         </Tab>
         <Tab eventKey="logs" title="Logs">
           <Card.Body>
-            <LogViewer logs={logs.map((value) => value.message).join(" ")}/>
+            {logs && <LogViewer logs={logs.map((value) => value.message).join("")}/>}
           </Card.Body>
         </Tab>
       </Tabs>

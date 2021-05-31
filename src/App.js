@@ -119,11 +119,10 @@ function Loading() {
     <div className="loading-cont">
       <div>
         <img className="blink" src={logo} alt="loading" />
-        <p className="color-white mt-2">Workspace is loading</p>
+        <p className="color-white mt-2"></p>
       </div>
     </div>
   );
 }
 
 export default App;
-

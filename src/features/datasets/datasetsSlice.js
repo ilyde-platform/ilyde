@@ -43,7 +43,11 @@ export const addNewDataset = createAsyncThunk(
 const datasetsSlice = createSlice({
   name: 'datasets',
   initialState,
-  reducers: {},
+  reducers: {
+    removeDataset(state, action) {
+      datasetsAdapter.removeOne(state, action.payload);
+    },
+  },
   extraReducers: {
     [fetchDatasets.pending]: (state, action) => {
       state.status = 'loading';
@@ -61,7 +65,10 @@ const datasetsSlice = createSlice({
   },
 });
 
+export const { removeDataset } = datasetsSlice.actions;
+
 const datasetsReducer = datasetsSlice.reducer;
+
 export default datasetsReducer;
 
 export const {

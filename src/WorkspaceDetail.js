@@ -28,16 +28,15 @@ export function WorkspaceDetail() {
   const [socketUrl, setSocketUrl] = useState(null);
   const [workspaceUrl, setWorkspaceUrl] = useState(null);
   const [isLoad, setIsLoad] = useState(false);
-  const [workdirChangesHistory, setWorkdirChangesHistory] = useState({});
+  const [workdirChangesHistory, setWorkdirChangesHistory] = useState({total: 0, changes: []});
   const [workdirDiffHistory, setWorkdirDiffHistory] = useState([]);
   const {
     sendMessage,
     lastMessage,
-    readyState,
-    getWebSocket,
+    readyState
   } = useWebSocket(socketUrl, {
-    share: true,
-    shouldReconnect: () => false,
+    share: false,
+    shouldReconnect: () => true,
   });
   const [modalOpen, setModalOpen] = useState(false);
   const [modal, setModal] = useState({});
@@ -73,14 +72,14 @@ export function WorkspaceDetail() {
   useEffect(() => {
     if (isLoad){
       const hostname = window.location.hostname;
-      const protocol = window.location.protocol === 'https' ? ['https', 'wss'] : ['http', 'ws'];
+      const protocol = window.location.protocol === 'https:' ? ['https', 'wss'] : ['http', 'ws'];
       const port = window.location.port === "80" ? '' : ':'+ window.location.port;
 
-      /*setWorkspaceUrl(`${protocol[0]}://${hostname}${port}/workspacesession/${workspaceId}/`);
-      setSocketUrl(`${protocol[1]}://${hostname}${port}/wssession/${workspaceId}`);*/
+      setWorkspaceUrl(`${protocol[0]}://${hostname}${port}/workspacesession/${workspaceId}/`);
+      setSocketUrl(`${protocol[1]}://${hostname}${port}/wssession/${workspaceId}`);
       // for testing
-      setWorkspaceUrl(`https://demos.ilyde.it/workspacesession/${workspaceId}/lab/tree/ilyde`);
-      setSocketUrl(`wss://demos.ilyde.it/wssession/${workspaceId}`);
+      /* setWorkspaceUrl(`https://demos.ilyde.it/workspacesession/${workspaceId}/lab/tree/ilyde`);
+      setSocketUrl(`wss://demos.ilyde.it/wssession/${workspaceId}`); */
     }
   },[isLoad, workspaceId]);
 
@@ -133,8 +132,17 @@ export function WorkspaceDetail() {
     if(readyState === SOCKET_READY_STATE_OPEN){
       const intervalID = setInterval(() => {
         sendMessage(JSON.stringify({action: 'changes'}));
-        sendMessage(JSON.stringify({action: 'diff'}));
       }, 5000);
+
+      return () => {clearInterval(intervalID);}
+    }
+  }, [readyState, sendMessage]);
+
+  useEffect(()=>{
+    if(readyState === SOCKET_READY_STATE_OPEN){
+      const intervalID = setInterval(() => {
+        sendMessage(JSON.stringify({action: 'diff'}));
+      }, 60000);
 
       return () => {clearInterval(intervalID);}
     }
@@ -206,7 +214,7 @@ export function WorkspaceDetail() {
             <div className="h-100 d-flex align-items-center justify-content-center">
               <div>
                 <img className="blink" src={logo} alt="loading" />
-                <p className="blink">Workspace is Loading</p>
+                <p className="blink"></p>
               </div>
             </div>
           }
@@ -236,11 +244,11 @@ function ModalCommit({handleCancel, changes, handleSubmit}) {
 
   return (
     <Modal closeModal={handleCancel}  title="Commit your changes">
-      <form onSubmit={formik.handleSubmit} autoComplete="off">
-        <section>
+      <section>
+        <form onSubmit={formik.handleSubmit} autoComplete="off">
           <div className="mb-5">
-            <h4 className="mb-3">{changes.total} changes to commit</h4>
-            {changes.changes.map((val, index) => {
+            <h4 className="mb-3">{changes?.total} changes to commit</h4>
+            {changes?.changes.map((val, index) => {
               return <div key={index}>{val}</div>
             })}
           </div>
@@ -262,16 +270,13 @@ function ModalCommit({handleCancel, changes, handleSubmit}) {
             {formik.touched.message && formik.errors.message ? (
               <div>{formik.errors.message}</div>) : null}
           </div>
-        <section>
-
-        </section>
           <hr />
           <div className="buttons-wrapper">
             <button className="secondary" onClick={handleCancel}>Cancel</button>
             <input type="submit" className="primary" value="Commit" disabled={!canCommit} />
           </div>
-        </section>
-      </form>
+        </form>
+      </section>
     </Modal>
   );
 }
@@ -280,21 +285,23 @@ function ModalPull({handleCancel, diff, handleSubmit}) {
   const hasDiff = diff.length ? true : false;
   return (
     <Modal closeModal={handleCancel}  title="Pull latest changes">
-      {hasDiff ?
-        <div className="mb-3">
-          <h4 className="mb-3">{diff.length} changes in central repository.</h4>
-          {diff.map((val, index) => {
-            return <div key={index}>{val.name}</div>
-          })}
-        </div> :
-        <h4 className="mb-3">No changes in central repository.</h4>
-      }
-      <div>Be aware, pulling  will override files in your working directory</div>
-      <hr />
-      <div className="buttons-wrapper">
-        <button className="secondary" onClick={handleCancel}>Cancel</button>
-        <button className="primary" onClick={handleSubmit} disabled={!hasDiff}>Pull</button>
-      </div>
+      <section>
+        {hasDiff ?
+          <div className="mb-3">
+            <h4 className="mb-3">{diff.length} changes in central repository.</h4>
+            {diff.map((val, index) => {
+              return <div key={index}>{val.name}</div>
+            })}
+          </div> :
+          <h4 className="mb-3">No changes in central repository.</h4>
+        }
+        <div>Be aware, pulling  will override files in your working directory</div>
+        <hr />
+        <div className="buttons-wrapper">
+          <button className="secondary" onClick={handleCancel}>Cancel</button>
+          <button className="primary" onClick={handleSubmit} disabled={!hasDiff}>Pull</button>
+        </div>
+      </section>
     </Modal>
   );
 }

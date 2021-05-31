@@ -143,14 +143,16 @@ export function ProjectModelDetail(props) {
   return (
     <Fragment>
       {modalOpen && <modal.component  {...modal.componentProps} />}
-      <div className="row">
-        <div className="col col-md-4">
-          <div>Created At: {new Date(model?.creation_timestamp).toLocaleString()}</div>
-        </div>
-        <div className="col col-md-4">
-          <div>Last Modified : {new Date(model?.last_updated_timestamp).toLocaleString()}</div>
-        </div>
-        <div className="col col-md-4">
+      <div className="container-fluid border-block">
+        <div className="row">
+          <div className="col col-md-4">
+            <div><span className="label">Created At:</span> {new Date(model?.creation_timestamp).toLocaleString()}</div>
+          </div>
+          <div className="col col-md-4">
+            <div><span className="label">Last Modified:</span> {new Date(model?.last_updated_timestamp).toLocaleString()}</div>
+          </div>
+          <div className="col col-md-4">
+          </div>
         </div>
       </div>
       <div className="mb-5"></div>

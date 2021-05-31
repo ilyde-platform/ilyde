@@ -2,9 +2,9 @@ import React, {Fragment} from "react";
 import x from '../assets/images/x.svg';
 
 /**
- * Possible children structure. 
+ * Possible children structure.
  * Choose the version with the markup that semantically makes more sense.
- * 
+ *
  * Version A — single section
 
 <section>
@@ -17,7 +17,7 @@ import x from '../assets/images/x.svg';
   </div>
 </section>
 
- * 
+ *
  * Version B — Multiple sections
 
 <Fragment>
@@ -38,7 +38,7 @@ function Modal ({closeModal, title, children}) {
   return(
     <Fragment>
 	    <div className="modal-bg" onClick={closeModal}>
-		  	<div className="mod-scrollable">
+		  	<div className="mod-scrollable" onClick={stopPropagation}>
 			  	<div className="modal">
 			  		<header>
 			  			<h2>{title}</h2>
@@ -52,6 +52,10 @@ function Modal ({closeModal, title, children}) {
 	  	</div>
     </Fragment>
   )
+}
+
+function stopPropagation(e) {
+  e.stopPropagation();
 }
 
 export default Modal;

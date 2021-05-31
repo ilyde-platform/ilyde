@@ -7,9 +7,7 @@ export function ModalConfirm({handleCancel, title, content, action, handleConfir
     <Modal closeModal={handleCancel} title={title}>
       <section>
         <div>{content}</div>
-      </section>
-      <hr />
-      <section>
+        <hr />
         <div className="buttons-wrapper">
           <button className="secondary" onClick={handleCancel}>Cancel</button>
           <button className="primary" onClick={handleConfirm}>{action}</button>

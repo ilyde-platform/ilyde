@@ -49,11 +49,15 @@ export function FileExplorer({name, columns, tree, handleOpenFile}){
       if(handleOpenFile){
         const extension = d.name.split('.').pop();
 
+        let lang = "null";
+        let mimetype = "text/plain";
+
         if(['pkl', 'h5', 'joblib', 'hdf5'].includes(extension)){
+          handleOpenFile(d.absolutePath).then((content) => {
+            FDownload(content, d.name, mimetype);
+          });
           return;
         }
-
-        let lang = "null";
 
         const index = _.findIndex(modes, (item) => {
           if (item.ext) return item.ext.indexOf(extension) > -1;
@@ -62,6 +66,7 @@ export function FileExplorer({name, columns, tree, handleOpenFile}){
 
         if (index > -1){
             lang = modes[index].mode;
+            mimetype = modes[index].mime;
         }
 
         if(['MLproject', 'MLmodel'].includes(d.name)){
@@ -328,4 +333,19 @@ export function LogViewer({logs}){
       }}
     />
   );
+}
+
+export function FDownload(fcontent, fname, ftype){
+  // 1. Create blob link to download
+  // const url = window.URL.createObjectURL(new Blob([fcontent], {type : ftype}));
+  const url = window.URL.createObjectURL(new Blob([fcontent]));
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `${fname}`);
+  // 2. Append to html page
+  document.body.appendChild(link);
+  // 3. Force download
+  link.click();
+  // 4. Clean up and remove the link
+  link.parentNode.removeChild(link);
 }
